@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 import "../styles/ListTrans.css";
 export default function ListTran(props) {
@@ -16,9 +17,9 @@ export default function ListTran(props) {
     address,
 
     id_user_product,
-    _id
+    _id,
   } = props;
-  const mapStateToProps = useSelector(state => state.logIn);
+  const mapStateToProps = useSelector((state) => state.logIn);
   const userLoggedIn = mapStateToProps.dataUser;
 
   const status = "rejected";
@@ -55,7 +56,9 @@ export default function ListTran(props) {
           <button className="bt-confirm">Delete</button>
         ) : null}
       </div>
-      <button>Detail</button>
+      <Link to={"/transaction/info/" + _id}>
+        <button>Detail</button>
+      </Link>
     </div>
   );
 }
