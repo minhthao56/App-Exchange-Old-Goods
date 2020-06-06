@@ -1,0 +1,127 @@
+#row {
+  background-color: #f2f2f2;
+}
+
+#colPost {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+.clickToPost {
+  width: 570px;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0px 0px 6px -3px rgba(0, 0, 0, 0.75);
+  margin-top: 30px;
+  background-color: white;
+}
+.inputAndIconPost {
+  display: flex;
+}
+.inputAndIconPost input {
+  flex: 1;
+  border: none;
+  height: 45px;
+  border-left: solid;
+  border-bottom: solid;
+  border-top: solid;
+  border-width: 1px;
+  border-color: #8ab0ff;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+}
+.inputAndIconPost button {
+  height: 45px;
+  width: 45px;
+  border: none;
+  background-color: #8ab0ff;
+  color: white;
+  font-size: 16px;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+/* Nav */
+.container-nav {
+  box-shadow: 0px 0px 6px -3px rgba(0, 0, 0, 0.75);
+  display: flex;
+  height: 70px;
+  justify-content: center;
+  align-items: center;
+}
+.LogoPage {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.LogoPage img {
+  height: 54px;
+}
+.LogoPage span {
+  font-size: 24px;
+  font-weight: bold;
+}
+.container-bar {
+  display: flex;
+  width: 1090px;
+  justify-content: space-between;
+}
+.container-list {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.icon-nav {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  font-size: 24px;
+  color: #8ab0ff;
+  width: 300px;
+}
+.icon-home {
+  color: #8ab0ff;
+  margin-right: 30px;
+  position: relative;
+  top: -1px;
+}
+
+.icon-noti {
+  position: relative;
+  bottom: 5px;
+  margin-right: 30px;
+}
+.dot-noti {
+  height: 10px;
+  width: 10px;
+  background-color: red;
+  position: relative;
+  top: 13px;
+  left: 12px;
+  border-radius: 10px;
+}
+
+/* form post */
+
+.container-fixed {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+.icon-time {
+  position: relative;
+  top: 160px;
+  left: 665px;
+  z-index: 1;
+  color: white;
+  background-color: #ff4d4f;
+  width: 25px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 25px;
+  border-radius: 25px;
+}

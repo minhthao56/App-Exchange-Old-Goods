@@ -1,0 +1,102 @@
+.contaiter-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 350px;
+  height: 450px;
+  border: solid;
+  border-width: 1px;
+  border-radius: 5px;
+  border-color: rgba(150, 150, 150, 0.3);
+  box-shadow: 0px 0px 5px -3px rgba(0, 0, 0, 0.75);
+}
+.contaiter-form form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+.contaiter-form img {
+  height: 64px;
+  width: 64px;
+}
+.container {
+  display: flex;
+  justify-content: center;
+  margin-top: 60px;
+}
+.form-group {
+  width: 100%;
+}
+.contaiter-form input {
+  width: 100%;
+  border: none;
+  border-radius: 5px;
+  border-color: rgba(150, 150, 150, 0.3);
+  margin-bottom: 13px;
+  height: 40px;
+  box-shadow: 0px 0px 5px -2px rgba(0, 0, 0, 0.75);
+  padding-left: 8px;
+}
+.contaiter-form input:focus {
+  outline-width: thin;
+  outline-color: #8ab0ff;
+}
+.container button {
+  width: 100px;
+  height: 40px;
+  color: white;
+  background-color: #8ab0ff;
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  margin-top: 20px;
+}
+.second-life {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 30px;
+  margin-top: 30px;
+}
+.second-life h1 {
+  margin: 0;
+  margin-left: 10px;
+}
+.policy {
+  margin-top: 10px;
+  text-align: center;
+}
+.imagesCreateUser img {
+  height: 250px;
+  margin-right: 50px;
+}
+.containerImagesCreateUser {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.have-account {
+  width: 350px;
+  border: solid;
+  border-width: 1px;
+  border-radius: 5px;
+  border-color: rgba(150, 150, 150, 0.3);
+  box-shadow: 0px 0px 5px -3px rgba(0, 0, 0, 0.75);
+  margin-top: 20px;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@media screen and (max-width: 768px) {
+  .containerImagesCreateUser {
+    display: none;
+  }
+}
