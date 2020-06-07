@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { Row, Col } from "antd";
-import { Link, Redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faPen,
   faBell,
   faHome,
   faQuestionCircle,
-  faTimes
+  faTimes,
 } from "@fortawesome/free-solid-svg-icons";
 import { useSpring, animated } from "react-spring";
 import { useSelector } from "react-redux";
@@ -23,8 +23,8 @@ export default function Home(props) {
   const [isPost, setIsPost] = useState(false);
   const [dataPost, setDataPost] = useState([]);
 
-  const mapStateToProps = useSelector(state => state.logIn);
-  const mapStateToPropsExchange = useSelector(state => state.Exchange);
+  const mapStateToProps = useSelector((state) => state.logIn);
+  const mapStateToPropsExchange = useSelector((state) => state.Exchange);
 
   // Open and lose model
   const hanldeClickPost = () => {
@@ -36,7 +36,7 @@ export default function Home(props) {
   // Animation
   const face = useSpring({
     visibility: isPost ? "visible" : "hidden",
-    opacity: isPost ? 1 : 0
+    opacity: isPost ? 1 : 0,
   });
 
   //Get full data from mongoBD
@@ -51,7 +51,7 @@ export default function Home(props) {
   }, [dataPost]);
 
   // Filter post of user
-  const postOfUser = dataPost.filter(data => {
+  const postOfUser = dataPost.filter((data) => {
     return data.idUserPost === mapStateToProps.dataUser._id;
   });
   return (
@@ -125,7 +125,7 @@ export default function Home(props) {
               <FormTrans postOfUser={postOfUser} />
             ) : null}
             {/* Car post */}
-            {dataPost.map(data => {
+            {dataPost.map((data) => {
               return (
                 <PostCard
                   name={data.name}

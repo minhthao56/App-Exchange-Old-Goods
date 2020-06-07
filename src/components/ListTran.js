@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import axios from "axios";
+import { useDispatch } from "react-redux";
 
 import "../styles/ListTrans.css";
 export default function ListTran(props) {
@@ -15,14 +17,35 @@ export default function ListTran(props) {
     title,
     imagePostUrl,
     address,
-
+    status,
     id_user_product,
     _id,
   } = props;
   const mapStateToProps = useSelector((state) => state.logIn);
   const userLoggedIn = mapStateToProps.dataUser;
+  const [statusS, setStatusS] = useState(status);
+  const dispatch = useDispatch();
 
-  const status = "rejected";
+  // Handle update confirm
+  const handleConfirm = () => {
+    const dataUpdate = {
+      _id: _id,
+      status: "confirmed",
+    };
+    axios
+      .post("https://tc9y3.sse.codesandbox.io/trans/update", dataUpdate)
+      .then((res) => {
+        console.log(res.data);
+        setStatusS(dataUpdate.status);
+      });
+  };
+  //Hanlde send address
+  const hanldeSendAddress = () => {
+    dispatch({
+      type: "SEND_ADDRESS",
+      id: _id,
+    });
+  };
   return (
     <div>
       {status}
@@ -42,17 +65,21 @@ export default function ListTran(props) {
         <span>from:{address}</span>
       </div>
       <div>
-        {id_user_product === userLoggedIn._id && status === "spending" ? (
+        {id_user_product === userLoggedIn._id && statusS === "spending" ? (
           <div>
-            <button className="bt-confirm">Confirm</button>
+            <button className="bt-confirm" onClick={handleConfirm}>
+              Confirm
+            </button>
             <button className="bt">Reject</button>
           </div>
         ) : null}
-        {status === "confirmed" ? (
-          <button className="bt-confirm">Send your product</button>
+        {statusS === "confirmed" ? (
+          <button className="bt-confirm" onClick={hanldeSendAddress}>
+            Send your address
+          </button>
         ) : null}
 
-        {status === "rejected" ? (
+        {statusS === "rejected" ? (
           <button className="bt-confirm">Delete</button>
         ) : null}
       </div>

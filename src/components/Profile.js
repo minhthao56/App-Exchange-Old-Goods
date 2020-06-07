@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Row, Col } from "antd";
 import axios from "axios";
-import { Link, Redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { useForm } from "react-hook-form";
 
 import "../styles/Profile.css";
 import ListTran from "../components/ListTran";
@@ -19,9 +20,13 @@ export default function Porfile() {
   useEffect(() => {
     fetchData(dataTran);
   }, [dataTran]);
-  const mapStateToProps = useSelector(state => state.logIn);
+  const mapStateToProps = useSelector((state) => state.logIn);
   const userLoggedIn = mapStateToProps.dataUser;
-  const filterDataTran = dataTran.filter(function(dataFilter) {
+  const { register, handleSubmit } = useForm();
+  const mapStateToPropsSendAddress = useSelector((state) => state.SendAddress);
+
+  //Handler filter tran relative to user loggin
+  const filterDataTran = dataTran.filter(function (dataFilter) {
     if (
       dataFilter.id_user_product === userLoggedIn._id ||
       dataFilter.id_user_want_exchange === userLoggedIn._id
@@ -29,6 +34,21 @@ export default function Porfile() {
       return true;
     }
   });
+  // Handle submit address detail and phone
+
+  const onSubmit = (data) => {
+    const addressAndPhone = {
+      id_user: userLoggedIn._id,
+      id_trans: mapStateToPropsSendAddress.id,
+      addressDetail: data.addressDetail,
+      phone: data.phone,
+    };
+    axios
+      .post("https://tc9y3.sse.codesandbox.io/trans/address", addressAndPhone)
+      .then((res) => {
+        console.log(res.data);
+      });
+  };
   return (
     <div className="container-frofile">
       <Link className="nav-link" to="/users/login">
@@ -45,7 +65,27 @@ export default function Porfile() {
           Acc
         </Col>
         <Col id="col-list-trans" span={18}>
-          {filterDataTran.map(data => {
+          {mapStateToPropsSendAddress.isShowSendAddress ? (
+            <div>
+              <form onSubmit={handleSubmit(onSubmit)}>
+                <input
+                  name="addressDetail"
+                  type="text"
+                  placeholder="Detail Address"
+                  ref={register}
+                />
+                <input
+                  name="phone"
+                  type="text"
+                  placeholder="Your Phone"
+                  ref={register}
+                />
+                <button type="submit">Send</button>
+              </form>
+            </div>
+          ) : null}
+
+          {filterDataTran.map((data) => {
             return (
               <ListTran
                 nameExchange={data.name_user_want_exchange}
