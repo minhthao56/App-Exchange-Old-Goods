@@ -7,6 +7,7 @@ import { useForm } from "react-hook-form";
 
 import "../styles/Profile.css";
 import ListTran from "../components/ListTran";
+import Nav from "../components/Nav";
 
 export default function Porfile() {
   const [dataTran, setDataTran] = useState([]);
@@ -51,15 +52,7 @@ export default function Porfile() {
   };
   return (
     <div className="container-frofile">
-      <Link className="nav-link" to="/users/login">
-        Login
-      </Link>
-      <Link className="nav-link" to="/users/create">
-        Users
-      </Link>
-      <Link className="nav-link" to="/">
-        Home
-      </Link>
+      <Nav />
       <Row id="row-profile">
         <Col id="col-list-acc" span={6}>
           Acc

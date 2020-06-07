@@ -1,4 +1,67 @@
-.App {
-  font-family: sans-serif;
-  text-align: center;
+body {
+  background-color: #f2f2f2;
+}
+/* Nav */
+.container-nav {
+  box-shadow: 0px 0px 6px -3px rgba(0, 0, 0, 0.75);
+  display: flex;
+  height: 70px;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  position: fixed;
+  width: 100%;
+  z-index: 1;
+}
+.LogoPage {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.LogoPage img {
+  height: 54px;
+}
+.LogoPage span {
+  font-size: 24px;
+  font-weight: bold;
+}
+.container-bar {
+  display: flex;
+  width: 1090px;
+  justify-content: space-between;
+}
+.container-list {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.icon-nav {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  font-size: 24px;
+
+  width: 300px;
+}
+.icon-home {
+  margin-right: 30px;
+  position: relative;
+  top: -1px;
+}
+.nav-link {
+}
+
+.icon-noti {
+  position: relative;
+  bottom: 5px;
+  margin-right: 30px;
+}
+.dot-noti {
+  height: 10px;
+  width: 10px;
+  background-color: white;
+  position: relative;
+  top: 13px;
+  left: 12px;
+  border-radius: 10px;
 }

@@ -1,23 +1,20 @@
 import React, { useState, useEffect } from "react";
 import { Row, Col } from "antd";
-import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faPen,
-  faBell,
-  faHome,
-  faQuestionCircle,
-  faTimes,
-} from "@fortawesome/free-solid-svg-icons";
+import { faPen, faTimes } from "@fortawesome/free-solid-svg-icons";
+import Moment from "react-moment";
 import { useSpring, animated } from "react-spring";
 import { useSelector } from "react-redux";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 import FormPost from "../components/FormPost";
 import PostCard from "../components/PostCard";
 import "../styles/Home.css";
-import ExchangeIcon from "../images/047-exchange.png";
 import FormTrans from "../components/FormTrans";
+import Nav from "../components/Nav";
+import NoData from "../images/nodata.png";
+import Login from "../images/login2.png";
 
 export default function Home(props) {
   const [isPost, setIsPost] = useState(false);
@@ -54,59 +51,18 @@ export default function Home(props) {
   const postOfUser = dataPost.filter((data) => {
     return data.idUserPost === mapStateToProps.dataUser._id;
   });
+  const dataUser = mapStateToProps.dataUser;
   return (
     <div>
-      <nav className="container-nav">
-        <div className="container-bar">
-          <div className="LogoPage">
-            <img src={ExchangeIcon} alt="" />
-            <span>Second Life</span>
-          </div>
-          <div className="icon-nav">
-            <Link className="icon-home" to="/">
-              <FontAwesomeIcon icon={faHome} />
-            </Link>
-            <div className="icon-noti">
-              <div className="dot-noti" />
-              <FontAwesomeIcon icon={faBell} />
-            </div>
-            <div className="icon-help">
-              <FontAwesomeIcon icon={faQuestionCircle} />{" "}
-            </div>
-          </div>
-          {mapStateToProps.isAuth ? (
-            <Link to="/profile">
-              <div>{mapStateToProps.dataUser.name}</div>
-            </Link>
-          ) : (
-            <div className="container-list">
-              <Link className="nav-link" to="/users/login">
-                Login
-              </Link>
-              <Link className="nav-link" to="/users/create">
-                Users
-              </Link>
-              <Link className="nav-link" to="/profile">
-                profile
-              </Link>
-              {/* <Link className="nav-link" to="/trans">
-                Stran
-              </Link>
-              <Link className="nav-link" to="/trans/info">
-                Info Trans
-              </Link>
-              <Link className="nav-link" to="/user/info">
-                Info accout
-              </Link> */}
-            </div>
-          )}
-        </div>
-      </nav>
+      <Nav />
       <div className="contaiter-home">
         <Row id="row">
           <Col span={15} id="colPost">
             <div className="clickToPost">
-              <h2>Let's show me</h2>
+              <div className="title-form-post">
+                <img src={mapStateToProps.dataUser.avatarUrl} />
+                <h2>Let's show me </h2>
+              </div>
               <div className="inputAndIconPost">
                 <input onClick={hanldeClickPost} />
                 <button>
@@ -146,9 +102,51 @@ export default function Home(props) {
             })}
           </Col>
           <Col span={9}>
-            <div>
-              <h1>accout</h1>
-            </div>
+            {dataUser.isAuth === true ? (
+              <div className="container-accout">
+                <div className="account-fixed">
+                  <div className="img-acc">
+                    <div className="img-color">
+                      <img src={dataUser.avatarUrl} />
+                    </div>
+                    <span>{dataUser.name}</span>
+                  </div>
+                </div>
+
+                <div className="email-fixed">
+                  <h3>Your info</h3>
+                  <span>
+                    <i className="fas fa-envelope icon-mail"> </i>
+                    <span>{dataUser.email}</span>
+                  </span>
+                  <span>
+                    <i className="fas fa-user-clock icon-user-clock"></i>
+                    <span>
+                      <Moment fromNow>{dataUser.createdAt}</Moment>
+                    </span>
+                  </span>
+                </div>
+                <div className="acc-transaction">
+                  <h3> Your Transactions</h3>
+                </div>
+              </div>
+            ) : (
+              <div className="nodata">
+                <div className="fixed-login">
+                  <img src={Login} />
+                  <h1>Login Now</h1>
+                  <div>
+                    <Link to="/users/login">
+                      <button>Login</button>
+                    </Link>
+                    <Link to="/users/login">
+                      <button>Sign up</button>
+                    </Link>
+                  </div>
+                </div>
+                <img src={NoData} />
+              </div>
+            )}
           </Col>
         </Row>
       </div>

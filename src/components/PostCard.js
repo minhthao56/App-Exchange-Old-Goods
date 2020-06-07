@@ -1,15 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faHeart,
-  faCommentAlt,
+  faComment,
   faSyncAlt,
+  faClock,
+  faMapMarkerAlt,
+  faSeedling,
 } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
+import Moment from "react-moment";
+import ShowMoreText from "react-show-more-text";
 
 import "../styles/PostCard.css";
-
 export default function PostCard(props) {
   const {
     name,
@@ -86,21 +89,65 @@ export default function PostCard(props) {
 
   return (
     <div className="container-cardPost">
-      <div className="avatar">
-        <img src={avatarUrl} alt="" />
-      </div>
-      <div className="content-post">
-        <span className="name-post">{name}</span>
-        <span className="tile-post">{title}</span>
-        <span className="descrption-post">{description}</span>
-        <img src={imagePostUrl} alt="" />
-        <div className="need-item">
-          <span>Need:</span>
-          <ul>
-            {need.map((item) => {
-              return <li>{item}</li>;
-            })}
-          </ul>
+      <div>
+        <div className="avatar-name">
+          <img src={avatarUrl} alt="" />
+          <div className="conten-comment">
+            <span className="name-post">{name}</span>
+            <div className="moment">
+              <span>
+                <FontAwesomeIcon icon={faClock} />
+              </span>
+              <Moment fromNow>{createdAt}</Moment>
+            </div>
+          </div>
+        </div>
+        <div className="address">
+          <div className="icon-address">
+            <FontAwesomeIcon icon={faMapMarkerAlt} />
+          </div>
+          <span>{address}</span>
+        </div>
+
+        <h3 className="tile-post">{title}</h3>
+        <div className="main-post">
+          <div className="description-post">
+            <ShowMoreText
+              lines={4}
+              more="Show more"
+              less="Show less"
+              anchorClass=""
+              expanded={false}
+              width={280}
+            >
+              {description}
+            </ShowMoreText>
+            <div className="need-item">
+              <span>Need:</span>
+
+              {need.map((item) => {
+                return (
+                  <div className="icon-need">
+                    <FontAwesomeIcon icon={faSeedling} /> <span>{item}</span>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+          <div className="image-post">
+            <img src={imagePostUrl} alt="" className="img-post" />
+          </div>
+        </div>
+        <div className="conunt-like">
+          <span>
+            <img
+              src="https://cdn.glitch.com/01654afb-2edf-4d94-955a-e0046da0d025%2Fheart%20(3).png?v=1591217736855"
+              alt=""
+            />
+            {like.length}
+          </span>
+
+          <span>{comments.length} People commented</span>
         </div>
         <div className="action">
           <div className="icon-like">
@@ -120,33 +167,48 @@ export default function PostCard(props) {
             <span>Like</span>
           </div>
           <div className="icon">
-            <FontAwesomeIcon icon={faCommentAlt} />
+            <i className="far fa-comments"></i>
             <span>Comment</span>
           </div>
           <div className="icon">
-            <FontAwesomeIcon icon={faSyncAlt} onClick={handleExchange} />
-
+            <i className="fas fa-exchange-alt" onClick={handleExchange}></i>
             <span>Exchange</span>
           </div>
         </div>
+
+        <div className="container-comment">
+          {comments.map((comment) => {
+            return (
+              <div>
+                <div className="content-comment">
+                  <img src={avatarUrl} />
+                  <div className="main-comment">
+                    <b> {comment.name} </b> {comment.content}
+                  </div>
+                </div>
+                <div className="reply">
+                  <button>Reply</button>
+                  <span>Now</span>
+                </div>
+              </div>
+            );
+          })}
+        </div>
         <div className="form-comment">
+          <div>
+            <img src={avatarUrl} />
+          </div>
           <form onSubmit={handleSubmitComment}>
             <input
               type="text"
               onChange={handleValueComment}
               value={commentContent}
+              placeholder="Type your comment"
             />
-            <button type="submit">Post</button>
+            <button type="submit">
+              <i class="fas fa-paper-plane"></i>
+            </button>
           </form>
-        </div>
-        <div className="container-comment">
-          {comments.map((comment) => {
-            return (
-              <div>
-                {comment.name} {comment.content}
-              </div>
-            );
-          })}
         </div>
       </div>
     </div>
