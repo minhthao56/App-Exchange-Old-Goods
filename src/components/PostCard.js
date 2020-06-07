@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faHeart,
   faCommentAlt,
-  faSyncAlt
+  faSyncAlt,
 } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
@@ -23,30 +23,30 @@ export default function PostCard(props) {
     avatarUrl,
     need,
     id_post,
-    id_user
+    id_user,
   } = props;
 
   const [commentContent, setCommetContent] = useState("");
-  const mapStateToProps = useSelector(state => state.logIn);
+  const mapStateToProps = useSelector((state) => state.logIn);
   const dispatch = useDispatch();
 
   // Value comment
-  const handleValueComment = event => {
+  const handleValueComment = (event) => {
     const value = event.target.value;
     setCommetContent(value);
   };
   // Submit comment
-  const handleSubmitComment = event => {
+  const handleSubmitComment = (event) => {
     event.preventDefault();
     const commentPost = {
       idUserComment: mapStateToProps.dataUser._id,
       content: commentContent,
-      id_post: id_post
+      id_post: id_post,
     };
 
     axios
       .post("https://tc9y3.sse.codesandbox.io/posts/comments", commentPost)
-      .then(res => {
+      .then((res) => {
         setCommetContent("");
       });
   };
@@ -54,11 +54,11 @@ export default function PostCard(props) {
   const handleLike = () => {
     const like = {
       id_user_liked: mapStateToProps.dataUser._id,
-      id_post: id_post
+      id_post: id_post,
     };
     axios
       .post("https://tc9y3.sse.codesandbox.io/posts/like", like)
-      .then(res => {
+      .then((res) => {
         console.log(res.data);
       });
   };
@@ -66,22 +66,21 @@ export default function PostCard(props) {
   const handleUnLike = () => {
     const Unlike = {
       id_user_liked: mapStateToProps.dataUser._id,
-      id_post: id_post
+      id_post: id_post,
     };
     axios
       .post("https://tc9y3.sse.codesandbox.io/posts/unlike", Unlike)
-      .then(res => {
+      .then((res) => {
         console.log(res.data);
       });
   };
   // Filter user Logged in liked
-  const arrIdUserLiked = like.filter(function(userLiked) {
+  const arrIdUserLiked = like.filter(function (userLiked) {
     return userLiked.id_user_liked === mapStateToProps.dataUser._id;
   });
   // handleExchange
   const handleExchange = () => {
     const id = { id_product: id_post, id_user_product: id_user };
-
     dispatch({ type: "EXCHANGE", id: id });
   };
 
@@ -98,7 +97,7 @@ export default function PostCard(props) {
         <div className="need-item">
           <span>Need:</span>
           <ul>
-            {need.map(item => {
+            {need.map((item) => {
               return <li>{item}</li>;
             })}
           </ul>
@@ -126,6 +125,7 @@ export default function PostCard(props) {
           </div>
           <div className="icon">
             <FontAwesomeIcon icon={faSyncAlt} onClick={handleExchange} />
+
             <span>Exchange</span>
           </div>
         </div>
@@ -140,7 +140,7 @@ export default function PostCard(props) {
           </form>
         </div>
         <div className="container-comment">
-          {comments.map(comment => {
+          {comments.map((comment) => {
             return (
               <div>
                 {comment.name} {comment.content}

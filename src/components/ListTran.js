@@ -39,6 +39,19 @@ export default function ListTran(props) {
         setStatusS(dataUpdate.status);
       });
   };
+  // Hanlde update reject
+  const hanldeReject = () => {
+    const dataUpdate = {
+      _id: _id,
+      status: "rejected",
+    };
+    axios
+      .post("https://tc9y3.sse.codesandbox.io/trans/update", dataUpdate)
+      .then((res) => {
+        console.log(res.data);
+        setStatusS(dataUpdate.status);
+      });
+  };
   //Hanlde send address
   const hanldeSendAddress = () => {
     dispatch({
@@ -70,7 +83,9 @@ export default function ListTran(props) {
             <button className="bt-confirm" onClick={handleConfirm}>
               Confirm
             </button>
-            <button className="bt">Reject</button>
+            <button className="bt" onClick={hanldeReject}>
+              Reject
+            </button>
           </div>
         ) : null}
         {statusS === "confirmed" ? (
