@@ -2,9 +2,115 @@
   height: 32px;
   width: 32px;
 }
-#imgTitle {
-  width: 30%;
+.transaction-status {
+  margin-bottom: 20px;
+  background-color: white;
+  box-shadow: 0px 0px 2px -1px rgba(0, 0, 0, 0.75);
+  border-radius: 3px;
+  padding: 15px;
 }
-.bt-waitting {
-  cursor: not-allowed;
+.transaction {
+  display: flex;
+}
+.container-tran {
+  flex: 1;
+}
+
+.tran-status {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: solid;
+  border-color: rgba(150, 150, 150, 0.1);
+  border-width: 1px;
+  margin-bottom: 10px;
+  align-items: center;
+  padding-bottom: 10px;
+}
+.your-transaction {
+  font-size: 16px;
+}
+.moment-status {
+  display: flex;
+  align-items: center;
+}
+.status {
+  font-size: 12px;
+  border-right: solid;
+  border-color: rgba(150, 150, 150, 0.3);
+  border-width: 1px;
+  margin-right: 5px;
+  padding-right: 5px;
+}
+.icon-truck {
+  color: #1890ff;
+  margin-right: 3px;
+}
+/* Product */
+
+.name-tran span {
+  font-weight: bold;
+  color: #748df2;
+}
+.name-tran {
+  margin-bottom: 5px;
+}
+.product-tran {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.imgTitle {
+  width: 200px;
+  height: 200px;
+  border-radius: 200px;
+  border: solid;
+  overflow: hidden;
+  border-color: rgba(150, 150, 150, 0.3);
+  border-width: 1px;
+}
+.imgTitle img {
+  width: 100%;
+}
+.container-tran {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+}
+.bt-trans button {
+  width: 150px;
+  height: 30px;
+  color: #8ab0ff;
+  background-color: white;
+  border-radius: 3px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-left: 10px;
+  border: solid;
+  border-color: #8ab0ff;
+  border-width: 1px;
+}
+.bt-detail {
+  width: 150px;
+  height: 30px;
+  color: #555555;
+  background-color: white;
+  border-radius: 3px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-left: 10px;
+  border: solid;
+  border-color: #555555;
+  border-width: 1px;
+}
+.tb-action {
+  display: flex;
+  justify-content: space-between;
+}
+#bt-recject,
+#bt-del {
+  color: #e44d3a;
+  border-color: #e44d3a;
 }

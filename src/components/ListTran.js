@@ -3,6 +3,13 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { useDispatch } from "react-redux";
+import Moment from "react-moment";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faClock,
+  faMapMarkerAlt,
+  faSeedling,
+} from "@fortawesome/free-solid-svg-icons";
 
 import "../styles/ListTrans.css";
 export default function ListTran(props) {
@@ -20,6 +27,7 @@ export default function ListTran(props) {
     status,
     id_user_product,
     _id,
+    createdAt,
   } = props;
   const mapStateToProps = useSelector((state) => state.logIn);
   const userLoggedIn = mapStateToProps.dataUser;
@@ -60,47 +68,86 @@ export default function ListTran(props) {
     });
   };
   return (
-    <div>
-      {status}
-      <div className="container-tran">
-        <span>name {nameExchange}</span>
-        <img src={avatarUrlExchange} alt="" id="imgAvatar" />
-        <span>Title {titleExchange}</span>
-        <img src={imagePostUrlExchange} alt="" id="imgTitle" />
-        <span>from:{addressExchange}</span>
-      </div>
-      <hr />
-      <div className="container-tran">
-        <span>name {name}</span>
-        <img src={avatarUrl} alt="" id="imgAvatar" />
-        <span>Title {title}</span>
-        <img src={imagePostUrl} alt="" id="imgTitle" />
-        <span>from:{address}</span>
-      </div>
-      <div>
-        {id_user_product === userLoggedIn._id && statusS === "spending" ? (
-          <div>
-            <button className="bt-confirm" onClick={handleConfirm}>
-              Confirm
-            </button>
-            <button className="bt" onClick={hanldeReject}>
-              Reject
-            </button>
+    <div className="transaction-status">
+      <div className="tran-status">
+        <span className="your-transaction">Your Transaction</span>
+        <div className="moment-status">
+          <div className="status">
+            <i className="fas fa-truck icon-truck"></i>
+            <span>{status}</span>
           </div>
-        ) : null}
-        {statusS === "confirmed" ? (
-          <button className="bt-confirm" onClick={hanldeSendAddress}>
-            Send your address
-          </button>
-        ) : null}
-
-        {statusS === "rejected" ? (
-          <button className="bt-confirm">Delete</button>
-        ) : null}
+          <div className="moment">
+            <span>
+              <FontAwesomeIcon icon={faClock} />
+            </span>
+            <Moment fromNow>{createdAt}</Moment>
+          </div>
+        </div>
       </div>
-      <Link to={"/transaction/info/" + _id}>
-        <button>Detail</button>
-      </Link>
+      <div className="container-full">
+        <div className="transaction">
+          <div className="container-tran">
+            <div className="name-tran">
+              <img src={avatarUrlExchange} alt="" id="imgAvatar" />
+              <span> {nameExchange}</span>
+            </div>
+            <div className="product-tran">
+              <h3> {titleExchange}</h3>
+              <div className="address">
+                <div className="icon-address">
+                  <FontAwesomeIcon icon={faMapMarkerAlt} />
+                </div>
+                <span>{address}</span>
+              </div>
+              <div className="imgTitle">
+                <img src={imagePostUrlExchange} alt="" />
+              </div>
+            </div>
+          </div>
+          <div className="container-tran">
+            <div className="name-tran">
+              <img src={avatarUrl} alt="" id="imgAvatar" />
+              <span> {name}</span>
+            </div>
+            <div className="product-tran">
+              <h3>{title}</h3>
+              <div className="address">
+                <div className="icon-address">
+                  <FontAwesomeIcon icon={faMapMarkerAlt} />
+                </div>
+                <span>{address}</span>
+              </div>
+              <div className="imgTitle">
+                <img src={imagePostUrl} alt="" />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="tb-action">
+          <div className="bt-trans">
+            {id_user_product === userLoggedIn._id && statusS === "spending" ? (
+              <div>
+                <button onClick={handleConfirm}>Confirm</button>
+                <button id="bt-recject" onClick={hanldeReject}>
+                  Reject
+                </button>
+              </div>
+            ) : null}
+            {statusS === "confirmed" ? (
+              <button onClick={hanldeSendAddress}>Send your address</button>
+            ) : null}
+
+            {statusS === "rejected" ? (
+              <button id="bt-del">Delete</button>
+            ) : null}
+          </div>
+          <div className="detail">
+            <Link to={"/transaction/info/" + _id}>
+              <button className="bt-detail">Detail</button>
+            </Link>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

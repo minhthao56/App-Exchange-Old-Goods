@@ -1,0 +1,61 @@
+.container-silde-bar {
+    margin-right: 20px;
+    position: fixed;
+}
+
+.acc-sidle img {
+    height: 42px;
+    width: 42px;
+    margin-right: 10px;
+}
+.acc-sidle {
+    display: flex;
+    border-bottom: solid;
+    border-width: 1px;
+    border-color: rgba(150, 150, 150, 0.2);
+}
+.edit-acc {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+}
+.name-acc {
+    font-size: 16px;
+    font-weight: 600;
+}
+.icon-edit {
+    color: #aaaaaa;
+    font-size: 12px;
+}
+.icon-edit i {
+    margin-right: 5px;
+}
+/* List action */
+.list-icon {
+    margin-top: 25px;
+}
+.icon-user,
+.icon-lists {
+    display: flex;
+    margin-bottom: 20px;
+    color: #666666;
+}
+.wap-user,
+.warp-list {
+    background-color: #e44d3a;
+    color: white;
+    width: 24px;
+    height: 24px;
+    margin-right: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 24px;
+}
+.warp-list {
+    background-color: #8ab0ff;
+}
+.profile-img img {
+    width: 220px;
+    margin-top: 150px;
+}

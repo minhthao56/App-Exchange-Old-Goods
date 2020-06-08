@@ -8,6 +8,7 @@ import { useForm } from "react-hook-form";
 import "../styles/Profile.css";
 import ListTran from "../components/ListTran";
 import Nav from "../components/Nav";
+import SidleBarAcc from "../components/SidleBarAcc";
 
 export default function Porfile() {
   const [dataTran, setDataTran] = useState([]);
@@ -51,54 +52,57 @@ export default function Porfile() {
       });
   };
   return (
-    <div className="container-frofile">
+    <div>
       <Nav />
-      <Row id="row-profile">
-        <Col id="col-list-acc" span={6}>
-          Acc
-        </Col>
-        <Col id="col-list-trans" span={18}>
-          {mapStateToPropsSendAddress.isShowSendAddress ? (
-            <div>
-              <form onSubmit={handleSubmit(onSubmit)}>
-                <input
-                  name="addressDetail"
-                  type="text"
-                  placeholder="Detail Address"
-                  ref={register}
-                />
-                <input
-                  name="phone"
-                  type="text"
-                  placeholder="Your Phone"
-                  ref={register}
-                />
-                <button type="submit">Send</button>
-              </form>
-            </div>
-          ) : null}
+      <div className="container-frofile">
+        <Row id="row-profile">
+          <Col id="col-list-acc" span={6}>
+            <SidleBarAcc />
+          </Col>
+          <Col id="col-list-trans" span={18}>
+            {mapStateToPropsSendAddress.isShowSendAddress ? (
+              <div>
+                <form onSubmit={handleSubmit(onSubmit)}>
+                  <input
+                    name="addressDetail"
+                    type="text"
+                    placeholder="Detail Address"
+                    ref={register}
+                  />
+                  <input
+                    name="phone"
+                    type="text"
+                    placeholder="Your Phone"
+                    ref={register}
+                  />
+                  <button type="submit">Send</button>
+                </form>
+              </div>
+            ) : null}
 
-          {filterDataTran.map((data) => {
-            return (
-              <ListTran
-                nameExchange={data.name_user_want_exchange}
-                avatarUrlExchange={data.avatarUrl_user_want_exchange}
-                titleExchange={data.title_product_with_exchange}
-                imagePostUrlExchange={data.imagePostUrl_product_with_exchange}
-                addressExchange={data.address_product_with_exchange}
-                name={data.name_user_product}
-                avatarUrl={data.avatarUrl_user_product}
-                title={data.title_product}
-                imagePostUrl={data.imagePostUrl_product}
-                address={data.address_product}
-                status={data.status}
-                id_user_product={data.id_user_product}
-                _id={data._id}
-              />
-            );
-          })}
-        </Col>
-      </Row>
+            {filterDataTran.map((data) => {
+              return (
+                <ListTran
+                  nameExchange={data.name_user_want_exchange}
+                  avatarUrlExchange={data.avatarUrl_user_want_exchange}
+                  titleExchange={data.title_product_with_exchange}
+                  imagePostUrlExchange={data.imagePostUrl_product_with_exchange}
+                  addressExchange={data.address_product_with_exchange}
+                  name={data.name_user_product}
+                  avatarUrl={data.avatarUrl_user_product}
+                  title={data.title_product}
+                  imagePostUrl={data.imagePostUrl_product}
+                  address={data.address_product}
+                  status={data.status}
+                  createdAt={data.createdAt}
+                  id_user_product={data.id_user_product}
+                  _id={data._id}
+                />
+              );
+            })}
+          </Col>
+        </Row>
+      </div>
     </div>
   );
 }
