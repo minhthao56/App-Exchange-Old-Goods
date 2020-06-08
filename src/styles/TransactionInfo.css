@@ -1,7 +1,99 @@
 #img-avatar {
     height: 32px;
     width: 32px;
+    margin-right: 5px;
 }
-#img-title {
-    width: 30%;
+
+#row-tran {
+    margin-left: 70px;
+    margin-right: 70px;
+}
+.full-incluce-bt {
+    background-color: white;
+
+    padding: 1px 30px 20px 30px;
+
+    box-shadow: 0px 0px 2px -1px rgba(0, 0, 0, 0.75);
+    border-radius: 3px;
+}
+
+.main-description {
+    display: flex;
+}
+.image-tl {
+    flex: 1;
+    border: solid;
+    height: 360px;
+    border-radius: 365px;
+    overflow: hidden;
+    margin-left: 50px;
+    margin-right: 30px;
+    border-width: 1px;
+    border-color: rgba(150, 150, 150, 0.3);
+}
+.image-tl img {
+    width: 100%;
+}
+.des-contact {
+    flex: 1;
+}
+.status-send {
+    display: flex;
+}
+.container-infotrans {
+    margin-top: 25px;
+}
+/* Address */
+
+.des h3 {
+    margin-top: 50px;
+    margin-bottom: 5px;
+    border-top: solid;
+    border-width: 1px;
+    border-color: rgba(150, 150, 150, 0.3);
+}
+.contact span {
+    color: #777777;
+    font-size: 13px;
+    margin-left: 5px;
+}
+.icon-full {
+    display: flex;
+    font-size: 7px;
+    color: white;
+
+    align-items: center;
+}
+.icon-usercheck {
+    background-color: #888888;
+}
+.icon-usercheck,
+.icon-phne,
+.icon-opmail {
+    height: 14px;
+    width: 14px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 16px;
+}
+.icon-phne {
+    background-color: #53d690;
+}
+.icon-opmail {
+    background-color: #1990ff;
+}
+/* bt action */
+.tb-action button {
+    width: 150px;
+    height: 30px;
+    color: #8ab0ff;
+    background-color: white;
+    border-radius: 3px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-left: 10px;
+    border: solid;
+    border-color: #8ab0ff;
+    border-width: 1px;
 }

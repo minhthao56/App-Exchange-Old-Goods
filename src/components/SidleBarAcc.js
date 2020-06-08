@@ -40,8 +40,8 @@ export default function SidleBarAcc() {
           </div>
         </Link>
       </div>
-      <div className="profile-img">
-        <ProFileImg style={{ width: 220 }} />
+      <div>
+        <ProFileImg style={{ width: 220, height: 450 }} />
       </div>
     </div>
   );

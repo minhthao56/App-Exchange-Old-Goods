@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Row, Col } from "antd";
 import axios from "axios";
-import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
 
@@ -44,6 +43,7 @@ export default function Porfile() {
       id_trans: mapStateToPropsSendAddress.id,
       addressDetail: data.addressDetail,
       phone: data.phone,
+      fullName: data.fullName,
     };
     axios
       .post("https://tc9y3.sse.codesandbox.io/trans/address", addressAndPhone)
@@ -63,6 +63,12 @@ export default function Porfile() {
             {mapStateToPropsSendAddress.isShowSendAddress ? (
               <div>
                 <form onSubmit={handleSubmit(onSubmit)}>
+                  <input
+                    name="fullName"
+                    type="text"
+                    placeholder="Full name"
+                    ref={register}
+                  />
                   <input
                     name="addressDetail"
                     type="text"
