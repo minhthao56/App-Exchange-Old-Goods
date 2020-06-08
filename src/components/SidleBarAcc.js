@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 import "../styles/SidleBarAcc.css";
-import ProFileImg from "../images/profile.svg";
+import { ReactComponent as ProFileImg } from "../images/profile.svg";
 
 export default function SidleBarAcc() {
   const mapStateToProps = useSelector((state) => state.logIn);
