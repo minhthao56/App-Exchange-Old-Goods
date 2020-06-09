@@ -8,6 +8,8 @@ import { ReactComponent as ProFileImg } from "../images/profile.svg";
 export default function SidleBarAcc() {
   const mapStateToProps = useSelector((state) => state.logIn);
   const userLoggedIn = mapStateToProps.dataUser;
+  const UpdateUser = useSelector((state) => state.UpdateUser);
+
   return (
     <div className="container-silde-bar">
       <div className="acc-sidle">

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Row, Col } from "antd";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import axios from "axios";
 
 import SidleBarAcc from "../components/SidleBarAcc";
 import Nav from "../components/Nav";
@@ -8,15 +9,51 @@ import "../styles/InFoAccount.css";
 import { ReactComponent as Account } from "../images/account.svg";
 
 export default function InFoAccout() {
+  const [file, setFile] = useState(null);
+  const [dataUserFetch, setDataUserFetch] = useState({});
   const mapStateToProps = useSelector((state) => state.logIn);
   const userLoggedIn = mapStateToProps.dataUser;
+  const dispatch = useDispatch();
+  //Fetch data user detail
+  const fetchData = async () => {
+    const response = await axios.get(
+      "https://tc9y3.sse.codesandbox.io/users/user/" + userLoggedIn._id
+    );
+    setDataUserFetch(response.data);
+  };
+  //Handle file
+  const handleFile = (event) => {
+    setFile(event.target.files[0]);
+  };
+  // Handle submit
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const fd = new FormData();
+    fd.append("file", file);
+    fd.append("_id", userLoggedIn._id);
+    axios
+      .post("https://tc9y3.sse.codesandbox.io/users/update", fd)
+      .then((res) => {
+        console.log(res.data);
+        fetchData();
+        dispatch({
+          type: "UPDATE_USER",
+          idUser: userLoggedIn._id,
+        });
+      });
+  };
+  useEffect(() => {
+    fetchData();
+  }, []);
+
   return (
     <div>
-      <Nav />
+      <Nav avatarUrl={dataUserFetch.avatarUrl} />
       <div>
         <Row id="row-tran">
           <Col id="col-list-acc" span={6}>
-            <SidleBarAcc />
+            <SidleBarAcc avatarUrl={dataUserFetch.avatarUrl} />
           </Col>
           <Col id="col-list-trans" span={18}>
             <div className="container-change">
@@ -25,20 +62,24 @@ export default function InFoAccout() {
                   <h2>Your account</h2>
                   <span>Manage profile information and account security</span>
                 </div>
-                <form>
+                <form onSubmit={handleSubmit}>
                   <div className="change-avatar">
                     <label>
                       <div
                         className="overplay"
                         style={{
-                          backgroundImage: `url(${userLoggedIn.avatarUrl})`,
+                          backgroundImage: `url(${dataUserFetch.avatarUrl})`,
                         }}
                       >
                         <div className="over">
                           <i className="fas fa-camera"></i>
                         </div>
                       </div>
-                      <input type="file" id="img-update" />
+                      <input
+                        type="file"
+                        id="img-update"
+                        onChange={handleFile}
+                      />
                     </label>
                   </div>
                   <div className="change-info">
@@ -46,6 +87,7 @@ export default function InFoAccout() {
                     <p>Mail</p>
                     <p>Change Password</p>
                   </div>
+                  <button>Save</button>
                 </form>
               </div>
               <div className="image-update">

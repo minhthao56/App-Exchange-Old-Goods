@@ -45,8 +45,8 @@ export default function Home(props) {
   };
   useEffect(() => {
     fetchData(dataPost);
-  }, [dataPost]);
-
+  }, []);
+  console.log(dataPost);
   // Filter post of user
   const postOfUser = dataPost.filter((data) => {
     return data.idUserPost === mapStateToProps.dataUser._id;
@@ -96,7 +96,7 @@ export default function Home(props) {
                   need={data.need}
                   id_post={data.id_post}
                   id_user={data.id_user}
-                  hanldeClickPost={hanldeClickPost}
+                  fetchData={fetchData}
                 />
               );
             })}

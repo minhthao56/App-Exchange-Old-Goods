@@ -20,7 +20,7 @@ export default function Porfile() {
   };
   useEffect(() => {
     fetchData(dataTran);
-  }, [dataTran]);
+  }, []);
   const mapStateToProps = useSelector((state) => state.logIn);
   const userLoggedIn = mapStateToProps.dataUser;
   const { register, handleSubmit } = useForm();
@@ -49,6 +49,7 @@ export default function Porfile() {
       .post("https://tc9y3.sse.codesandbox.io/trans/address", addressAndPhone)
       .then((res) => {
         console.log(res.data);
+        fetchData();
       });
   };
   return (
@@ -86,7 +87,7 @@ export default function Porfile() {
               </div>
             ) : null}
 
-            {filterDataTran.map((data) => {
+            {filterDataTran.map((data, key) => {
               return (
                 <ListTran
                   nameExchange={data.name_user_want_exchange}
@@ -103,6 +104,7 @@ export default function Porfile() {
                   createdAt={data.createdAt}
                   id_user_product={data.id_user_product}
                   _id={data._id}
+                  key={key}
                 />
               );
             })}

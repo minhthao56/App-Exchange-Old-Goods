@@ -16,32 +16,43 @@ export default function User() {
   const [isAuth, setIsAuth] = useState(false);
   const [valueEmail, setValueEmail] = useState("");
   const [valuePassword, setValuePassword] = useState("");
+  const [isChecked, setIsChecked] = useState(false);
   const dispatch = useDispatch();
-
-  const handleChangeEmail = event => {
+  // Handle mail
+  const handleChangeEmail = (event) => {
     const value = event.target.value;
     setValueEmail(value);
   };
-  const handleChangePasword = event => {
+  // Hanlde password
+  const handleChangePasword = (event) => {
     const value = event.target.value;
     setValuePassword(value);
   };
 
-  const handleSubmit = event => {
+  //Handle check bock
+  const handleChangeCheck = (event) => {
+    const value = event.target.checked;
+    setIsChecked(value);
+  };
+
+  // Handle submit
+  const handleSubmit = (event) => {
     event.preventDefault();
     const user = {
       email: valueEmail,
-      password: valuePassword
+      password: valuePassword,
+      isChecked: isChecked,
     };
     dispatch({ type: "LOG_IN", user: user });
     axios
       .post("https://tc9y3.sse.codesandbox.io/users/login", user)
-      .then(res => {
+      .then((res) => {
         setIsAuth(res.data.isAuth);
         setValueEmail("");
         setValuePassword("");
+        console.log(res);
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
         if (err.response.status === 401) {
           setIsErrLogin(true);
@@ -85,6 +96,15 @@ export default function User() {
                   placeholder="Password"
                   onChange={handleChangePasword}
                 />
+              </div>
+              <div className="form-check">
+                <input
+                  type="checkbox"
+                  name="isChecked"
+                  onChange={handleChangeCheck}
+                  id="checkbox"
+                />
+                Remmeber me
               </div>
               <button type="submit">Login</button>
             </form>

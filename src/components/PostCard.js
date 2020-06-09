@@ -25,6 +25,7 @@ export default function PostCard(props) {
     need,
     id_post,
     id_user,
+    fetchData,
   } = props;
 
   const [commentContent, setCommetContent] = useState("");
@@ -49,6 +50,7 @@ export default function PostCard(props) {
       .post("https://tc9y3.sse.codesandbox.io/posts/comments", commentPost)
       .then((res) => {
         setCommetContent("");
+        return fetchData();
       });
   };
   // Like
@@ -61,6 +63,7 @@ export default function PostCard(props) {
       .post("https://tc9y3.sse.codesandbox.io/posts/like", like)
       .then((res) => {
         console.log(res.data);
+        return fetchData();
       });
   };
   // Unlike
@@ -73,6 +76,7 @@ export default function PostCard(props) {
       .post("https://tc9y3.sse.codesandbox.io/posts/unlike", Unlike)
       .then((res) => {
         console.log(res.data);
+        return fetchData();
       });
   };
   // Filter user Logged in liked

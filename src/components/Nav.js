@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faPen,
-  faTimes,
   faBell,
   faHome,
   faQuestionCircle,
@@ -12,8 +10,11 @@ import { useSelector } from "react-redux";
 
 import ExchangeIcon from "../images/047-exchange.png";
 
-export default function Nav() {
+export default function Nav(props) {
   const mapStateToProps = useSelector((state) => state.logIn);
+  const UpdateUser = useSelector((state) => state.UpdateUser);
+  const { avatarUrl } = props;
+
   return (
     <nav className="container-nav">
       <div className="container-bar">
@@ -39,7 +40,11 @@ export default function Nav() {
             <div>
               {" "}
               <img
-                src={mapStateToProps.dataUser.avatarUrl}
+                src={
+                  avatarUrl ||
+                  UpdateUser.avatarUrl ||
+                  mapStateToProps.dataUser.avatarUrl
+                }
                 className="img-avatar"
               />{" "}
             </div>
