@@ -3,6 +3,7 @@ import axios from "axios";
 import { Row, Col, Alert } from "antd";
 import { Link, Redirect } from "react-router-dom";
 import { useDispatch } from "react-redux";
+import Cookies from "js-cookie";
 
 import "antd/dist/antd.css";
 import "../styles/CreateUser.css";
@@ -45,7 +46,9 @@ export default function User() {
     };
     dispatch({ type: "LOG_IN", user: user });
     axios
-      .post("https://tc9y3.sse.codesandbox.io/users/login", user)
+      .post("https://tc9y3.sse.codesandbox.io/users/login", user, {
+        withCredentials: true,
+      })
       .then((res) => {
         setIsAuth(res.data.isAuth);
         setValueEmail("");
