@@ -18,7 +18,6 @@ export default function TransactionInfo() {
   const [review, setReview] = useState("");
 
   const mapStateToProps = useSelector((state) => state.logIn);
-  const userLoggedIn = mapStateToProps.dataUser;
   const CheckLoggedIn = useSelector((state) => state.CheckLoggedIn);
 
   let { id } = useParams();
@@ -36,7 +35,7 @@ export default function TransactionInfo() {
   // Handle Send Product
   const handleSendProduct = () => {
     const dataSendProduct = {
-      id_user: userLoggedIn._id || CheckLoggedIn.dataUser_id,
+      id_user: mapStateToProps._id || CheckLoggedIn.dataUser_id,
       status: "sending",
       id_trans: detailTrans._id,
     };
@@ -49,7 +48,7 @@ export default function TransactionInfo() {
   // handle Received Product
   const handleReceived = () => {
     const dataSendProduct = {
-      id_user: userLoggedIn._id || CheckLoggedIn.dataUser._id,
+      id_user: mapStateToProps._id || CheckLoggedIn.dataUser._id,
       status: "received",
       id_trans: detailTrans._id,
     };
@@ -68,7 +67,7 @@ export default function TransactionInfo() {
   const handleSubmitReview = (event) => {
     event.preventDefault();
     const reviewProduct = {
-      id_user: userLoggedIn._id || CheckLoggedIn.dataUser._id,
+      id_user: mapStateToProps._id || CheckLoggedIn.dataUser._id,
       content: review,
       id_trans: detailTrans._id,
     };
@@ -93,8 +92,10 @@ export default function TransactionInfo() {
               <div className="full-infotrans">
                 <div className="container-infotrans">
                   <div className="info-avatar">
-                    <img
-                      src={detailTrans.avatarUrl_want_exchange}
+                    <div
+                      style={{
+                        backgroundImage: `url(${detailTrans.avatarUrl_want_exchange})`,
+                      }}
                       id="img-avatar"
                     />
                     <span>{detailTrans.name_want_exchange} </span>

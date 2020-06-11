@@ -2,6 +2,9 @@
   height: 32px;
   width: 32px;
   margin-right: 5px;
+  border-radius: 100%;
+  background-size: cover;
+  background-position: center;
 }
 
 #row-tran {

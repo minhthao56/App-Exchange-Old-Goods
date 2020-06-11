@@ -1,12 +1,13 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faBell,
   faHome,
   faQuestionCircle,
 } from "@fortawesome/free-solid-svg-icons";
-import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { Link, useHistory } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import axios from "axios";
 
 import ExchangeIcon from "../images/047-exchange.png";
 import "../styles/Nav.css";
@@ -15,9 +16,18 @@ export default function Nav(props) {
   const mapStateToProps = useSelector((state) => state.logIn);
   const CheckLoggedIn = useSelector((state) => state.CheckLoggedIn);
   const UpdateUser = useSelector((state) => state.UpdateUser);
+  const dispatch = useDispatch();
+
+  let history = useHistory();
 
   const { avatarUrl, name } = props;
-
+  //handle SignOut
+  const handleSignOut = () => {
+    dispatch({ type: "RESET" });
+    localStorage.removeItem("token");
+    history.push("/users/login");
+    window.location.reload();
+  };
   return (
     <nav className="container-nav">
       <div className="container-bar">
@@ -38,34 +48,42 @@ export default function Nav(props) {
           </div>
         </div>
         {CheckLoggedIn.dataUser.isAuth || mapStateToProps.isAuth ? (
-          <Link className="nav-link" to="/profile">
-            <div className="acc-nav">
-              <div
-                className="nav-avatar"
-                style={{
-                  backgroundImage: `url(${
-                    avatarUrl ||
-                    UpdateUser.avatarUrl ||
-                    CheckLoggedIn.dataUser.avatarUrl ||
-                    mapStateToProps.dataUser.avatarUrl
-                  })`,
-                }}
-              ></div>
-              <div className="nav-name">
-                {name ||
-                  UpdateUser.name ||
-                  CheckLoggedIn.dataUser.name ||
-                  mapStateToProps.dataUser.name}
+          <div className="contaniner-signOut-profile">
+            <div className="contaniner-profile-nav">
+              <Link to="/profile">
+                <div className="acc-nav">
+                  <div
+                    className="nav-avatar"
+                    style={{
+                      backgroundImage: `url(${
+                        avatarUrl ||
+                        CheckLoggedIn.dataUser.avatarUrl ||
+                        mapStateToProps.avatarUrl
+                      })`,
+                    }}
+                  ></div>
+                  <div className="nav-name">
+                    {name ||
+                      UpdateUser.name ||
+                      CheckLoggedIn.dataUser.name ||
+                      mapStateToProps.name}
+                  </div>
+                </div>
+              </Link>
+            </div>
+            <div className="container-signOut">
+              <div className="sign-out" onClick={handleSignOut}>
+                / Sign Out
               </div>
             </div>
-          </Link>
+          </div>
         ) : (
           <div className="container-list">
             <Link className="nav-link" to="/users/login">
-              Login
+              Log In
             </Link>
             <Link className="nav-link" to="/users/create">
-              Users
+              / Sign Up
             </Link>
           </div>
         )}

@@ -1,6 +1,9 @@
 #imgAvatar {
   height: 32px;
   width: 32px;
+  border-radius: 100%;
+  background-position: center;
+  background-size: cover;
 }
 .transaction-status {
   margin-bottom: 20px;

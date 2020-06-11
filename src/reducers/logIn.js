@@ -1,23 +1,24 @@
 import * as types from "../constants/actionType";
 import axios from "axios";
-const initialState = {
-  isAuth: false,
-  dataUser: {}
-};
+const initialState = {};
 
 const myReducer = (state = initialState, action) => {
   switch (action.type) {
     case types.LOG_IN:
-      axios
-        .post("https://tc9y3.sse.codesandbox.io/users/login", action.user)
-        .then(res => {
-          let newData = {
-            isAuth: true,
-            dataUser: res.data
-          };
+      const dataUser = action.dataUser;
+      return Object.assign({}, state, {
+        isAuth: true,
+        name: dataUser.name,
+        email: dataUser.email,
+        avatarUrl: dataUser.avatarUrl,
+        notification: dataUser.notification,
+        isadmin: dataUser.isadmin,
+        _id: dataUser._id,
+      });
+    case types.RESET:
+      console.log("a");
 
-          return Object.assign(state, newData);
-        });
+      return Object.assign({}, state, {});
     default:
       return state;
   }

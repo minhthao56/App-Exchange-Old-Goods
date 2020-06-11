@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPen, faTimes } from "@fortawesome/free-solid-svg-icons";
 import Moment from "react-moment";
 import { useSpring, animated } from "react-spring";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 import { Link } from "react-router-dom";
 
@@ -19,13 +19,27 @@ import Login from "../images/login2.png";
 export default function Home() {
   const [isPost, setIsPost] = useState(false);
   const [dataPost, setDataPost] = useState([]);
-
   //Redux
   const mapStateToProps = useSelector((state) => state.logIn);
-  const dataUser = mapStateToProps.dataUser;
   const mapStateToPropsExchange = useSelector((state) => state.Exchange);
   const CheckLoggedIn = useSelector((state) => state.CheckLoggedIn);
   const UpdateUser = useSelector((state) => state.UpdateUser);
+
+  const dispatch = useDispatch();
+  //localStoage
+  const token = localStorage.getItem("token");
+  // check login
+  const checkLoggedIn = () => {
+    axios
+      .post("https://tc9y3.sse.codesandbox.io/users/checklogin/", { token })
+      .then((res) => {
+        console.log("fetch data");
+        dispatch({
+          type: "LOGGED_IN",
+          dataUser: res.data,
+        });
+      });
+  };
 
   // Open and lose model
   const hanldeClickPost = () => {
@@ -49,14 +63,14 @@ export default function Home() {
   };
   useEffect(() => {
     fetchData();
+    checkLoggedIn();
   }, []);
-  console.log(dataPost);
-
   // Filter post of user
   const postOfUser = dataPost.filter((data) => {
-    return data.idUserPost === CheckLoggedIn.dataUser._id || dataUser._id;
+    return (
+      data.idUserPost === CheckLoggedIn.dataUser._id || mapStateToProps._id
+    );
   });
-
   return (
     <div>
       <Nav />
@@ -66,7 +80,7 @@ export default function Home() {
             {/* input Post */}
             <div className="clickToPost">
               <div className="title-form-post">
-                <img src={mapStateToProps.dataUser.avatarUrl} />
+                {/* <img src={mapStateToProps.dataUser.avatarUrl} /> */}
                 <h2>Let's show me </h2>
               </div>
               <div className="inputAndIconPost">
@@ -111,7 +125,7 @@ export default function Home() {
           </Col>
           <Col span={9}>
             {/* Infor fixed */}
-            {dataUser.isAuth || CheckLoggedIn.isAuth === true ? (
+            {mapStateToProps.isAuth || CheckLoggedIn.isAuth ? (
               <div className="container-accout">
                 <div className="account-fixed">
                   <div className="img-acc">
@@ -121,8 +135,8 @@ export default function Home() {
                         style={{
                           backgroundImage: `url(${
                             UpdateUser.avatarUrl ||
-                            CheckLoggedIn.dataUser.avatarUrl ||
-                            dataUser.avatarUrl
+                            mapStateToProps.avatarUrl ||
+                            CheckLoggedIn.dataUser.avatarUrl
                           })`,
                         }}
                       ></div>
@@ -130,7 +144,7 @@ export default function Home() {
                     <span>
                       {UpdateUser.name ||
                         CheckLoggedIn.dataUser.name ||
-                        dataUser.name}
+                        mapStateToProps.name}
                     </span>
                   </div>
                 </div>
@@ -141,15 +155,16 @@ export default function Home() {
                     <i className="fas fa-envelope icon-mail"> </i>
                     <span>
                       {UpdateUser.email ||
-                        CheckLoggedIn.dataUser.email ||
-                        dataUser.email}
+                        mapStateToProps.email ||
+                        CheckLoggedIn.dataUser.email}
                     </span>
                   </span>
                   <span>
                     <i className="fas fa-user-clock icon-user-clock"></i>
                     <span>
                       <Moment fromNow>
-                        {CheckLoggedIn.dataUser.createdAt || dataUser.createdAt}
+                        {mapStateToProps.createdAt ||
+                          CheckLoggedIn.dataUser.createdAt}
                       </Moment>
                     </span>
                   </span>

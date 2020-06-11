@@ -5,11 +5,7 @@ import axios from "axios";
 import { useDispatch } from "react-redux";
 import Moment from "react-moment";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faClock,
-  faMapMarkerAlt,
-  faSeedling,
-} from "@fortawesome/free-solid-svg-icons";
+import { faClock, faMapMarkerAlt } from "@fortawesome/free-solid-svg-icons";
 
 import "../styles/ListTrans.css";
 export default function ListTran(props) {
@@ -30,7 +26,6 @@ export default function ListTran(props) {
     createdAt,
   } = props;
   const mapStateToProps = useSelector((state) => state.logIn);
-  const userLoggedIn = mapStateToProps.dataUser;
   const [statusS, setStatusS] = useState(status);
   const dispatch = useDispatch();
 
@@ -88,7 +83,12 @@ export default function ListTran(props) {
         <div className="transaction">
           <div className="container-tran">
             <div className="name-tran">
-              <img src={avatarUrlExchange} alt="" id="imgAvatar" />
+              <div
+                style={{
+                  backgroundImage: `url(${avatarUrlExchange})`,
+                }}
+                id="imgAvatar"
+              />
               <span> {nameExchange}</span>
             </div>
             <div className="product-tran">
@@ -125,7 +125,8 @@ export default function ListTran(props) {
         </div>
         <div className="tb-action">
           <div className="bt-trans">
-            {id_user_product === userLoggedIn._id && statusS === "spending" ? (
+            {id_user_product === mapStateToProps._id &&
+            statusS === "spending" ? (
               <div>
                 <button onClick={handleConfirm}>Confirm</button>
                 <button id="bt-recject" onClick={hanldeReject}>

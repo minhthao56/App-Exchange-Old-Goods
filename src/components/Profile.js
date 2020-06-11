@@ -14,9 +14,9 @@ export default function Porfile() {
   const { register, handleSubmit } = useForm();
 
   const mapStateToProps = useSelector((state) => state.logIn);
-  const userLoggedIn = mapStateToProps.dataUser;
   const mapStateToPropsSendAddress = useSelector((state) => state.SendAddress);
   const CheckLoggedIn = useSelector((state) => state.CheckLoggedIn);
+  console.log(mapStateToProps, CheckLoggedIn);
 
   // Fetch data transactions
   const fetchData = async () => {
@@ -33,18 +33,23 @@ export default function Porfile() {
   const filterDataTran = dataTran.filter(function (dataFilter) {
     if (
       dataFilter.id_user_product === CheckLoggedIn.dataUser._id ||
-      dataFilter.id_user_product === userLoggedIn._id ||
-      dataFilter.id_user_want_exchange === userLoggedIn._id ||
       dataFilter.id_user_want_exchange === CheckLoggedIn.dataUser._id
     ) {
       return true;
+    } else if (
+      dataFilter.id_user_product === mapStateToProps._id ||
+      dataFilter.id_user_want_exchange === mapStateToProps._id
+    ) {
+      return true;
+    } else {
+      return false;
     }
   });
-  // Handle submit address detail and phone
 
+  // Handle submit address detail and phone
   const onSubmit = (data) => {
     const addressAndPhone = {
-      id_user: userLoggedIn._id || CheckLoggedIn.dataUser._id,
+      id_user: mapStateToProps._id || CheckLoggedIn.dataUser._id,
       id_trans: mapStateToPropsSendAddress.id,
       addressDetail: data.addressDetail,
       phone: data.phone,

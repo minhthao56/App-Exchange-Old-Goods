@@ -17,11 +17,13 @@ export default function App() {
   const dispatch = useDispatch();
   //localStoage
   const token = localStorage.getItem("token");
+
   // check login
   const checkLoggedIn = () => {
     axios
       .post("https://tc9y3.sse.codesandbox.io/users/checklogin/", { token })
       .then((res) => {
+        console.log("fetch data");
         dispatch({
           type: "LOGGED_IN",
           dataUser: res.data,
@@ -30,7 +32,8 @@ export default function App() {
   };
   useEffect(() => {
     checkLoggedIn();
-  }, []);
+  });
+
   return (
     <Router>
       <div>
@@ -39,7 +42,7 @@ export default function App() {
             <Home />
           </Route>
           <Route path="/users/login">
-            <Login />
+            <Login checkLoggedIn={checkLoggedIn} />
           </Route>
           <Route path="/users/create">
             <CreateUser />

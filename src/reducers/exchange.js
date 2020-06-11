@@ -1,18 +1,18 @@
 import * as types from "../constants/actionType";
 const initialState = {
   isShowExchange: false,
-  id: null
+  id: null,
 };
 
 const myReducer = (state = initialState, action) => {
   switch (action.type) {
     case types.EXCHANGE:
-      let newData = {
-        isShowExchange: !state.isShowExchange,
-        id: action.id
-      };
-      return Object.assign(state, newData);
+      const id = action.id;
 
+      return Object.assign({}, state, {
+        isShowExchange: true,
+        id: id,
+      });
     default:
       return state;
   }

@@ -7,16 +7,14 @@ const initialState = {
 const myReducer = (state = initialState, action) => {
   switch (action.type) {
     case types.SEND_ADDRESS:
-      let newData = {
-        isShowSendAddress: !state.isShowSendAddress,
-        id: action.id,
-      };
-
-      return Object.assign(state, newData);
+      const id = action.id;
+      return Object.assign({}, state, {
+        isShowSendAddress: true,
+        id: id,
+      });
 
     default:
       return state;
   }
 };
-
 export default myReducer;

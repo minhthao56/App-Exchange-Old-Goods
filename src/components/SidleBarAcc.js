@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
@@ -7,8 +7,6 @@ import { ReactComponent as ProFileImg } from "../images/profile.svg";
 
 export default function SidleBarAcc(props) {
   const mapStateToProps = useSelector((state) => state.logIn);
-  const userLoggedIn = mapStateToProps.dataUser;
-  // const UpdateUser = useSelector((state) => state.UpdateUser);
   const CheckLoggedIn = useSelector((state) => state.CheckLoggedIn);
   const UpdateUser = useSelector((state) => state.UpdateUser);
 
@@ -23,8 +21,8 @@ export default function SidleBarAcc(props) {
             backgroundImage: `url(${
               avatarUrl ||
               UpdateUser.avatarUrl ||
-              CheckLoggedIn.dataUser.avatarUrl ||
-              userLoggedIn.avatarUrl
+              mapStateToProps.avatarUrl ||
+              CheckLoggedIn.dataUser.avatarUrl
             })`,
           }}
         ></div>
@@ -32,13 +30,13 @@ export default function SidleBarAcc(props) {
           <span className="name-acc">
             {name ||
               UpdateUser.name ||
-              CheckLoggedIn.dataUser.name ||
-              userLoggedIn.name}
+              mapStateToProps.name ||
+              CheckLoggedIn.dataUser.name}
           </span>
           <Link
             to={
-              userLoggedIn._id
-                ? "/users/info/" + userLoggedIn._id
+              mapStateToProps._id
+                ? "/users/info/" + mapStateToProps._id
                 : "/users/info/" + CheckLoggedIn.dataUser._id
             }
           >
@@ -52,8 +50,8 @@ export default function SidleBarAcc(props) {
       <div className="list-icon">
         <Link
           to={
-            userLoggedIn._id
-              ? "/users/info/" + userLoggedIn._id
+            mapStateToProps._id
+              ? "/users/info/" + mapStateToProps._id
               : "/users/info/" + CheckLoggedIn.dataUser._id
           }
         >

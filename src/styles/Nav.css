@@ -66,6 +66,7 @@
 }
 .nav-link {
     display: flex;
+    margin-left: 5px;
 }
 .nav-avatar {
     margin-right: 5px;
@@ -74,4 +75,23 @@
     background-size: cover;
     background-position: center;
     border-radius: 100%;
+}
+/* singOut and profile */
+
+.contaniner-profile-nav {
+    display: flex;
+    align-items: center;
+}
+.nav-name {
+    font-weight: bold;
+}
+
+.contaniner-signOut-profile {
+    display: flex;
+}
+.container-signOut {
+    display: flex;
+    align-items: center;
+    margin-right: 10px;
+    cursor: pointer;
 }

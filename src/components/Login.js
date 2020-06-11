@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { Row, Col, Alert } from "antd";
-import { Link, Redirect } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { Link, Redirect, useHistory } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 
 import "antd/dist/antd.css";
 import "../styles/CreateUser.css";
@@ -10,14 +10,17 @@ import exchange from "../images/047-exchange.png";
 import imagesLogin from "../images/login.png";
 import "../styles/Login.css";
 
-export default function User() {
+export default function User(props) {
   const [mesErr, setMesErr] = useState("");
   const [isErrLogin, setIsErrLogin] = useState(false);
   const [isAuth, setIsAuth] = useState(false);
   const [valueEmail, setValueEmail] = useState("");
   const [valuePassword, setValuePassword] = useState("");
   const [isChecked, setIsChecked] = useState(false);
+
   const dispatch = useDispatch();
+  let history = useHistory();
+  const { checkLoggedIn } = props;
   // Handle mail
   const handleChangeEmail = (event) => {
     const value = event.target.value;
@@ -43,11 +46,9 @@ export default function User() {
       password: valuePassword,
       isChecked: isChecked,
     };
-    dispatch({ type: "LOG_IN", user: user });
+
     axios
-      .post("https://tc9y3.sse.codesandbox.io/users/login", user, {
-        withCredentials: true,
-      })
+      .post("https://tc9y3.sse.codesandbox.io/users/login", user)
       .then((res) => {
         setIsAuth(!isAuth);
         setValueEmail("");
@@ -55,8 +56,16 @@ export default function User() {
         if (res.data.token) {
           localStorage.setItem("token", res.data.token.toString());
         }
+        console.log(res.data);
+        dispatch({ type: "LOG_IN", dataUser: res.data });
+
+        history.push("/");
+        return checkLoggedIn();
       })
       .catch((err) => {
+        if (err.response === undefined) {
+          console.log(err);
+        }
         if (err.response.status === 401) {
           setIsErrLogin(true);
           setMesErr(err.response.data.msg);
@@ -65,7 +74,6 @@ export default function User() {
   };
   return (
     <div className="container">
-      {isAuth === true ? <Redirect to="/" /> : null}
       <Row>
         <Col span={12}>
           <div className="contaiter-form">

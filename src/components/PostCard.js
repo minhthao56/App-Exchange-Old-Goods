@@ -42,7 +42,7 @@ export default function PostCard(props) {
   const handleSubmitComment = (event) => {
     event.preventDefault();
     const commentPost = {
-      idUserComment: mapStateToProps.dataUser._id || CheckLoggedIn.dataUser._id,
+      idUserComment: mapStateToProps._id || CheckLoggedIn.dataUser._id,
       content: commentContent,
       id_post: id_post,
     };
@@ -57,7 +57,7 @@ export default function PostCard(props) {
   // Like
   const handleLike = () => {
     const like = {
-      id_user_liked: mapStateToProps.dataUser._id || CheckLoggedIn.dataUser._id,
+      id_user_liked: mapStateToProps._id || CheckLoggedIn.dataUser._id,
       id_post: id_post,
     };
 
@@ -71,7 +71,7 @@ export default function PostCard(props) {
   // Unlike
   const handleUnLike = () => {
     const Unlike = {
-      id_user_liked: mapStateToProps.dataUser._id || CheckLoggedIn.dataUser._id,
+      id_user_liked: mapStateToProps._id || CheckLoggedIn.dataUser._id,
       id_post: id_post,
     };
     axios
@@ -83,10 +83,7 @@ export default function PostCard(props) {
   };
   // Filter user Logged in liked
   const arrIdUserLiked = like.filter(function (userLiked) {
-    return (
-      userLiked.id_user_liked === mapStateToProps.dataUser._id ||
-      CheckLoggedIn.dataUser._id
-    );
+    return userLiked.id_user_liked === mapStateToProps._id || CheckLoggedIn._id;
   });
   // handleExchange
   const handleExchange = () => {

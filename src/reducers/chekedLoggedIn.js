@@ -8,11 +8,8 @@ const initialState = {
 const myReducer = (state = initialState, action) => {
   switch (action.type) {
     case types.LOGGED_IN:
-      const newData = {
-        isAuth: true,
-        dataUser: action.dataUser,
-      };
-      return newData;
+      const dataUser = action.dataUser;
+      return Object.assign({}, state, { isAuth: true, dataUser: dataUser });
     default:
       return state;
   }
