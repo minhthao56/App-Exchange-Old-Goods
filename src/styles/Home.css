@@ -130,9 +130,12 @@
 .container-accout {
 }
 
-.account-fixed img {
+.avatar-fixed {
   height: 84px;
   width: 84px;
+  border-radius: 100%;
+  background-position: center;
+  background-size: cover;
 }
 .img-acc {
   /* background-color: #84b8ef; */

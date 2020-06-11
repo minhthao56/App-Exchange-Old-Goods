@@ -3,10 +3,14 @@
     position: fixed;
 }
 
-.acc-sidle img {
+.avata-sidle {
     height: 42px;
     width: 42px;
     margin-right: 10px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    border-radius: 100%;
 }
 .acc-sidle {
     display: flex;

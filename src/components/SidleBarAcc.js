@@ -10,24 +10,38 @@ export default function SidleBarAcc(props) {
   const userLoggedIn = mapStateToProps.dataUser;
   // const UpdateUser = useSelector((state) => state.UpdateUser);
   const CheckLoggedIn = useSelector((state) => state.CheckLoggedIn);
+  const UpdateUser = useSelector((state) => state.UpdateUser);
 
   const { avatarUrl, name } = props;
 
   return (
     <div className="container-silde-bar">
       <div className="acc-sidle">
-        <img
-          src={
-            avatarUrl ||
-            CheckLoggedIn.dataUser.avatarUrl ||
-            userLoggedIn.avatarUrl
-          }
-        />
+        <div
+          className="avata-sidle"
+          style={{
+            backgroundImage: `url(${
+              avatarUrl ||
+              UpdateUser.avatarUrl ||
+              CheckLoggedIn.dataUser.avatarUrl ||
+              userLoggedIn.avatarUrl
+            })`,
+          }}
+        ></div>
         <div className="edit-acc">
           <span className="name-acc">
-            {name || CheckLoggedIn.dataUser.name || userLoggedIn.name}
+            {name ||
+              UpdateUser.name ||
+              CheckLoggedIn.dataUser.name ||
+              userLoggedIn.name}
           </span>
-          <Link to="/users/info">
+          <Link
+            to={
+              userLoggedIn._id
+                ? "/users/info/" + userLoggedIn._id
+                : "/users/info/" + CheckLoggedIn.dataUser._id
+            }
+          >
             <span className="icon-edit">
               <i className="fas fa-pen"></i>
               <span>Edit your account</span>
@@ -36,7 +50,13 @@ export default function SidleBarAcc(props) {
         </div>
       </div>
       <div className="list-icon">
-        <Link to="/users/info">
+        <Link
+          to={
+            userLoggedIn._id
+              ? "/users/info/" + userLoggedIn._id
+              : "/users/info/" + CheckLoggedIn.dataUser._id
+          }
+        >
           <div className="icon-user">
             <div className="wap-user">
               <i className="fas fa-user"></i>

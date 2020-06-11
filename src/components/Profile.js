@@ -18,6 +18,7 @@ export default function Porfile() {
   const mapStateToPropsSendAddress = useSelector((state) => state.SendAddress);
   const CheckLoggedIn = useSelector((state) => state.CheckLoggedIn);
 
+  // Fetch data transactions
   const fetchData = async () => {
     const response = await axios.get(
       "https://tc9y3.sse.codesandbox.io/trans/listtrans"
@@ -25,7 +26,7 @@ export default function Porfile() {
     setDataTran(response.data);
   };
   useEffect(() => {
-    fetchData(dataTran);
+    fetchData();
   }, []);
 
   //Handler filter tran relative to user loggin
@@ -56,6 +57,7 @@ export default function Porfile() {
         fetchData();
       });
   };
+
   return (
     <div>
       <Nav />

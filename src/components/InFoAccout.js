@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Row, Col } from "antd";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import axios from "axios";
+import { useParams } from "react-router-dom";
 
 import SidleBarAcc from "../components/SidleBarAcc";
 import Nav from "../components/Nav";
@@ -11,16 +12,18 @@ import { ReactComponent as Account } from "../images/account.svg";
 export default function InFoAccout() {
   const [file, setFile] = useState(null);
   const [dataUserFetch, setDataUserFetch] = useState({});
+  const dispatch = useDispatch();
 
-  const mapStateToProps = useSelector((state) => state.logIn);
-  const CheckLoggedIn = useSelector((state) => state.CheckLoggedIn);
-  const userLoggedIn = mapStateToProps.dataUser;
-  // const dispatch = useDispatch();
-  //Fetch data user detail
+  //Router
+  let { id } = useParams();
+  //Fetch datar user detail
   const fetchData = async () => {
+    dispatch({
+      type: "UPDATE_USER",
+      idUser: id,
+    });
     const response = await axios.get(
-      "https://tc9y3.sse.codesandbox.io/users/user/" + userLoggedIn._id ||
-        CheckLoggedIn.dataUser._id
+      "https://tc9y3.sse.codesandbox.io/users/user/" + id
     );
     setDataUserFetch(response.data);
   };
@@ -29,21 +32,16 @@ export default function InFoAccout() {
     setFile(event.target.files[0]);
   };
   // Handle submit
-
   const handleSubmit = (event) => {
     event.preventDefault();
     const fd = new FormData();
     fd.append("file", file);
-    fd.append("_id", userLoggedIn._id);
+    fd.append("_id", id);
     axios
       .post("https://tc9y3.sse.codesandbox.io/users/update", fd)
       .then((res) => {
         console.log(res.data);
         fetchData();
-        // dispatch({
-        //   type: "UPDATE_USER",
-        //   idUser: userLoggedIn._id,
-        // });
       });
   };
   useEffect(() => {

@@ -15,10 +15,13 @@
   margin-bottom: 10px;
   align-items: center;
 }
-.avatar-name img {
+.avatar-postcard {
   height: 38px;
   width: 38px;
   margin-right: 10px;
+  border-radius: 100%;
+  background-position: center;
+  background-size: cover;
 }
 .name-post {
   font-weight: bold;
@@ -144,9 +147,12 @@
 .form-comment input:focus {
   outline: none;
 }
-.form-comment img {
+.avatar-from-comment {
   height: 32px;
   width: 32px;
+  border-radius: 100%;
+  background-position: center;
+  background-size: cover;
 }
 .form-comment button {
   border: none;
@@ -161,15 +167,19 @@
 .container-comment {
   margin-bottom: 20px;
 }
-.content-comment img {
-  height: 28px;
-  width: 28px;
-  margin-right: 5px;
-}
 .content-comment {
   display: flex;
   align-items: center;
 }
+.avatar-comment {
+  height: 28px;
+  width: 28px;
+  margin-right: 5px;
+  border-radius: 100%;
+  background-position: center;
+  background-size: cover;
+}
+
 .main-comment {
   background-color: #f2f2f2;
   padding-top: 5px;

@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPen, faTimes } from "@fortawesome/free-solid-svg-icons";
 import Moment from "react-moment";
 import { useSpring, animated } from "react-spring";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import axios from "axios";
 import { Link } from "react-router-dom";
 
@@ -19,29 +19,14 @@ import Login from "../images/login2.png";
 export default function Home() {
   const [isPost, setIsPost] = useState(false);
   const [dataPost, setDataPost] = useState([]);
-  const [dataUserCheckLoggedIn, setDataUserCheckLoggedIn] = useState({});
-  const [isAuthCheck, setIsAuthCheck] = useState(false);
+
   //Redux
   const mapStateToProps = useSelector((state) => state.logIn);
   const dataUser = mapStateToProps.dataUser;
   const mapStateToPropsExchange = useSelector((state) => state.Exchange);
-  const dispatch = useDispatch();
+  const CheckLoggedIn = useSelector((state) => state.CheckLoggedIn);
+  const UpdateUser = useSelector((state) => state.UpdateUser);
 
-  //localStoage
-  const token = localStorage.getItem("token");
-  // check login
-  const checkLoggedIn = () => {
-    axios
-      .post("https://tc9y3.sse.codesandbox.io/users/checklogin/", { token })
-      .then((res) => {
-        setDataUserCheckLoggedIn(res.data);
-        setIsAuthCheck(true);
-        dispatch({
-          type: "LOGGED_IN",
-          dataUser: res.data,
-        });
-      });
-  };
   // Open and lose model
   const hanldeClickPost = () => {
     setIsPost(!isPost);
@@ -64,13 +49,12 @@ export default function Home() {
   };
   useEffect(() => {
     fetchData();
-    checkLoggedIn();
   }, []);
   console.log(dataPost);
 
   // Filter post of user
   const postOfUser = dataPost.filter((data) => {
-    return data.idUserPost === mapStateToProps.dataUser._id;
+    return data.idUserPost === CheckLoggedIn.dataUser._id || dataUser._id;
   });
 
   return (
@@ -127,18 +111,27 @@ export default function Home() {
           </Col>
           <Col span={9}>
             {/* Infor fixed */}
-            {dataUser.isAuth || isAuthCheck === true ? (
+            {dataUser.isAuth || CheckLoggedIn.isAuth === true ? (
               <div className="container-accout">
                 <div className="account-fixed">
                   <div className="img-acc">
                     <div className="img-color">
-                      <img
-                        src={
-                          dataUserCheckLoggedIn.avatarUrl || dataUser.avatarUrl
-                        }
-                      />
+                      <div
+                        className="avatar-fixed"
+                        style={{
+                          backgroundImage: `url(${
+                            UpdateUser.avatarUrl ||
+                            CheckLoggedIn.dataUser.avatarUrl ||
+                            dataUser.avatarUrl
+                          })`,
+                        }}
+                      ></div>
                     </div>
-                    <span>{dataUserCheckLoggedIn.name || dataUser.name}</span>
+                    <span>
+                      {UpdateUser.name ||
+                        CheckLoggedIn.dataUser.name ||
+                        dataUser.name}
+                    </span>
                   </div>
                 </div>
 
@@ -146,13 +139,17 @@ export default function Home() {
                   <h3>Your info</h3>
                   <span>
                     <i className="fas fa-envelope icon-mail"> </i>
-                    <span>{dataUserCheckLoggedIn.email || dataUser.email}</span>
+                    <span>
+                      {UpdateUser.email ||
+                        CheckLoggedIn.dataUser.email ||
+                        dataUser.email}
+                    </span>
                   </span>
                   <span>
                     <i className="fas fa-user-clock icon-user-clock"></i>
                     <span>
                       <Moment fromNow>
-                        {dataUserCheckLoggedIn.createdAt || dataUser.createdAt}
+                        {CheckLoggedIn.dataUser.createdAt || dataUser.createdAt}
                       </Moment>
                     </span>
                   </span>

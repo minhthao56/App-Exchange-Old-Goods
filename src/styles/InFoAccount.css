@@ -31,6 +31,7 @@
   background-repeat: no-repeat;
   background-size: cover;
   border-radius: 120px;
+  background-position: center;
 }
 .over {
   width: 120px;

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faClock,
@@ -30,6 +30,7 @@ export default function PostCard(props) {
 
   const [commentContent, setCommetContent] = useState("");
   const mapStateToProps = useSelector((state) => state.logIn);
+  const CheckLoggedIn = useSelector((state) => state.CheckLoggedIn);
   const dispatch = useDispatch();
 
   // Value comment
@@ -41,7 +42,7 @@ export default function PostCard(props) {
   const handleSubmitComment = (event) => {
     event.preventDefault();
     const commentPost = {
-      idUserComment: mapStateToProps.dataUser._id,
+      idUserComment: mapStateToProps.dataUser._id || CheckLoggedIn.dataUser._id,
       content: commentContent,
       id_post: id_post,
     };
@@ -56,9 +57,10 @@ export default function PostCard(props) {
   // Like
   const handleLike = () => {
     const like = {
-      id_user_liked: mapStateToProps.dataUser._id,
+      id_user_liked: mapStateToProps.dataUser._id || CheckLoggedIn.dataUser._id,
       id_post: id_post,
     };
+
     axios
       .post("https://tc9y3.sse.codesandbox.io/posts/like", like)
       .then((res) => {
@@ -69,7 +71,7 @@ export default function PostCard(props) {
   // Unlike
   const handleUnLike = () => {
     const Unlike = {
-      id_user_liked: mapStateToProps.dataUser._id,
+      id_user_liked: mapStateToProps.dataUser._id || CheckLoggedIn.dataUser._id,
       id_post: id_post,
     };
     axios
@@ -81,7 +83,10 @@ export default function PostCard(props) {
   };
   // Filter user Logged in liked
   const arrIdUserLiked = like.filter(function (userLiked) {
-    return userLiked.id_user_liked === mapStateToProps.dataUser._id;
+    return (
+      userLiked.id_user_liked === mapStateToProps.dataUser._id ||
+      CheckLoggedIn.dataUser._id
+    );
   });
   // handleExchange
   const handleExchange = () => {
@@ -93,7 +98,13 @@ export default function PostCard(props) {
     <div className="container-cardPost">
       <div>
         <div className="avatar-name">
-          <img src={avatarUrl} alt="" />
+          <div
+            className="avatar-postcard"
+            style={{
+              backgroundImage: `url(${avatarUrl})`,
+            }}
+          ></div>
+
           <div className="conten-comment">
             <span className="name-post">{name}</span>
             <div className="moment">
@@ -183,7 +194,13 @@ export default function PostCard(props) {
             return (
               <div key={key}>
                 <div className="content-comment">
-                  <img src={avatarUrl} />
+                  <div
+                    className="avatar-comment"
+                    style={{
+                      backgroundImage: `url(${comment.avatarUrl})`,
+                    }}
+                  ></div>
+
                   <div className="main-comment">
                     <b> {comment.name} </b> {comment.content}
                   </div>
@@ -197,9 +214,12 @@ export default function PostCard(props) {
           })}
         </div>
         <div className="form-comment">
-          <div>
-            <img src={avatarUrl} />
-          </div>
+          <div
+            className="avatar-from-comment"
+            style={{
+              backgroundImage: `url(${avatarUrl})`,
+            }}
+          ></div>
           <form onSubmit={handleSubmitComment}>
             <input
               type="text"

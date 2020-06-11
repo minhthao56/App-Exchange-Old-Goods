@@ -16,8 +16,11 @@ import SidleBarAcc from "../components/SidleBarAcc";
 export default function TransactionInfo() {
   const [detailTrans, setDetialTrans] = useState({});
   const [review, setReview] = useState("");
+
   const mapStateToProps = useSelector((state) => state.logIn);
   const userLoggedIn = mapStateToProps.dataUser;
+  const CheckLoggedIn = useSelector((state) => state.CheckLoggedIn);
+
   let { id } = useParams();
   // Get detial transaction
   const fetchData = async () => {
@@ -26,35 +29,34 @@ export default function TransactionInfo() {
     );
     setDetialTrans(response.data[0]);
   };
-  console.log(detailTrans);
 
   useEffect(() => {
-    fetchData(detailTrans);
-  }, [id]);
+    fetchData();
+  }, []);
   // Handle Send Product
   const handleSendProduct = () => {
     const dataSendProduct = {
-      id_user: userLoggedIn._id,
+      id_user: userLoggedIn._id || CheckLoggedIn.dataUser_id,
       status: "sending",
       id_trans: detailTrans._id,
     };
     axios
       .post("https://tc9y3.sse.codesandbox.io/trans/sending", dataSendProduct)
       .then((res) => {
-        console.log(res.data);
+        fetchData();
       });
   };
   // handle Received Product
   const handleReceived = () => {
     const dataSendProduct = {
-      id_user: userLoggedIn._id,
+      id_user: userLoggedIn._id || CheckLoggedIn.dataUser._id,
       status: "received",
       id_trans: detailTrans._id,
     };
     axios
       .post("https://tc9y3.sse.codesandbox.io/trans/sending", dataSendProduct)
       .then((res) => {
-        console.log(res.data);
+        fetchData();
       });
   };
   // handle Change Rereive
@@ -66,14 +68,14 @@ export default function TransactionInfo() {
   const handleSubmitReview = (event) => {
     event.preventDefault();
     const reviewProduct = {
-      id_user: userLoggedIn._id,
+      id_user: userLoggedIn._id || CheckLoggedIn.dataUser._id,
       content: review,
       id_trans: detailTrans._id,
     };
     axios
       .post("https://tc9y3.sse.codesandbox.io/trans/review", reviewProduct)
       .then((res) => {
-        console.log(res.data);
+        fetchData();
         toast("Your review is sent !");
       });
   };
