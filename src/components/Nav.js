@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faBell,
@@ -12,8 +12,10 @@ import ExchangeIcon from "../images/047-exchange.png";
 
 export default function Nav(props) {
   const mapStateToProps = useSelector((state) => state.logIn);
-  const UpdateUser = useSelector((state) => state.UpdateUser);
-  const { avatarUrl } = props;
+  // const UpdateUser = useSelector((state) => state.UpdateUser);
+  const CheckLoggedIn = useSelector((state) => state.CheckLoggedIn);
+
+  const { avatarUrl, name } = props;
 
   return (
     <nav className="container-nav">
@@ -34,15 +36,19 @@ export default function Nav(props) {
             <FontAwesomeIcon icon={faQuestionCircle} />{" "}
           </div>
         </div>
-        {mapStateToProps.isAuth ? (
+        {CheckLoggedIn.dataUser.isAuth || mapStateToProps.isAuth ? (
           <Link className="nav-link" to="/profile">
-            <div>{mapStateToProps.dataUser.name}</div>
+            <div>
+              {name ||
+                CheckLoggedIn.dataUser.name ||
+                mapStateToProps.dataUser.name}
+            </div>
             <div>
               {" "}
               <img
                 src={
                   avatarUrl ||
-                  UpdateUser.avatarUrl ||
+                  CheckLoggedIn.dataUser.avatarUrl ||
                   mapStateToProps.dataUser.avatarUrl
                 }
                 className="img-avatar"

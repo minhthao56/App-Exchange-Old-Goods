@@ -11,6 +11,12 @@ import SidleBarAcc from "../components/SidleBarAcc";
 
 export default function Porfile() {
   const [dataTran, setDataTran] = useState([]);
+  const { register, handleSubmit } = useForm();
+
+  const mapStateToProps = useSelector((state) => state.logIn);
+  const userLoggedIn = mapStateToProps.dataUser;
+  const mapStateToPropsSendAddress = useSelector((state) => state.SendAddress);
+  const CheckLoggedIn = useSelector((state) => state.CheckLoggedIn);
 
   const fetchData = async () => {
     const response = await axios.get(
@@ -21,16 +27,14 @@ export default function Porfile() {
   useEffect(() => {
     fetchData(dataTran);
   }, []);
-  const mapStateToProps = useSelector((state) => state.logIn);
-  const userLoggedIn = mapStateToProps.dataUser;
-  const { register, handleSubmit } = useForm();
-  const mapStateToPropsSendAddress = useSelector((state) => state.SendAddress);
 
   //Handler filter tran relative to user loggin
   const filterDataTran = dataTran.filter(function (dataFilter) {
     if (
+      dataFilter.id_user_product === CheckLoggedIn.dataUser._id ||
       dataFilter.id_user_product === userLoggedIn._id ||
-      dataFilter.id_user_want_exchange === userLoggedIn._id
+      dataFilter.id_user_want_exchange === userLoggedIn._id ||
+      dataFilter.id_user_want_exchange === CheckLoggedIn.dataUser._id
     ) {
       return true;
     }
@@ -39,7 +43,7 @@ export default function Porfile() {
 
   const onSubmit = (data) => {
     const addressAndPhone = {
-      id_user: userLoggedIn._id,
+      id_user: userLoggedIn._id || CheckLoggedIn.dataUser._id,
       id_trans: mapStateToPropsSendAddress.id,
       addressDetail: data.addressDetail,
       phone: data.phone,

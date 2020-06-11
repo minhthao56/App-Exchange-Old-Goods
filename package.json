@@ -10,7 +10,6 @@
     "@fortawesome/react-fontawesome": "0.1.9",
     "antd": "4.3.0",
     "axios": "0.19.2",
-    "js-cookie": "^2.2.1",
     "moment": "^2.26.0",
     "react": "16.13.1",
     "react-dom": "16.12.0",

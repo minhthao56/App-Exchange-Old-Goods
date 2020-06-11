@@ -3,7 +3,6 @@ import axios from "axios";
 import { Row, Col, Alert } from "antd";
 import { Link, Redirect } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import Cookies from "js-cookie";
 
 import "antd/dist/antd.css";
 import "../styles/CreateUser.css";
@@ -50,13 +49,14 @@ export default function User() {
         withCredentials: true,
       })
       .then((res) => {
-        setIsAuth(res.data.isAuth);
+        setIsAuth(!isAuth);
         setValueEmail("");
         setValuePassword("");
-        console.log(res);
+        if (res.data.token) {
+          localStorage.setItem("token", res.data.token.toString());
+        }
       })
       .catch((err) => {
-        console.log(err);
         if (err.response.status === 401) {
           setIsErrLogin(true);
           setMesErr(err.response.data.msg);

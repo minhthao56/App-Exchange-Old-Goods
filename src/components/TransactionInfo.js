@@ -123,13 +123,13 @@ export default function TransactionInfo() {
                           <div className="contact">
                             <div className="icon-full">
                               <div className="icon-usercheck">
-                                <i class="fas fa-user-check"></i>
+                                <i className="fas fa-user-check"></i>
                               </div>
                               <span>{detailTrans.full_name_want}</span>
                             </div>
                             <div className="icon-full">
                               <div className="icon-phne">
-                                <i class="fas fa-phone-alt"></i>
+                                <i className="fas fa-phone-alt"></i>
                               </div>
                               <span>{detailTrans.phone_user_want}</span>
                             </div>
@@ -141,7 +141,7 @@ export default function TransactionInfo() {
                             </div>
                             <div className="icon-full">
                               <div className="icon-opmail">
-                                <i class="fas fa-envelope-open"></i>
+                                <i className="fas fa-envelope-open"></i>
                               </div>
                               <span> {detailTrans.email_want_exchange}</span>
                             </div>
@@ -187,13 +187,13 @@ export default function TransactionInfo() {
                           <div className="contact">
                             <div className="icon-full">
                               <div className="icon-usercheck">
-                                <i class="fas fa-user-check"></i>
+                                <i className="fas fa-user-check"></i>
                               </div>
                               <span>{detailTrans.full_name}</span>
                             </div>
                             <div className="icon-full">
                               <div className="icon-phne">
-                                <i class="fas fa-phone-alt"></i>
+                                <i className="fas fa-phone-alt"></i>
                               </div>
                               <span>{detailTrans.phone_user}</span>
                             </div>
@@ -205,7 +205,7 @@ export default function TransactionInfo() {
                             </div>
                             <div className="icon-full">
                               <div className="icon-opmail">
-                                <i class="fas fa-envelope-open"></i>
+                                <i className="fas fa-envelope-open"></i>
                               </div>
                               <span> {detailTrans.email}</span>
                             </div>

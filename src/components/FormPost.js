@@ -14,17 +14,17 @@ export default function FormPost() {
   const [add, setAdd] = useState([]);
   const { register, handleSubmit } = useForm();
 
-  const mapStateToProps = useSelector(state => state.logIn);
+  const mapStateToProps = useSelector((state) => state.logIn);
 
-  const handleAddress = place => {
+  const handleAddress = (place) => {
     setAddress(place.name);
   };
 
-  const handleFile = event => {
+  const handleFile = (event) => {
     setFile(event.target.files[0]);
   };
 
-  const handleNeed = event => {
+  const handleNeed = (event) => {
     const value = event.target.value;
     setNeedItem(value);
   };
@@ -50,10 +50,12 @@ export default function FormPost() {
     fd.append("idUserPost", mapStateToProps.dataUser._id);
     fd.append("need", need);
 
-    axios.post("https://tc9y3.sse.codesandbox.io/posts/items", fd).then(res => {
-      console.log(res.data);
-      e.target.reset();
-    });
+    axios
+      .post("https://tc9y3.sse.codesandbox.io/posts/items", fd)
+      .then((res) => {
+        console.log(res.data);
+        e.target.reset();
+      });
   };
   return (
     <div className="container-post">
@@ -75,10 +77,10 @@ export default function FormPost() {
             placeholder="How do your item look like?"
           />
           <div className="attach-file">
-            <label for="imageItem">
+            <label>
               <img src={attachPhoto} alt="" />
+              <input type="file" onChange={handleFile} id="imageItem" />
             </label>
-            <input type="file" onChange={handleFile} id="imageItem" />
           </div>
         </div>
 
@@ -105,8 +107,8 @@ export default function FormPost() {
           </div>
           <div className="listNeed">
             <ul>
-              {add.map(items => {
-                return <li>{items}</li>;
+              {add.map((items, key) => {
+                return <li key={key}>{items}</li>;
               })}
             </ul>
           </div>

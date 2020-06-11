@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPen, faTimes } from "@fortawesome/free-solid-svg-icons";
 import Moment from "react-moment";
 import { useSpring, animated } from "react-spring";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 import { Link } from "react-router-dom";
 
@@ -16,13 +16,32 @@ import Nav from "../components/Nav";
 import NoData from "../images/nodata.png";
 import Login from "../images/login2.png";
 
-export default function Home(props) {
+export default function Home() {
   const [isPost, setIsPost] = useState(false);
   const [dataPost, setDataPost] = useState([]);
-
+  const [dataUserCheckLoggedIn, setDataUserCheckLoggedIn] = useState({});
+  const [isAuthCheck, setIsAuthCheck] = useState(false);
+  //Redux
   const mapStateToProps = useSelector((state) => state.logIn);
+  const dataUser = mapStateToProps.dataUser;
   const mapStateToPropsExchange = useSelector((state) => state.Exchange);
+  const dispatch = useDispatch();
 
+  //localStoage
+  const token = localStorage.getItem("token");
+  // check login
+  const checkLoggedIn = () => {
+    axios
+      .post("https://tc9y3.sse.codesandbox.io/users/checklogin/", { token })
+      .then((res) => {
+        setDataUserCheckLoggedIn(res.data);
+        setIsAuthCheck(true);
+        dispatch({
+          type: "LOGGED_IN",
+          dataUser: res.data,
+        });
+      });
+  };
   // Open and lose model
   const hanldeClickPost = () => {
     setIsPost(!isPost);
@@ -44,20 +63,23 @@ export default function Home(props) {
     setDataPost(response.data);
   };
   useEffect(() => {
-    fetchData(dataPost);
+    fetchData();
+    checkLoggedIn();
   }, []);
   console.log(dataPost);
+
   // Filter post of user
   const postOfUser = dataPost.filter((data) => {
     return data.idUserPost === mapStateToProps.dataUser._id;
   });
-  const dataUser = mapStateToProps.dataUser;
+
   return (
     <div>
       <Nav />
       <div className="contaiter-home">
         <Row id="row">
           <Col span={15} id="colPost">
+            {/* input Post */}
             <div className="clickToPost">
               <div className="title-form-post">
                 <img src={mapStateToProps.dataUser.avatarUrl} />
@@ -70,6 +92,7 @@ export default function Home(props) {
                 </button>
               </div>
             </div>
+            {/*form post + animated*/}
             <animated.div style={face} className="container-fixed">
               <div className="icon-time">
                 <FontAwesomeIcon icon={faTimes} onClick={handleClose} />
@@ -81,7 +104,7 @@ export default function Home(props) {
               <FormTrans postOfUser={postOfUser} />
             ) : null}
             {/* Car post */}
-            {dataPost.map((data) => {
+            {dataPost.map((data, key) => {
               return (
                 <PostCard
                   name={data.name}
@@ -97,19 +120,25 @@ export default function Home(props) {
                   id_post={data.id_post}
                   id_user={data.id_user}
                   fetchData={fetchData}
+                  key={key}
                 />
               );
             })}
           </Col>
           <Col span={9}>
-            {dataUser.isAuth === true ? (
+            {/* Infor fixed */}
+            {dataUser.isAuth || isAuthCheck === true ? (
               <div className="container-accout">
                 <div className="account-fixed">
                   <div className="img-acc">
                     <div className="img-color">
-                      <img src={dataUser.avatarUrl} />
+                      <img
+                        src={
+                          dataUserCheckLoggedIn.avatarUrl || dataUser.avatarUrl
+                        }
+                      />
                     </div>
-                    <span>{dataUser.name}</span>
+                    <span>{dataUserCheckLoggedIn.name || dataUser.name}</span>
                   </div>
                 </div>
 
@@ -117,12 +146,14 @@ export default function Home(props) {
                   <h3>Your info</h3>
                   <span>
                     <i className="fas fa-envelope icon-mail"> </i>
-                    <span>{dataUser.email}</span>
+                    <span>{dataUserCheckLoggedIn.email || dataUser.email}</span>
                   </span>
                   <span>
                     <i className="fas fa-user-clock icon-user-clock"></i>
                     <span>
-                      <Moment fromNow>{dataUser.createdAt}</Moment>
+                      <Moment fromNow>
+                        {dataUserCheckLoggedIn.createdAt || dataUser.createdAt}
+                      </Moment>
                     </span>
                   </span>
                 </div>
@@ -147,6 +178,7 @@ export default function Home(props) {
                 <img src={NoData} />
               </div>
             )}
+            {/* Infor fixed  */}
           </Col>
         </Row>
       </div>

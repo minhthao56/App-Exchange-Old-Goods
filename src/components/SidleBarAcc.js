@@ -5,20 +5,31 @@ import { Link } from "react-router-dom";
 import "../styles/SidleBarAcc.css";
 import { ReactComponent as ProFileImg } from "../images/profile.svg";
 
-export default function SidleBarAcc() {
+export default function SidleBarAcc(props) {
   const mapStateToProps = useSelector((state) => state.logIn);
   const userLoggedIn = mapStateToProps.dataUser;
-  const UpdateUser = useSelector((state) => state.UpdateUser);
+  // const UpdateUser = useSelector((state) => state.UpdateUser);
+  const CheckLoggedIn = useSelector((state) => state.CheckLoggedIn);
+
+  const { avatarUrl, name } = props;
 
   return (
     <div className="container-silde-bar">
       <div className="acc-sidle">
-        <img src={userLoggedIn.avatarUrl} />
+        <img
+          src={
+            avatarUrl ||
+            CheckLoggedIn.dataUser.avatarUrl ||
+            userLoggedIn.avatarUrl
+          }
+        />
         <div className="edit-acc">
-          <span className="name-acc">{userLoggedIn.name}</span>
+          <span className="name-acc">
+            {name || CheckLoggedIn.dataUser.name || userLoggedIn.name}
+          </span>
           <Link to="/users/info">
             <span className="icon-edit">
-              <i class="fas fa-pen"></i>
+              <i className="fas fa-pen"></i>
               <span>Edit your account</span>
             </span>
           </Link>

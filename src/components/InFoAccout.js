@@ -11,13 +11,16 @@ import { ReactComponent as Account } from "../images/account.svg";
 export default function InFoAccout() {
   const [file, setFile] = useState(null);
   const [dataUserFetch, setDataUserFetch] = useState({});
+
   const mapStateToProps = useSelector((state) => state.logIn);
+  const CheckLoggedIn = useSelector((state) => state.CheckLoggedIn);
   const userLoggedIn = mapStateToProps.dataUser;
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   //Fetch data user detail
   const fetchData = async () => {
     const response = await axios.get(
-      "https://tc9y3.sse.codesandbox.io/users/user/" + userLoggedIn._id
+      "https://tc9y3.sse.codesandbox.io/users/user/" + userLoggedIn._id ||
+        CheckLoggedIn.dataUser._id
     );
     setDataUserFetch(response.data);
   };
@@ -37,10 +40,10 @@ export default function InFoAccout() {
       .then((res) => {
         console.log(res.data);
         fetchData();
-        dispatch({
-          type: "UPDATE_USER",
-          idUser: userLoggedIn._id,
-        });
+        // dispatch({
+        //   type: "UPDATE_USER",
+        //   idUser: userLoggedIn._id,
+        // });
       });
   };
   useEffect(() => {
@@ -49,11 +52,14 @@ export default function InFoAccout() {
 
   return (
     <div>
-      <Nav avatarUrl={dataUserFetch.avatarUrl} />
+      <Nav avatarUrl={dataUserFetch.avatarUrl} name={dataUserFetch.name} />
       <div>
         <Row id="row-tran">
           <Col id="col-list-acc" span={6}>
-            <SidleBarAcc avatarUrl={dataUserFetch.avatarUrl} />
+            <SidleBarAcc
+              avatarUrl={dataUserFetch.avatarUrl}
+              name={dataUserFetch.name}
+            />
           </Col>
           <Col id="col-list-trans" span={18}>
             <div className="container-change">

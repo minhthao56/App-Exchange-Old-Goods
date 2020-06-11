@@ -127,9 +127,9 @@ export default function PostCard(props) {
             <div className="need-item">
               <span>Need:</span>
 
-              {need.map((item) => {
+              {need.map((item, key) => {
                 return (
-                  <div className="icon-need">
+                  <div className="icon-need" key={key}>
                     <FontAwesomeIcon icon={faSeedling} /> <span>{item}</span>
                   </div>
                 );
@@ -179,9 +179,9 @@ export default function PostCard(props) {
         </div>
 
         <div className="container-comment">
-          {comments.map((comment) => {
+          {comments.map((comment, key) => {
             return (
-              <div>
+              <div key={key}>
                 <div className="content-comment">
                   <img src={avatarUrl} />
                   <div className="main-comment">
@@ -208,7 +208,7 @@ export default function PostCard(props) {
               placeholder="Type your comment"
             />
             <button type="submit">
-              <i class="fas fa-paper-plane"></i>
+              <i className="fas fa-paper-plane"></i>
             </button>
           </form>
         </div>
