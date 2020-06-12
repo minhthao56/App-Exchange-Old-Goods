@@ -110,7 +110,7 @@ export default function Home() {
                   description={data.description}
                   imagePostUrl={data.imagePostUrl}
                   createdAt={data.createdAt}
-                  comments={data.comment}
+                  comments={data.comments}
                   like={data.like}
                   address={data.address}
                   avatarUrl={data.avatarUrl}

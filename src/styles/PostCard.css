@@ -200,3 +200,69 @@
   color: #748df2;
   cursor: pointer;
 }
+/* form reply */
+.reply-form {
+  margin-left: 33px;
+  display: flex;
+  margin-top: 10px;
+  align-items: center;
+}
+
+.avatar-form-reply {
+  height: 24px;
+  width: 24px;
+  border-radius: 24px;
+  background-position: center;
+  background-size: cover;
+  margin-right: 5px;
+}
+.reply-form form {
+  display: flex;
+  flex: 1;
+}
+.reply-form input {
+  width: 86%;
+  border: solid;
+  border-right: none;
+  background-color: #f2f2f2;
+  border-width: 1px;
+  border-color: rgba(150, 150, 150, 0.3);
+  border-bottom-left-radius: 24px;
+  border-top-left-radius: 24px;
+  padding-left: 15px;
+}
+.reply-form input:focus {
+  outline: none;
+}
+.reply-form button {
+  border: none;
+  border-bottom: solid;
+  border-top: solid;
+  border-right: solid;
+  background-color: #f2f2f2;
+  border-width: 1px;
+  border-color: rgba(150, 150, 150, 0.3);
+  color: #748df2;
+  font-size: 12px;
+  border-bottom-right-radius: 24px;
+  border-top-right-radius: 24px;
+  font-weight: bold;
+  cursor: pointer;
+}
+.reply-form button:focus {
+  outline: none;
+}
+.reply span {
+  border-left: solid;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-width: 1px;
+  border-color: rgba(150, 150, 150, 0.3);
+}
+.count-reply {
+  cursor: pointer;
+}
+.count-reply:hover {
+  color: #748df2;
+  text-decoration: underline;
+}

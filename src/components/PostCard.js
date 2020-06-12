@@ -11,6 +11,8 @@ import Moment from "react-moment";
 import ShowMoreText from "react-show-more-text";
 
 import "../styles/PostCard.css";
+import Reply from "../components/Reply";
+
 export default function PostCard(props) {
   const {
     name,
@@ -29,6 +31,9 @@ export default function PostCard(props) {
   } = props;
 
   const [commentContent, setCommetContent] = useState("");
+  const [isShowReply, setIsShowReply] = useState(false);
+
+  //Redux
   const mapStateToProps = useSelector((state) => state.logIn);
   const CheckLoggedIn = useSelector((state) => state.CheckLoggedIn);
   const dispatch = useDispatch();
@@ -41,12 +46,13 @@ export default function PostCard(props) {
   // Submit comment
   const handleSubmitComment = (event) => {
     event.preventDefault();
+    const date = new Date();
     const commentPost = {
-      idUserComment: mapStateToProps._id || CheckLoggedIn.dataUser._id,
+      id_user_comment: mapStateToProps._id || CheckLoggedIn.dataUser._id,
       content: commentContent,
       id_post: id_post,
+      time_comment: date,
     };
-
     axios
       .post("https://tc9y3.sse.codesandbox.io/posts/comments", commentPost)
       .then((res) => {
@@ -81,6 +87,7 @@ export default function PostCard(props) {
         return fetchData();
       });
   };
+
   // Filter user Logged in liked
   const arrIdUserLiked = like.filter(function (userLiked) {
     return userLiked.id_user_liked === mapStateToProps._id || CheckLoggedIn._id;
@@ -89,6 +96,10 @@ export default function PostCard(props) {
   const handleExchange = () => {
     const id = { id_product: id_post, id_user_product: id_user };
     dispatch({ type: "EXCHANGE", id: id });
+  };
+  // handle Reply
+  const handleReply = () => {
+    setIsShowReply(!isShowReply);
   };
 
   return (
@@ -203,9 +214,24 @@ export default function PostCard(props) {
                   </div>
                 </div>
                 <div className="reply">
-                  <button>Reply</button>
-                  <span>Now</span>
+                  <button onClick={handleReply}>Reply</button>
+                  <span>
+                    <Moment fromNow>{comment.time_comment}</Moment>
+                  </span>
+                  <span className="count-reply" onClick={handleReply}>
+                    {" "}
+                    <b>{comment.replys.length}</b> Reply{" "}
+                  </span>
                 </div>
+                {/* Reply comment */}
+                {isShowReply === true ? (
+                  <Reply
+                    id_post={id_post}
+                    id_comment={comment._id}
+                    replys={comment.replys}
+                    fetchData={fetchData}
+                  />
+                ) : null}
               </div>
             );
           })}
@@ -214,7 +240,9 @@ export default function PostCard(props) {
           <div
             className="avatar-from-comment"
             style={{
-              backgroundImage: `url(${avatarUrl})`,
+              backgroundImage: `url(${
+                mapStateToProps.avatarUrl || CheckLoggedIn.dataUser.avatarUrl
+              })`,
             }}
           ></div>
           <form onSubmit={handleSubmitComment}>
