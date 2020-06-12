@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faBell,
@@ -8,11 +8,18 @@ import {
 import { Link, useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import ExchangeIcon from "../images/047-exchange.png";
 import "../styles/Nav.css";
+import NotiCenter from "../components/NotiCenter";
 
 export default function Nav(props) {
+  const [isShowNoti, setIsShowNoti] = useState(false);
+  const [dataNoti, setDataNoti] = useState([]);
+
+  // Redux
   const mapStateToProps = useSelector((state) => state.logIn);
   const CheckLoggedIn = useSelector((state) => state.CheckLoggedIn);
   const UpdateUser = useSelector((state) => state.UpdateUser);
@@ -21,6 +28,39 @@ export default function Nav(props) {
   let history = useHistory();
 
   const { avatarUrl, name } = props;
+
+  // Fetch data Noti
+
+  const fetchDataNoti = async () => {
+    const res = await axios.post(
+      "https://tc9y3.sse.codesandbox.io/notis/listnoti",
+      { id_user: mapStateToProps._id || CheckLoggedIn.dataUser._id }
+    );
+    setDataNoti(res.data);
+  };
+  console.log(dataNoti);
+  const pevDataNoti = useRef(dataNoti);
+
+  if (pevDataNoti.current.length === 0 && dataNoti.length > 1) {
+    pevDataNoti.current = dataNoti;
+  }
+
+  if (pevDataNoti.current.length !== dataNoti.length) {
+    toast("Your review is sent !");
+  }
+  console.log(pevDataNoti.current.length);
+  console.log(dataNoti.length);
+
+  pevDataNoti.current = dataNoti;
+
+  useEffect(() => {
+    setTimeout(() => {
+      fetchDataNoti();
+    }, 10000);
+  });
+  useEffect(() => {
+    fetchDataNoti();
+  }, []);
   //handle SignOut
   const handleSignOut = () => {
     dispatch({ type: "RESET" });
@@ -28,12 +68,18 @@ export default function Nav(props) {
     history.push("/users/login");
     window.location.reload();
   };
+  // handle Noti
+  const handleNoti = () => {
+    setIsShowNoti(!isShowNoti);
+  };
+
   return (
     <nav className="container-nav">
       <div className="container-bar">
         <div className="LogoPage">
           <img src={ExchangeIcon} alt="" />
           <span>Second Life</span>
+          <ToastContainer />
         </div>
         <div className="icon-nav">
           <Link className="icon-home" to="/">
@@ -41,7 +87,8 @@ export default function Nav(props) {
           </Link>
           <div className="icon-noti">
             <div className="dot-noti" />
-            <FontAwesomeIcon icon={faBell} />
+            <FontAwesomeIcon icon={faBell} onClick={handleNoti} />
+            {isShowNoti ? <NotiCenter dataNoti={dataNoti} /> : null}
           </div>
           <div className="icon-help">
             <FontAwesomeIcon icon={faQuestionCircle} />{" "}

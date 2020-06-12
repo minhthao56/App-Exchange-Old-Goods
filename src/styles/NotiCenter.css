@@ -1,0 +1,9 @@
+.container-noti {
+    box-shadow: 0px 0px 6px -3px rgba(0, 0, 0, 0.75);
+    position: fixed;
+    background-color: white;
+    border-radius: 5px;
+}
+.content-noti span {
+    font-size: 11px;
+}

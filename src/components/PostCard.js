@@ -38,6 +38,27 @@ export default function PostCard(props) {
   const CheckLoggedIn = useSelector((state) => state.CheckLoggedIn);
   const dispatch = useDispatch();
 
+  //Handle Noti comment
+  const handleNotiComment = () => {
+    const noti = {
+      id_user: id_user,
+      id_post: id_post,
+      content_noti: "commented",
+      id_user_comment: mapStateToProps._id || CheckLoggedIn.dataUser._id,
+      isRead: false,
+    };
+    if (noti.id_user_comment === noti.id_user) {
+      return;
+    }
+    axios
+      .post("https://tc9y3.sse.codesandbox.io/notis/comment", noti)
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   // Value comment
   const handleValueComment = (event) => {
     const value = event.target.value;
@@ -52,11 +73,13 @@ export default function PostCard(props) {
       content: commentContent,
       id_post: id_post,
       time_comment: date,
+      isShowReply: false,
     };
     axios
       .post("https://tc9y3.sse.codesandbox.io/posts/comments", commentPost)
       .then((res) => {
         setCommetContent("");
+        handleNotiComment();
         return fetchData();
       });
   };
