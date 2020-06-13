@@ -27,7 +27,7 @@ export default function Nav(props) {
 
   let history = useHistory();
 
-  const { avatarUrl, name } = props;
+  const { avatarUrl, name, fetchData } = props;
 
   // Fetch data Noti
 
@@ -45,13 +45,12 @@ export default function Nav(props) {
     pevDataNoti.current = dataNoti;
   }
 
-  if (pevDataNoti.current.length !== dataNoti.length) {
-    toast("Your review is sent !");
-  }
-  console.log(pevDataNoti.current.length);
-  console.log(dataNoti.length);
-
-  pevDataNoti.current = dataNoti;
+  // Sort by Date
+  const sortByDate = dataNoti.sort((a, b) => {
+    let date1 = new Date(a.createdAt);
+    let date2 = new Date(b.createdAt);
+    return date2 - date1;
+  });
 
   useEffect(() => {
     setTimeout(() => {
@@ -61,6 +60,23 @@ export default function Nav(props) {
   useEffect(() => {
     fetchDataNoti();
   }, []);
+  // Notificaiton
+  if (pevDataNoti.current.length !== dataNoti.length) {
+    const cutNotiFist = sortByDate[0];
+    toast(
+      cutNotiFist.name +
+        " " +
+        cutNotiFist.content_noti +
+        " your " +
+        cutNotiFist.title
+    );
+    const a = async () => {
+      return fetchData();
+    };
+    a();
+  }
+  pevDataNoti.current = dataNoti;
+
   //handle SignOut
   const handleSignOut = () => {
     dispatch({ type: "RESET" });
@@ -88,8 +104,11 @@ export default function Nav(props) {
           <div className="icon-noti">
             <div className="dot-noti" />
             <FontAwesomeIcon icon={faBell} onClick={handleNoti} />
-            {isShowNoti ? <NotiCenter dataNoti={dataNoti} /> : null}
+            <div className="container-noti-center">
+              {isShowNoti ? <NotiCenter dataNoti={sortByDate} /> : null}
+            </div>
           </div>
+
           <div className="icon-help">
             <FontAwesomeIcon icon={faQuestionCircle} />{" "}
           </div>

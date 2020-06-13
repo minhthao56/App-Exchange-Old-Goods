@@ -73,7 +73,7 @@ export default function Home() {
   });
   return (
     <div>
-      <Nav />
+      <Nav fetchData={fetchData} />
       <div className="contaiter-home">
         <Row id="row">
           <Col span={15} id="colPost">

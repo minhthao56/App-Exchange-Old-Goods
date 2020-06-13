@@ -40,16 +40,35 @@ export default function PostCard(props) {
 
   //Handle Noti comment
   const handleNotiComment = () => {
+    const mapIdUserCommented = comments.map((comment) => {
+      return comment.id_user_comment;
+    });
+    const filterIdDuplicates = [...new Set(mapIdUserCommented)];
     const noti = {
       id_user: id_user,
       id_post: id_post,
-      content_noti: "commented",
+      content_noti: "Commented",
       id_user_comment: mapStateToProps._id || CheckLoggedIn.dataUser._id,
       isRead: false,
+      id_user_commented: filterIdDuplicates,
     };
-    if (noti.id_user_comment === noti.id_user) {
-      return;
-    }
+    axios
+      .post("https://tc9y3.sse.codesandbox.io/notis/comment", noti)
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  //Handle Noti like
+  const handleNotiLike = () => {
+    const noti = {
+      id_user: id_user,
+      id_post: id_post,
+      content_noti: "Love ❤",
+      isRead: false,
+    };
     axios
       .post("https://tc9y3.sse.codesandbox.io/notis/comment", noti)
       .then((res) => {
@@ -94,6 +113,7 @@ export default function PostCard(props) {
       .post("https://tc9y3.sse.codesandbox.io/posts/like", like)
       .then((res) => {
         console.log(res.data);
+        handleNotiLike();
         return fetchData();
       });
   };
@@ -113,7 +133,10 @@ export default function PostCard(props) {
 
   // Filter user Logged in liked
   const arrIdUserLiked = like.filter(function (userLiked) {
-    return userLiked.id_user_liked === mapStateToProps._id || CheckLoggedIn._id;
+    return (
+      userLiked.id_user_liked === mapStateToProps._id ||
+      CheckLoggedIn.dataUser._id
+    );
   });
   // handleExchange
   const handleExchange = () => {
