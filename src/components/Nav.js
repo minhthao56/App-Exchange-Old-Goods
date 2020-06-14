@@ -63,6 +63,9 @@ export default function Nav(props) {
   // Notificaiton
   if (pevDataNoti.current.length !== dataNoti.length) {
     const cutNotiFist = sortByDate[0];
+    // if (cutNotiFist.length === undefined) {
+    //   return;
+    // }
     toast(
       cutNotiFist.name +
         " " +

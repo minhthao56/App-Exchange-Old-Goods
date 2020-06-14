@@ -9,6 +9,8 @@ import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
 import Moment from "react-moment";
 import ShowMoreText from "react-show-more-text";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import "../styles/PostCard.css";
 import Reply from "../components/Reply";
@@ -31,7 +33,7 @@ export default function PostCard(props) {
   } = props;
 
   const [commentContent, setCommetContent] = useState("");
-  const [isShowReply, setIsShowReply] = useState(false);
+  const [isShowReply1, setIsShowReply1] = useState(false);
 
   //Redux
   const mapStateToProps = useSelector((state) => state.logIn);
@@ -68,9 +70,10 @@ export default function PostCard(props) {
       id_post: id_post,
       content_noti: "Love ❤",
       isRead: false,
+      id_user_like: mapStateToProps._id || CheckLoggedIn.dataUser._id,
     };
     axios
-      .post("https://tc9y3.sse.codesandbox.io/notis/comment", noti)
+      .post("https://tc9y3.sse.codesandbox.io/notis/like", noti)
       .then((res) => {
         console.log(res.data);
       })
@@ -133,24 +136,56 @@ export default function PostCard(props) {
 
   // Filter user Logged in liked
   const arrIdUserLiked = like.filter(function (userLiked) {
-    return (
+    if (
       userLiked.id_user_liked === mapStateToProps._id ||
-      CheckLoggedIn.dataUser._id
-    );
+      (CheckLoggedIn.dataUser._id === userLiked.id_user_liked &&
+        userLiked.id_post === id_post)
+    ) {
+      return true;
+    } else {
+      return false;
+    }
   });
+
   // handleExchange
   const handleExchange = () => {
-    const id = { id_product: id_post, id_user_product: id_user };
+    if (
+      id_user === mapStateToProps._id ||
+      id_user === CheckLoggedIn.dataUser._id
+    ) {
+      toast.error("This is your product, you idiot 🤣");
+      return;
+    }
+
+    const id = { id_product: id_post, id_user_product: id_user, name: name };
     dispatch({ type: "EXCHANGE", id: id });
   };
-  // handle Reply
-  const handleReply = () => {
-    setIsShowReply(!isShowReply);
-  };
 
+  // handle Reply
+  const handleReply = (_id) => {
+    const isShowReplyCom = comments.filter((show) => {
+      return show._id === _id;
+    });
+    const isShowReply = isShowReplyCom[0].isShowReply;
+    const expandReply = {
+      isShowReply: !isShowReply,
+      _id: _id,
+      id_post: id_post,
+    };
+    axios
+      .post("https://tc9y3.sse.codesandbox.io/posts/expand", expandReply)
+      .then((res) => {
+        console.log(res.data);
+        return fetchData();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   return (
     <div className="container-cardPost">
       <div>
+        <ToastContainer />
         <div className="avatar-name">
           <div
             className="avatar-postcard"
@@ -237,8 +272,8 @@ export default function PostCard(props) {
             <i className="far fa-comments"></i>
             <span>Comment</span>
           </div>
-          <div className="icon">
-            <i className="fas fa-exchange-alt" onClick={handleExchange}></i>
+          <div className="icon" onClick={handleExchange}>
+            <i className="fas fa-exchange-alt"></i>
             <span>Exchange</span>
           </div>
         </div>
@@ -260,21 +295,33 @@ export default function PostCard(props) {
                   </div>
                 </div>
                 <div className="reply">
-                  <button onClick={handleReply}>Reply</button>
+                  <button
+                    onClick={() => {
+                      return handleReply(comment._id);
+                    }}
+                  >
+                    Reply
+                  </button>
                   <span>
                     <Moment fromNow>{comment.time_comment}</Moment>
                   </span>
-                  <span className="count-reply" onClick={handleReply}>
+                  <span
+                    className="count-reply"
+                    onClick={() => {
+                      return handleReply(comment._id);
+                    }}
+                  >
                     {" "}
                     <b>{comment.replys.length}</b> Reply{" "}
                   </span>
                 </div>
                 {/* Reply comment */}
-                {isShowReply === true ? (
+                {comment.isShowReply === true ? (
                   <Reply
                     id_post={id_post}
                     id_comment={comment._id}
                     replys={comment.replys}
+                    id_user_comment={comment.id_user_comment}
                     fetchData={fetchData}
                   />
                 ) : null}

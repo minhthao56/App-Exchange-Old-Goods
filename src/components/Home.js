@@ -65,6 +65,7 @@ export default function Home() {
     fetchData();
     checkLoggedIn();
   }, []);
+
   // Filter post of user
   const postOfUser = dataPost.filter((data) => {
     return (
@@ -80,7 +81,6 @@ export default function Home() {
             {/* input Post */}
             <div className="clickToPost">
               <div className="title-form-post">
-                {/* <img src={mapStateToProps.dataUser.avatarUrl} /> */}
                 <h2>Let's show me </h2>
               </div>
               <div className="inputAndIconPost">

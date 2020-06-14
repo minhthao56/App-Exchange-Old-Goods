@@ -13,6 +13,11 @@ const myReducer = (state = initialState, action) => {
         isShowExchange: true,
         id: id,
       });
+    case types.CANCEL_EXCHANGE:
+      return Object.assign({}, state, {
+        isShowExchange: false,
+        id: null,
+      });
     default:
       return state;
   }

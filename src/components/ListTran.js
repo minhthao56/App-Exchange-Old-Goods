@@ -27,6 +27,7 @@ export default function ListTran(props) {
   } = props;
   const mapStateToProps = useSelector((state) => state.logIn);
   const [statusS, setStatusS] = useState(status);
+  const CheckLoggedIn = useSelector((state) => state.CheckLoggedIn);
   const dispatch = useDispatch();
 
   // Handle update confirm
@@ -125,8 +126,10 @@ export default function ListTran(props) {
         </div>
         <div className="tb-action">
           <div className="bt-trans">
-            {id_user_product === mapStateToProps._id &&
-            statusS === "spending" ? (
+            {(id_user_product === CheckLoggedIn.dataUser._id &&
+              statusS === "spending") ||
+            (id_user_product === mapStateToProps._id &&
+              statusS === "spending") ? (
               <div>
                 <button onClick={handleConfirm}>Confirm</button>
                 <button id="bt-recject" onClick={hanldeReject}>

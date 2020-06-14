@@ -7,7 +7,7 @@ import "../styles/Reply.css";
 
 export default function Reply(props) {
   const [replyContent, setReplyContent] = useState("");
-  const { id_post, id_comment, replys, fetchData } = props;
+  const { id_post, id_comment, replys, fetchData, id_user_comment } = props;
   //Redux
   const mapStateToProps = useSelector((state) => state.logIn);
   const CheckLoggedIn = useSelector((state) => state.CheckLoggedIn);
@@ -16,6 +16,28 @@ export default function Reply(props) {
     const vaule = event.target.value;
     setReplyContent(vaule);
   };
+
+  //Handle Noti reply
+  const handleNotiReply = async () => {
+    const mapIdUserCommented = replys.map((reply) => {
+      return reply.id_user_reply;
+    });
+    const filterIdDuplicates = [...new Set(mapIdUserCommented)];
+    const notiReply = {
+      id_user_comment: id_user_comment,
+      content_noti: "Replied your comment in",
+      id_post: id_post,
+      id_user_replied: filterIdDuplicates,
+      id_user_reply: mapStateToProps._id || CheckLoggedIn.dataUser._id,
+      isRead: false,
+    };
+    const res = await axios.post(
+      "https://tc9y3.sse.codesandbox.io/notis/reply",
+      notiReply
+    );
+    console.log(res.data);
+  };
+
   // handle Submit Reply Comment
   const handleSubmitReplyComment = (event) => {
     event.preventDefault();
@@ -32,6 +54,7 @@ export default function Reply(props) {
       .then((res) => {
         console.log(res.data);
         setReplyContent("");
+        handleNotiReply();
         return fetchData();
       })
       .catch((err) => {
