@@ -14,7 +14,5 @@ const myReducer = combineReducers({
   CheckLoggedIn: CheckLoggedIn,
 });
 
-
-
 export default myReducer;
 // export default myReducer;

@@ -6,3 +6,4 @@ export const LOGGED_IN = "LOGGED_IN";
 export const RESET = "RESET";
 export const CANCEL_EXCHANGE = "CANCEL_EXCHANGE";
 export const CANCEL_SEND_ADDRESS = "CANCEL_SEND_ADDRESS";
+// export const GET_DATA_POST = "GET_DATA_POST";

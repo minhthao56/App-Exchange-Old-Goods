@@ -10,13 +10,13 @@ import "../styles/NotiCenter.css";
 export default function NotiCenter(props) {
   const { dataNoti } = props;
   //Noti exchange
-  const typeNotiExchang = "Want exchange a product in post";
-  const typeNotiComfirm = "Your request is confirmed for product";
-  const typeNotiReject = "Your request is rejected 😥 for product";
   const typeNotiSendAddress = "Sent address to recive product";
   const typeNotiComfirmDelivery = "Confirmed delivery 😍 product";
   const typeNotiComfirmRecive = "Confirmed receive 👌 product";
   // Noti post
+  const typeNotiComment = "Commented";
+  const typeNotiLike = "Love ❤";
+  const typeNotiReply = "Replied your comment in";
 
   return (
     <div className="container-noti">
@@ -28,16 +28,15 @@ export default function NotiCenter(props) {
         return (
           <Link
             to={
-              data.content_noti === typeNotiExchang ||
-              data.content_noti === typeNotiComfirm ||
-              data.content_noti === typeNotiReject
-                ? "/profile"
-                : null ||
-                  data.content_noti === typeNotiSendAddress ||
+              data.content_noti === typeNotiComment ||
+              data.content_noti === typeNotiLike ||
+              data.content_noti === typeNotiReply
+                ? "/"
+                : data.content_noti === typeNotiSendAddress ||
                   data.content_noti === typeNotiComfirmDelivery ||
                   data.content_noti === typeNotiComfirmRecive
                 ? "/transaction/info/" + data.id_tran
-                : null
+                : "/profile"
             }
           >
             <div className="main-noti" key={key}>
@@ -54,7 +53,8 @@ export default function NotiCenter(props) {
                 <div className="content-noti">
                   <span>
                     {" "}
-                    {data.content_noti}&nbsp;your post <b>{data.title}</b>
+                    {data.content_noti}&nbsp;
+                    <b>{data.title}</b>
                   </span>
                 </div>
               </div>

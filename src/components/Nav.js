@@ -51,21 +51,16 @@ export default function Nav(props) {
     let date2 = new Date(b.createdAt);
     return date2 - date1;
   });
-
   useEffect(() => {
-    setTimeout(() => {
+    const timer = setTimeout(() => {
       fetchDataNoti();
-    }, 10000);
+    }, 5000);
+    return () => clearTimeout(timer);
   });
-  useEffect(() => {
-    fetchDataNoti();
-  }, []);
+
   // Notificaiton
   if (pevDataNoti.current.length !== dataNoti.length) {
     const cutNotiFist = sortByDate[0];
-    // if (cutNotiFist.length === undefined) {
-    //   return;
-    // }
     toast(
       cutNotiFist.name +
         " " +

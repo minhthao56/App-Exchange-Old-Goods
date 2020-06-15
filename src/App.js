@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import "antd/dist/antd.css";
 import axios from "axios";
 import { useDispatch } from "react-redux";
+import "react-router-modal/css/react-router-modal.css";
 
 import "./styles.css";
 
@@ -17,7 +18,6 @@ export default function App() {
   const dispatch = useDispatch();
   //localStoage
   const token = localStorage.getItem("token");
-
   // check login
   const checkLoggedIn = () => {
     axios
@@ -33,7 +33,6 @@ export default function App() {
   useEffect(() => {
     checkLoggedIn();
   });
-
   return (
     <Router>
       <div>

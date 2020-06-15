@@ -15,6 +15,8 @@ import "react-toastify/dist/ReactToastify.css";
 import "../styles/PostCard.css";
 import Reply from "../components/Reply";
 
+import { Link, useLocation } from "react-router-dom";
+
 export default function PostCard(props) {
   const {
     name,
@@ -33,7 +35,9 @@ export default function PostCard(props) {
   } = props;
 
   const [commentContent, setCommetContent] = useState("");
-  const [isShowReply1, setIsShowReply1] = useState(false);
+  const [isShowReply, setIsShowReply] = useState(false);
+  const [keyNow, setKeyNow] = useState(-1);
+  let location = useLocation();
 
   //Redux
   const mapStateToProps = useSelector((state) => state.logIn);
@@ -162,25 +166,9 @@ export default function PostCard(props) {
   };
 
   // handle Reply
-  const handleReply = (_id) => {
-    const isShowReplyCom = comments.filter((show) => {
-      return show._id === _id;
-    });
-    const isShowReply = isShowReplyCom[0].isShowReply;
-    const expandReply = {
-      isShowReply: !isShowReply,
-      _id: _id,
-      id_post: id_post,
-    };
-    axios
-      .post("https://tc9y3.sse.codesandbox.io/posts/expand", expandReply)
-      .then((res) => {
-        console.log(res.data);
-        return fetchData();
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+  const handleReply = (comment, key) => {
+    setIsShowReply(!isShowReply);
+    setKeyNow(key);
   };
   return (
     <div className="container-cardPost">
@@ -297,7 +285,7 @@ export default function PostCard(props) {
                 <div className="reply">
                   <button
                     onClick={() => {
-                      return handleReply(comment._id);
+                      return handleReply(comment, key);
                     }}
                   >
                     Reply
@@ -308,7 +296,7 @@ export default function PostCard(props) {
                   <span
                     className="count-reply"
                     onClick={() => {
-                      return handleReply(comment._id);
+                      return handleReply(comment, key);
                     }}
                   >
                     {" "}
@@ -316,7 +304,7 @@ export default function PostCard(props) {
                   </span>
                 </div>
                 {/* Reply comment */}
-                {comment.isShowReply === true ? (
+                {isShowReply === true && key === keyNow ? (
                   <Reply
                     id_post={id_post}
                     id_comment={comment._id}

@@ -19,6 +19,7 @@ import Login from "../images/login2.png";
 export default function Home() {
   const [isPost, setIsPost] = useState(false);
   const [dataPost, setDataPost] = useState([]);
+
   //Redux
   const mapStateToProps = useSelector((state) => state.logIn);
   const mapStateToPropsExchange = useSelector((state) => state.Exchange);
@@ -61,6 +62,11 @@ export default function Home() {
       "https://tc9y3.sse.codesandbox.io/posts/items/"
     );
     setDataPost(response.data);
+    dispatch({
+      type: "GET_DATA_POST",
+      data: response.data,
+    });
+    console.log("a");
   };
 
   useEffect(() => {
@@ -92,6 +98,7 @@ export default function Home() {
                 </button>
               </div>
             </div>
+
             {/*form post + animated*/}
             <animated.div style={face} className="container-fixed">
               <div className="icon-time">
