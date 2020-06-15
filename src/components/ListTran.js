@@ -38,6 +38,7 @@ export default function ListTran(props) {
       id_post: id_product,
       id_user_isEff: id_user_want_exchange,
       id_user_eff: id_user_product,
+      id_tran: _id,
     };
     await axios.post("https://tc9y3.sse.codesandbox.io/notis/confirmed", noti);
   };
@@ -49,8 +50,13 @@ export default function ListTran(props) {
       id_post: id_product,
       id_user_isEff: id_user_want_exchange,
       id_user_eff: id_user_product,
+      id_tran: _id,
     };
-    await axios.post("https://tc9y3.sse.codesandbox.io/notis/rejected", noti);
+    const res = await axios.post(
+      "https://tc9y3.sse.codesandbox.io/notis/rejected",
+      noti
+    );
+    console.log(res.data);
   };
 
   // Handle update confirm
@@ -87,6 +93,7 @@ export default function ListTran(props) {
       id_post: id_product,
       id_user_isEff: id_user_want_exchange,
       id_user_eff: id_user_product,
+      id_tran: _id,
     };
     dispatch({
       type: "SEND_ADDRESS",

@@ -60,6 +60,7 @@ export default function Porfile() {
       id_user_eff: mapStateToPropsSendAddress.id.id_user_eff,
       content_noti: "Sent address to recive product",
       id_user_logged: mapStateToProps._id || CheckLoggedIn.dataUser._id,
+      id_tran: mapStateToPropsSendAddress.id.id_tran,
     };
     const res = await axios.post(
       "https://tc9y3.sse.codesandbox.io/notis/address",

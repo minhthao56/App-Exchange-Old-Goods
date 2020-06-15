@@ -39,12 +39,13 @@ export default function TransactionInfo() {
   // Handle Noti Confirm send produc delivery
   const handleNotiSendProduct = async () => {
     const noti = {
-      content_noti: "Confirmed deliveried 😍 product",
+      content_noti: "Confirmed delivery 😍 product",
       id_post: detailTrans.id_product,
       id_user_isEff: detailTrans.id_user_want_exchange,
       id_user_eff: detailTrans.id_user_product,
       id_user_logged: mapStateToProps._id || CheckLoggedIn.dataUser._id,
       id_post_want: detailTrans.id_product_with_exchange,
+      id_tran: id,
     };
     try {
       await axios.post("https://tc9y3.sse.codesandbox.io/notis/delivery", noti);
@@ -55,12 +56,13 @@ export default function TransactionInfo() {
   // Handle Noti Confirm send produc delivery
   const handleNotiConfirmedRecive = async () => {
     const noti = {
-      content_noti: "Confirmed received 👌 product",
+      content_noti: "Confirmed receive 👌 product",
       id_post: detailTrans.id_product,
       id_user_isEff: detailTrans.id_user_want_exchange,
       id_user_eff: detailTrans.id_user_product,
       id_user_logged: mapStateToProps._id || CheckLoggedIn.dataUser._id,
       id_post_want: detailTrans.id_product_with_exchange,
+      id_tran: id,
     };
     try {
       await axios.post("https://tc9y3.sse.codesandbox.io/notis/receive", noti);
