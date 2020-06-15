@@ -98,3 +98,118 @@
   border-color: #8ab0ff;
   border-width: 1px;
 }
+/* review */
+
+.container-form-review {
+  background-color: white;
+  margin-top: 30px;
+  box-shadow: 0px 0px 2px -1px rgba(0, 0, 0, 0.75);
+  border-radius: 3px;
+  margin-bottom: 20px;
+  padding: 15px 30px 15px 30px;
+}
+.form-content-review {
+  display: flex;
+}
+.form-review {
+  flex: 1;
+}
+.content-review {
+  flex: 1;
+}
+.header-review {
+  border-bottom: solid;
+  border-width: 1px;
+  border-color: rgba(150, 150, 150, 0.3);
+  padding-bottom: 10px;
+  margin-bottom: 5px;
+}
+.header-review span {
+  font-size: 18px;
+  font-weight: bold;
+}
+.header-review i {
+  font-size: 18px;
+  border-right: solid;
+  border-width: 1px;
+  border-color: rgba(150, 150, 150, 0.3);
+  padding-right: 5px;
+  margin-right: 5px;
+}
+.rate {
+  border-right: solid;
+  border-width: 1px;
+  border-color: rgba(150, 150, 150, 0.3);
+  padding-right: 5px;
+  margin-right: 5px;
+  font-weight: bold;
+}
+.form-review textarea {
+  border: none;
+  box-shadow: 0px 0px 4px -2px rgba(0, 0, 0, 0.75);
+  margin-top: 10px;
+  padding: 5px;
+  background-color: rgba(0, 0, 0, 0);
+  border-radius: 5px;
+  width: 90%;
+}
+
+.form-review textarea:focus {
+  outline-color: #8ab0ff;
+}
+.form-review {
+  display: flex;
+  flex-direction: column;
+}
+textarea[placeholder="Review product"]::placeholder {
+  color: #bbbbbb;
+}
+.form-review button {
+  height: 30px;
+  width: 100px;
+  margin-top: 10px;
+  background-color: white;
+  border: solid;
+  border-radius: 3px;
+  border-width: 1px;
+  border-color: #8ab0ff;
+  color: #8ab0ff;
+  font-weight: bold;
+}
+/* avatar-review */
+.avatar-review {
+  height: 32px;
+  width: 32px;
+  border-radius: 32px;
+  background-position: center;
+  background-size: cover;
+}
+.avatar-name-review {
+  display: flex;
+  align-items: center;
+}
+.avatar-name-review span {
+  margin-left: 5px;
+  font-weight: bold;
+}
+.rate-review {
+  font-size: 10px;
+}
+
+.content-rate {
+  display: flex;
+  flex-direction: column;
+}
+.content-review {
+  border-left: solid;
+  padding-left: 30px;
+  border-width: 1px;
+  border-color: rgba(150, 150, 150, 0.2);
+}
+.context-review {
+  margin-bottom: 10px;
+  border-bottom: solid;
+  border-width: 1px;
+  border-color: rgba(190, 190, 190, 0.1);
+  padding-bottom: 10px;
+}

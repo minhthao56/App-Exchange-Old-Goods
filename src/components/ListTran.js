@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import axios from "axios";
@@ -24,11 +24,34 @@ export default function ListTran(props) {
     id_user_product,
     _id,
     createdAt,
+    id_product,
+    id_user_want_exchange,
   } = props;
   const mapStateToProps = useSelector((state) => state.logIn);
   const [statusS, setStatusS] = useState(status);
   const CheckLoggedIn = useSelector((state) => state.CheckLoggedIn);
   const dispatch = useDispatch();
+  // Handle noti confirm
+  const handleNotiConfirm = async () => {
+    const noti = {
+      content_noti: "Your request is confirmed for product",
+      id_post: id_product,
+      id_user_isEff: id_user_want_exchange,
+      id_user_eff: id_user_product,
+    };
+    await axios.post("https://tc9y3.sse.codesandbox.io/notis/confirmed", noti);
+  };
+
+  // Handle noti confirm
+  const handleNotiReject = async () => {
+    const noti = {
+      content_noti: "Your request is rejected 😥 for product",
+      id_post: id_product,
+      id_user_isEff: id_user_want_exchange,
+      id_user_eff: id_user_product,
+    };
+    await axios.post("https://tc9y3.sse.codesandbox.io/notis/rejected", noti);
+  };
 
   // Handle update confirm
   const handleConfirm = () => {
@@ -39,8 +62,8 @@ export default function ListTran(props) {
     axios
       .post("https://tc9y3.sse.codesandbox.io/trans/update", dataUpdate)
       .then((res) => {
-        console.log(res.data);
         setStatusS(dataUpdate.status);
+        handleNotiConfirm();
       });
   };
   // Hanlde update reject
@@ -54,13 +77,20 @@ export default function ListTran(props) {
       .then((res) => {
         console.log(res.data);
         setStatusS(dataUpdate.status);
+        handleNotiReject();
       });
   };
   //Hanlde send address
   const hanldeSendAddress = () => {
+    const id = {
+      _id: _id,
+      id_post: id_product,
+      id_user_isEff: id_user_want_exchange,
+      id_user_eff: id_user_product,
+    };
     dispatch({
       type: "SEND_ADDRESS",
-      id: _id,
+      id: id,
     });
   };
   return (

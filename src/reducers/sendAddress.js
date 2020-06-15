@@ -12,7 +12,11 @@ const myReducer = (state = initialState, action) => {
         isShowSendAddress: true,
         id: id,
       });
-
+    case types.CANCEL_SEND_ADDRESS:
+      return Object.assign({}, state, {
+        isShowSendAddress: false,
+        id: null,
+      });
     default:
       return state;
   }

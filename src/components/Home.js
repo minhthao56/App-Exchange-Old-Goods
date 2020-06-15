@@ -55,12 +55,14 @@ export default function Home() {
   });
 
   //Get full data from mongoBD
+
   const fetchData = async () => {
     const response = await axios.get(
       "https://tc9y3.sse.codesandbox.io/posts/items/"
     );
     setDataPost(response.data);
   };
+
   useEffect(() => {
     fetchData();
     checkLoggedIn();

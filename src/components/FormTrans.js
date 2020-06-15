@@ -61,7 +61,7 @@ export default function FormTrans(props) {
       <div className="main-exchange">
         <div className="container-header-ex">
           <div className="header-exchange">
-            <i class="fas fa-sync-alt"></i>
+            <i className="fas fa-sync-alt"></i>
             <span>Your Produces</span>
           </div>
 

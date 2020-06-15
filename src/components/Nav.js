@@ -27,7 +27,7 @@ export default function Nav(props) {
 
   let history = useHistory();
 
-  const { avatarUrl, name, fetchData } = props;
+  const { avatarUrl, name, fetchData, fetchDataTran } = props;
 
   // Fetch data Noti
 
@@ -73,10 +73,20 @@ export default function Nav(props) {
         " your " +
         cutNotiFist.title
     );
-    const a = async () => {
-      return fetchData();
-    };
-    a();
+    if (
+      cutNotiFist.content_noti === "Commented" ||
+      cutNotiFist.content_noti === "Love ❤" ||
+      cutNotiFist.content_noti === "Replied your comment in"
+    ) {
+      try {
+        const a = async () => {
+          return fetchData();
+        };
+        a();
+      } catch (error) {
+        console.log(error);
+      }
+    }
   }
   pevDataNoti.current = dataNoti;
 

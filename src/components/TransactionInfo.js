@@ -8,6 +8,7 @@ import "react-toastify/dist/ReactToastify.css";
 import Moment from "react-moment";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClock, faMapMarkerAlt } from "@fortawesome/free-solid-svg-icons";
+import { Rate } from "antd";
 
 import "../styles/TransactionInfo.css";
 import Nav from "../components/Nav";
@@ -16,9 +17,12 @@ import SidleBarAcc from "../components/SidleBarAcc";
 export default function TransactionInfo() {
   const [detailTrans, setDetialTrans] = useState({});
   const [review, setReview] = useState("");
+  const [rate, setRate] = useState(5);
 
   const mapStateToProps = useSelector((state) => state.logIn);
   const CheckLoggedIn = useSelector((state) => state.CheckLoggedIn);
+  const reviews = detailTrans.review;
+  console.log(reviews);
 
   let { id } = useParams();
   // Get detial transaction
@@ -32,10 +36,42 @@ export default function TransactionInfo() {
   useEffect(() => {
     fetchData();
   }, []);
+  // Handle Noti Confirm send produc delivery
+  const handleNotiSendProduct = async () => {
+    const noti = {
+      content_noti: "Confirmed deliveried 😍 product",
+      id_post: detailTrans.id_product,
+      id_user_isEff: detailTrans.id_user_want_exchange,
+      id_user_eff: detailTrans.id_user_product,
+      id_user_logged: mapStateToProps._id || CheckLoggedIn.dataUser._id,
+      id_post_want: detailTrans.id_product_with_exchange,
+    };
+    try {
+      await axios.post("https://tc9y3.sse.codesandbox.io/notis/delivery", noti);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  // Handle Noti Confirm send produc delivery
+  const handleNotiConfirmedRecive = async () => {
+    const noti = {
+      content_noti: "Confirmed received 👌 product",
+      id_post: detailTrans.id_product,
+      id_user_isEff: detailTrans.id_user_want_exchange,
+      id_user_eff: detailTrans.id_user_product,
+      id_user_logged: mapStateToProps._id || CheckLoggedIn.dataUser._id,
+      id_post_want: detailTrans.id_product_with_exchange,
+    };
+    try {
+      await axios.post("https://tc9y3.sse.codesandbox.io/notis/receive", noti);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   // Handle Send Product
   const handleSendProduct = () => {
     const dataSendProduct = {
-      id_user: mapStateToProps._id || CheckLoggedIn.dataUser_id,
+      id_user: mapStateToProps._id || CheckLoggedIn.dataUser._id,
       status: "sending",
       id_trans: detailTrans._id,
     };
@@ -43,6 +79,7 @@ export default function TransactionInfo() {
       .post("https://tc9y3.sse.codesandbox.io/trans/sending", dataSendProduct)
       .then((res) => {
         fetchData();
+        handleNotiSendProduct();
       });
   };
   // handle Received Product
@@ -56,10 +93,11 @@ export default function TransactionInfo() {
       .post("https://tc9y3.sse.codesandbox.io/trans/sending", dataSendProduct)
       .then((res) => {
         fetchData();
+        handleNotiConfirmedRecive();
       });
   };
   // handle Change Rereive
-  const handleChangeRereive = (event) => {
+  const handleChangeReview = (event) => {
     const value = event.target.value;
     setReview(value);
   };
@@ -70,13 +108,20 @@ export default function TransactionInfo() {
       id_user: mapStateToProps._id || CheckLoggedIn.dataUser._id,
       content: review,
       id_trans: detailTrans._id,
+      createdAt: new Date(),
+      rate: rate,
     };
     axios
       .post("https://tc9y3.sse.codesandbox.io/trans/review", reviewProduct)
       .then((res) => {
         fetchData();
+        setReview("");
         toast("Your review is sent !");
       });
+  };
+  // handle Rate
+  const handleRate = (value) => {
+    setRate(value);
   };
   return (
     <div className="container-infotran">
@@ -204,7 +249,7 @@ export default function TransactionInfo() {
                               <div className="icon-address">
                                 <FontAwesomeIcon icon={faMapMarkerAlt} />
                               </div>
-                              <span>{detailTrans.address_user_want}</span>
+                              <span>{detailTrans.address_user}</span>
                             </div>
                             <div className="icon-full">
                               <div className="icon-opmail">
@@ -228,28 +273,72 @@ export default function TransactionInfo() {
               <div className="tb-action">
                 {detailTrans.status === "sending" ||
                 detailTrans.status === "received" ? null : (
-                  <button onClick={handleSendProduct}>Sent Product</button>
+                  <button onClick={handleSendProduct}> Confirm delivery</button>
                 )}
-                <button onClick={handleReceived}>Received</button>
+                <button onClick={handleReceived}>Confirm Received</button>
               </div>
             </div>
-
-            <div className="form review">
-              <form onSubmit={handleSubmitReview}>
-                <textarea
-                  rows="6"
-                  cols="50"
-                  name="description"
-                  placeholder="Review you product you received"
-                  value={review}
-                  onChange={handleChangeRereive}
-                />
-                <button type="submit">Review</button>
-              </form>
-              <div className="content-review">
-                <ul>
-                  <li>Something</li>
-                </ul>
+            {/* Review */}
+            <div className="container-form-review">
+              <div className="header-review">
+                <i class="fas fa-edit"></i>
+                <span>Review product</span>
+              </div>
+              <div className="form-content-review">
+                <form onSubmit={handleSubmitReview} className="form-review">
+                  <div className="rate-review">
+                    <span className="rate">Rate</span>
+                    <Rate
+                      allowHalf
+                      defaultValue={2.5}
+                      value={rate}
+                      onChange={handleRate}
+                    />
+                  </div>
+                  <textarea
+                    rows="6"
+                    cols="50"
+                    name="description"
+                    placeholder="Review product"
+                    value={review}
+                    onChange={handleChangeReview}
+                  />
+                  <button type="submit">Review</button>
+                </form>
+                <div className="content-review">
+                  {reviews
+                    ? reviews.map((rev) => {
+                        return (
+                          <div className="context-review">
+                            <div className="avatar-name-review">
+                              <div
+                                className="avatar-review"
+                                style={{
+                                  backgroundImage: `url(${rev.avatarUrl})`,
+                                }}
+                              ></div>
+                              <span>{rev.name}</span>
+                            </div>
+                            <div className="moment">
+                              <span>
+                                <FontAwesomeIcon icon={faClock} />
+                              </span>
+                              <Moment fromNow>{rev.createdAt}</Moment>
+                            </div>
+                            <span>{rev.content}</span>
+                            <div className="content-rate">
+                              <Rate
+                                allowHalf
+                                disabled
+                                defaultValue={rev.rate}
+                                className="rate-review"
+                              />
+                            </div>
+                          </div>
+                        );
+                      })
+                    : null}
+                </div>
               </div>
             </div>
           </Col>
