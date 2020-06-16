@@ -10,6 +10,7 @@ import "../styles/Profile.css";
 import ListTran from "../components/ListTran";
 import Nav from "../components/Nav";
 import SidleBarAcc from "../components/SidleBarAcc";
+import ButtonBar from "../components/ButtonBar";
 
 export default function Porfile() {
   const [dataTran, setDataTran] = useState([]);
@@ -94,10 +95,10 @@ export default function Porfile() {
       <ToastContainer />
       <div className="container-frofile">
         <Row id="row-profile">
-          <Col id="col-list-acc" span={6}>
+          <Col id="col-list-acc" xs={0} sm={0} md={0} xl={6} lg={6}>
             <SidleBarAcc />
           </Col>
-          <Col id="col-list-trans" span={18}>
+          <Col id="col-list-trans" xs={24} sm={24} md={24} xl={18} lg={18}>
             {mapStateToPropsSendAddress.isShowSendAddress ? (
               <div className="container-form-address">
                 <div className="main-form-address">
@@ -177,6 +178,7 @@ export default function Porfile() {
                 />
               );
             })}
+            <ButtonBar />
           </Col>
         </Row>
       </div>

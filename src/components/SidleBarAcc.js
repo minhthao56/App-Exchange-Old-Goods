@@ -59,7 +59,7 @@ export default function SidleBarAcc(props) {
             <div className="wap-user">
               <i className="fas fa-user"></i>
             </div>
-            <span>Your account</span>
+            <span id="span-your-acc-sildbar">Your account</span>
           </div>
         </Link>
         <Link to="/profile">
@@ -67,7 +67,7 @@ export default function SidleBarAcc(props) {
             <div className="warp-list">
               <i className="fas fa-list-ul"></i>
             </div>
-            <span>Your List Transactions</span>
+            <span id="span-list-tran-sildebar">Your List Transactions</span>
           </div>
         </Link>
       </div>

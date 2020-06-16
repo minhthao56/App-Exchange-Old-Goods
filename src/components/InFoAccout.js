@@ -8,6 +8,7 @@ import SidleBarAcc from "../components/SidleBarAcc";
 import Nav from "../components/Nav";
 import "../styles/InFoAccount.css";
 import { ReactComponent as Account } from "../images/account.svg";
+import ButtonBar from "../components/ButtonBar";
 
 export default function InFoAccout() {
   const [file, setFile] = useState(null);
@@ -98,6 +99,7 @@ export default function InFoAccout() {
                 <Account style={{ width: 250, height: 250 }} />
               </div>
             </div>
+            <ButtonBar />
           </Col>
         </Row>
       </div>

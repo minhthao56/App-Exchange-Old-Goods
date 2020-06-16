@@ -168,7 +168,9 @@ export default function ListTran(props) {
             (id_user_product === mapStateToProps._id &&
               statusS === "spending") ? (
               <div>
-                <button onClick={handleConfirm}>Confirm</button>
+                <button id="bt-confirm" onClick={handleConfirm}>
+                  Confirm
+                </button>
                 <button id="bt-recject" onClick={hanldeReject}>
                   Reject
                 </button>
@@ -184,7 +186,7 @@ export default function ListTran(props) {
           </div>
           <div className="detail">
             <Link to={"/transaction/info/" + _id}>
-              <button className="bt-detail">Detail</button>
+              <button id="bt-detail">Detail</button>
             </Link>
           </div>
         </div>

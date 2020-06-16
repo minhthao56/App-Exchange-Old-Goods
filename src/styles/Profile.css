@@ -83,3 +83,12 @@
   outline-width: thin;
   outline-color: #8ab0ff;
 }
+@media only screen and (max-width: 725px) {
+  .container-frofile {
+    margin-left: 15px;
+    padding-right: 15px;
+  }
+  #col-list-trans {
+    margin-top: 90px;
+  }
+}

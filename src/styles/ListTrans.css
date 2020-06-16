@@ -56,6 +56,9 @@
 }
 .name-tran {
   margin-bottom: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .product-tran {
   display: flex;
@@ -116,4 +119,16 @@
 #bt-del {
   color: #e44d3a;
   border-color: #e44d3a;
+}
+@media only screen and (max-width: 768px) {
+  .transaction {
+    display: flex;
+    flex-direction: column;
+  }
+  #bt-recject,
+  #bt-del,
+  #bt-confirm,
+  #bt-detail {
+    width: 80px;
+  }
 }

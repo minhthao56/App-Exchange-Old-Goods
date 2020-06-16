@@ -17,14 +17,16 @@
   box-shadow: 0px 0px 2px -1px rgba(0, 0, 0, 0.75);
   border-radius: 3px;
 }
-
+.title-descripton {
+  margin-bottom: 20px;
+}
 .main-description {
   display: flex;
 }
 .image-tl {
   flex: 1;
   border: solid;
-  height: 360px;
+  height: auto;
   border-radius: 365px;
   overflow: hidden;
   margin-left: 50px;
@@ -42,7 +44,7 @@
   display: flex;
 }
 .container-infotrans {
-  margin-top: 25px;
+  margin-top: 15px;
 }
 /* Address */
 
@@ -212,4 +214,44 @@ textarea[placeholder="Review product"]::placeholder {
   border-width: 1px;
   border-color: rgba(190, 190, 190, 0.1);
   padding-bottom: 10px;
+}
+@media only screen and (max-width: 1200px) {
+  #row-tran {
+    margin-left: 20px;
+    margin-right: 20px;
+  }
+  .image-tl {
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+}
+@media only screen and (max-width: 992px) {
+  #row-tran {
+    margin-left: 20px;
+    margin-right: 20px;
+  }
+}
+@media only screen and (max-width: 768px) {
+  #row-tran {
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+}
+@media only screen and (max-width: 600px) {
+  .image-tl {
+    border: none;
+    border-radius: 0;
+  }
+  .form-content-review {
+    flex-direction: column;
+  }
+  .content-review {
+    margin-top: 20px;
+    border: none;
+    padding-left: 0;
+    border-top: solid;
+    padding-top: 10px;
+    border-width: 1px;
+    border-color: rgba(150, 150, 150, 0.3);
+  }
 }

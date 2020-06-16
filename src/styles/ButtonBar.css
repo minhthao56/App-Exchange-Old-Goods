@@ -1,0 +1,38 @@
+.container-bt-bar {
+  position: fixed;
+  bottom: 20px;
+  right: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  display: none;
+}
+.container-bt-bar button {
+  height: 40px;
+  width: 40px;
+  border-radius: 40px;
+  border: none;
+  font-size: 16px;
+  background-color: #e44d3a;
+  text-align: center;
+  color: white;
+  cursor: pointer;
+  margin-left: auto;
+}
+.bt-bar-icon {
+  display: flex;
+  justify-content: flex-end;
+  margin-right: 5px;
+}
+.bt-bar-icon span {
+  margin-right: 5px;
+}
+.container-bt-bar button:focus {
+  outline: none;
+}
+@media only screen and (max-width: 768px) {
+  .container-bt-bar {
+    bottom: 70px;
+    display: flex;
+  }
+}

@@ -9,6 +9,7 @@ import Moment from "react-moment";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClock, faMapMarkerAlt } from "@fortawesome/free-solid-svg-icons";
 import { Rate } from "antd";
+import ShowMoreText from "react-show-more-text";
 
 import "../styles/TransactionInfo.css";
 import Nav from "../components/Nav";
@@ -131,10 +132,10 @@ export default function TransactionInfo() {
       <Nav />
       <div>
         <Row id="row-tran">
-          <Col id="col-list-acc" span={6}>
+          <Col id="col-list-acc" xs={0} sm={0} md={0} xl={6} lg={6}>
             <SidleBarAcc />
           </Col>
-          <Col id="col-list-trans" span={18}>
+          <Col id="col-list-trans" xs={24} sm={24} md={24} xl={18} lg={18}>
             <div className="full-incluce-bt">
               <div className="full-infotrans">
                 <div className="container-infotrans">
@@ -166,9 +167,19 @@ export default function TransactionInfo() {
                     <div className="main-description">
                       <div className="des-contact">
                         <div className="des">
-                          <span>
+                          <ShowMoreText
+                            lines={5}
+                            more="Show more"
+                            less="Show less"
+                            anchorClass=""
+                            expanded={false}
+                            width={280}
+                          >
                             {detailTrans.description_product_with_exchange}
-                          </span>
+                          </ShowMoreText>
+                          {/* <span>
+                            {detailTrans.description_product_with_exchange}
+                          </span> */}
                           <h3>Address send</h3>
                           <div className="contact">
                             <div className="icon-full">
@@ -232,7 +243,17 @@ export default function TransactionInfo() {
                     <div className="main-description">
                       <div className="des-contact">
                         <div className="des">
-                          <span>{detailTrans.description_product}</span>
+                          <ShowMoreText
+                            lines={5}
+                            more="Show more"
+                            less="Show less"
+                            anchorClass=""
+                            expanded={false}
+                            width={280}
+                          >
+                            {detailTrans.description_product}
+                          </ShowMoreText>
+                          {/* <span>{detailTrans.description_product}</span> */}
                           <h3>Address send</h3>
                           <div className="contact">
                             <div className="icon-full">
