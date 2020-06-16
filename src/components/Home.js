@@ -85,17 +85,18 @@ export default function Home() {
       <Nav fetchData={fetchData} />
       <div className="contaiter-home">
         <Row id="row">
-          <Col span={15} id="colPost">
+          <Col xs={24} sm={24} md={24} xl={15} lg={15} id="colPost">
             {/* input Post */}
             <div className="clickToPost">
               <div className="title-form-post">
-                <h2>Let's show me </h2>
+                <i className="fab fa-hubspot"></i>
+                <p>Let's show me</p>
               </div>
               <div className="inputAndIconPost">
+                <button className="bt-post-1">Sign Out</button>
+                <button className="bt-post-2">Post</button>
+
                 <input onClick={hanldeClickPost} />
-                <button>
-                  <FontAwesomeIcon icon={faPen} />
-                </button>
               </div>
             </div>
 
@@ -132,7 +133,7 @@ export default function Home() {
               );
             })}
           </Col>
-          <Col span={9}>
+          <Col xl={9} lg={9} xs={0} sm={0} md={0}>
             {/* Infor fixed */}
             {mapStateToProps.isAuth || CheckLoggedIn.isAuth ? (
               <div className="container-accout">

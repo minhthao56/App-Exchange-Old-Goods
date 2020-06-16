@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import "antd/dist/antd.css";
 import axios from "axios";
 import { useDispatch } from "react-redux";
-import "react-router-modal/css/react-router-modal.css";
 
 import "./styles.css";
 

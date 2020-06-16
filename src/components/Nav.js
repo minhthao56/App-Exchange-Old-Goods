@@ -1,11 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faBell,
-  faHome,
-  faQuestionCircle,
-} from "@fortawesome/free-solid-svg-icons";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useHistory, useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
@@ -14,6 +8,7 @@ import "react-toastify/dist/ReactToastify.css";
 import ExchangeIcon from "../images/047-exchange.png";
 import "../styles/Nav.css";
 import NotiCenter from "../components/NotiCenter";
+import Dawer from "../components/Dawer";
 
 export default function Nav(props) {
   const [isShowNoti, setIsShowNoti] = useState(false);
@@ -26,8 +21,9 @@ export default function Nav(props) {
   const dispatch = useDispatch();
 
   let history = useHistory();
+  let location = useLocation();
 
-  const { avatarUrl, name, fetchData, fetchDataTran } = props;
+  const { avatarUrl, name, fetchData } = props;
 
   // Fetch data Noti
 
@@ -38,7 +34,6 @@ export default function Nav(props) {
     );
     setDataNoti(res.data);
   };
-  console.log(dataNoti);
   const pevDataNoti = useRef(dataNoti);
 
   if (pevDataNoti.current.length === 0 && dataNoti.length > 1) {
@@ -100,67 +95,87 @@ export default function Nav(props) {
   return (
     <nav className="container-nav">
       <div className="container-bar">
-        <div className="LogoPage">
-          <img src={ExchangeIcon} alt="" />
-          <span>Second Life</span>
-          <ToastContainer />
-        </div>
-        <div className="icon-nav">
-          <Link className="icon-home" to="/">
-            <FontAwesomeIcon icon={faHome} />
-          </Link>
-          <div className="icon-noti">
-            <div className="dot-noti" />
-            <FontAwesomeIcon icon={faBell} onClick={handleNoti} />
-            <div className="container-noti-center">
-              {isShowNoti ? <NotiCenter dataNoti={sortByDate} /> : null}
-            </div>
+        <Link to="/">
+          <div className="LogoPage">
+            <img src={ExchangeIcon} alt="" />
+            <span>Second Life</span>
           </div>
-
-          <div className="icon-help">
-            <FontAwesomeIcon icon={faQuestionCircle} />{" "}
+        </Link>
+        <ToastContainer />
+        <div className="container-action-nav">
+          <div className="icon-nav">
+            <Link
+              className={
+                location.pathname === "/" ? "icon-home location" : "icon-home"
+              }
+              to="/"
+            >
+              <span>Home</span>
+            </Link>
+            <Link
+              className={
+                location.pathname === "/profile"
+                  ? "icon-home location"
+                  : "icon-home"
+              }
+              to="/profile"
+            >
+              <span>Transactions</span>
+            </Link>
           </div>
-        </div>
-        {CheckLoggedIn.dataUser.isAuth || mapStateToProps.isAuth ? (
-          <div className="contaniner-signOut-profile">
-            <div className="contaniner-profile-nav">
-              <Link to="/profile">
-                <div className="acc-nav">
-                  <div
-                    className="nav-avatar"
-                    style={{
-                      backgroundImage: `url(${
-                        avatarUrl ||
-                        CheckLoggedIn.dataUser.avatarUrl ||
-                        mapStateToProps.avatarUrl
-                      })`,
-                    }}
-                  ></div>
-                  <div className="nav-name">
-                    {name ||
-                      UpdateUser.name ||
-                      CheckLoggedIn.dataUser.name ||
-                      mapStateToProps.name}
+          {CheckLoggedIn.dataUser.isAuth || mapStateToProps.isAuth ? (
+            <div className="contaniner-signOut-profile">
+              <div className="contaniner-profile-nav">
+                <div className="icon-noti" onClick={handleNoti}>
+                  <div className="dot-noti">{dataNoti.length}</div>
+                  <i className="far fa-bell"></i>
+                  <div className="container-noti-center">
+                    {isShowNoti ? <NotiCenter dataNoti={sortByDate} /> : null}
                   </div>
                 </div>
-              </Link>
-            </div>
-            <div className="container-signOut">
-              <div className="sign-out" onClick={handleSignOut}>
-                / Sign Out
+                <div className="container-link-out-proflie">
+                  <Link to="/profile">
+                    <div className="acc-nav">
+                      <div
+                        className="nav-avatar"
+                        style={{
+                          backgroundImage: `url(${
+                            avatarUrl ||
+                            CheckLoggedIn.dataUser.avatarUrl ||
+                            mapStateToProps.avatarUrl
+                          })`,
+                        }}
+                      ></div>
+                      <div className="nav-name">
+                        {name ||
+                          UpdateUser.name ||
+                          CheckLoggedIn.dataUser.name ||
+                          mapStateToProps.name}
+                      </div>
+                    </div>
+                  </Link>
+                  <div className="container-signOut">
+                    <div className="sign-out" onClick={handleSignOut}>
+                      / Sign Out
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
+          ) : (
+            <div className="container-list">
+              <Link className="nav-link" to="/users/login">
+                Log In
+              </Link>
+              <Link className="nav-link" to="/users/create">
+                / Sign Up
+              </Link>
+            </div>
+          )}
+          <div className="bt-dawer-nav">
+            <Dawer avatarUrl={avatarUrl} name={name} className="dawer-nav" />
           </div>
-        ) : (
-          <div className="container-list">
-            <Link className="nav-link" to="/users/login">
-              Log In
-            </Link>
-            <Link className="nav-link" to="/users/create">
-              / Sign Up
-            </Link>
-          </div>
-        )}
+        </div>
       </div>
     </nav>
   );

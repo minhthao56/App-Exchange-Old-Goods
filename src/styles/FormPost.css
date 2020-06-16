@@ -4,13 +4,35 @@
   left: 160px;
   top: 144px;
   background-color: white;
-  height: 410px;
+  height: 460px;
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 5px;
+  border-radius: 3px;
+  flex-direction: column;
+  padding: 10px;
 }
-
+.container-heart-form-post {
+  display: flex;
+  justify-content: flex-start;
+  width: 100%;
+  margin-bottom: 10px;
+  font-size: 18px;
+  align-items: center;
+  margin-left: 10px;
+  border-bottom: solid;
+  padding-bottom: 5px;
+  border-width: 1px;
+  border-color: rgba(150, 150, 150, 0.1);
+}
+.container-heart-form-post span {
+  font-weight: bold;
+  border-left: solid;
+  margin-left: 5px;
+  padding-left: 5px;
+  border-width: 1px;
+  border-color: rgba(150, 150, 150, 0.1);
+}
 .container-post form {
   display: flex;
   justify-content: center;
@@ -20,10 +42,11 @@
 .content-post {
   display: flex;
   flex-direction: column;
-  box-shadow: 0px 0px 6px -3px rgba(0, 0, 0, 0.75);
-  border-radius: 10px;
+  box-shadow: 0px 0px 5px -3px rgba(0, 0, 0, 0.75);
+  border-radius: 3px;
   margin-bottom: 20px;
   padding: 5px;
+  background-color: rgba(0, 0, 0, 0);
 }
 #title {
   border: none;
@@ -38,7 +61,11 @@
   outline: none;
 }
 input[placeholder="What is your item?"]::placeholder {
-  font-size: 22px;
+  font-size: 18px;
+  color: #bbbbbb;
+}
+::placeholder {
+  color: #bbbbbb;
 }
 .content-post textarea {
   border: none;
@@ -68,7 +95,7 @@ input[placeholder="What is your item?"]::placeholder {
 .autoComplete {
   border: none;
   height: 35px;
-  box-shadow: 0px 0px 6px -3px rgba(0, 0, 0, 0.75);
+  box-shadow: 0px 0px 5px -3px rgba(0, 0, 0, 0.75);
   margin-bottom: 10px;
   border-radius: 5px;
   padding: 10px;
@@ -85,37 +112,53 @@ input[placeholder="What is your item?"]::placeholder {
 .addNeed input {
   flex: 1;
   border: none;
-  box-shadow: 0px 0px 6px -3px rgba(0, 0, 0, 0.75);
+  box-shadow: 0px 0px 5px -3px rgba(0, 0, 0, 0.75);
   height: 35px;
   padding-left: 10px;
-  border-top-left-radius: 5px;
-  border-bottom-left-radius: 5px;
+  border: 3px;
+  margin-right: 5px;
 }
 .addNeed input:focus {
   outline: none;
 }
 .addNeed button {
   border: none;
-  background-color: #8ab0ff;
+  background-color: white;
   color: white;
   width: 80px;
-  border-top-right-radius: 5px;
-  border-bottom-right-radius: 5px;
+  color: #8ab0ff;
+  border-color: #8ab0ff;
+  border: solid;
+  border-width: 1px;
+  border-radius: 3px;
+  font-weight: bold;
+}
+.action-form-post {
+  display: flex;
+  justify-content: flex-end;
+}
+.action-form-post button {
+  border: solid;
+  width: 90px;
+  margin-right: 5px;
+  background-color: white;
+  border-radius: 3px;
+  border-width: 1px;
+  height: 30px;
+  font-weight: bold;
 }
 #button-submit {
-  border: none;
-  background-color: #8ab0ff;
-  color: white;
-  border-radius: 5px;
-  font-weight: bold;
-  height: 35px;
-  font-size: 16px;
+  color: #8ab0ff;
+  border-color: #8ab0ff;
 }
-
+#button-cancel-post {
+  color: #e44d3a;
+  border-color: #e44d3a;
+}
 .listNeed {
   position: fixed;
   background-color: white;
-  top: 510px;
+  top: 565px;
   width: 250px;
   box-shadow: 0px 0px 6px -3px rgba(0, 0, 0, 0.75);
   border-radius: 5px;

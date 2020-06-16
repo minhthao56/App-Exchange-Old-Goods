@@ -105,16 +105,20 @@
   font-size: 14px;
   margin-left: 5px;
 }
-.icon-like img {
-  height: 20px;
-  width: 20px;
-  border: none;
-  border-radius: 0;
-  margin-right: 5px;
+#heart-red {
+  color: #e44d3a;
+  font-size: 18px;
+  margin-right: 3px;
 }
 .icon-like :hover {
   color: #e44d3a;
+  cursor: pointer;
 }
+#just-heart {
+  font-size: 18px;
+  margin-right: 3px;
+}
+
 .conunt-like {
   display: flex;
   justify-content: space-between;
@@ -180,7 +184,9 @@
   background-position: center;
   background-size: cover;
 }
-
+.container-main-comment {
+  margin-bottom: 15px;
+}
 .main-comment {
   background-color: #f2f2f2;
   padding-top: 5px;
@@ -266,4 +272,15 @@
 .count-reply:hover {
   color: #748df2;
   text-decoration: underline;
+}
+/* Reposive */
+@media only screen and (max-width: 1150px) {
+  .container-cardPost {
+    width: 600px;
+  }
+}
+@media only screen and (max-width: 600px) {
+  .container-cardPost {
+    width: 400px;
+  }
 }

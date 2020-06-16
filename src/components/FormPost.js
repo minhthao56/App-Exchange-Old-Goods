@@ -13,6 +13,7 @@ export default function FormPost() {
   const [needItem, setNeedItem] = useState([]);
   const [add, setAdd] = useState([]);
   const { register, handleSubmit } = useForm();
+  const [isShowListNeed, setIsShowListNeed] = useState(false);
 
   const mapStateToProps = useSelector((state) => state.logIn);
 
@@ -35,9 +36,6 @@ export default function FormPost() {
   };
 
   const onSubmit = (data, e) => {
-    // console.log(address);
-    // console.log(data);
-    // console.log(file);
     const title = data.title;
     const description = data.description;
     const need = add;
@@ -57,8 +55,16 @@ export default function FormPost() {
         e.target.reset();
       });
   };
+  //handle Show List Need
+  const handleShowListNeed = () => {
+    setIsShowListNeed(true);
+  };
   return (
     <div className="container-post">
+      <div className="container-heart-form-post">
+        <i className="fas fa-edit"></i>
+        <span>Write your post</span>
+      </div>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="content-post">
           <input
@@ -100,22 +106,30 @@ export default function FormPost() {
               onChange={handleNeed}
               value={needItem}
               placeholder="What are your looking for?"
+              onClick={handleShowListNeed}
             />
             <button onClick={handleAdd} type="button">
               Add
             </button>
           </div>
-          <div className="listNeed">
-            <ul>
-              {add.map((items, key) => {
-                return <li key={key}>{items}</li>;
-              })}
-            </ul>
-          </div>
+          {isShowListNeed === true ? (
+            <div className="listNeed">
+              <ul>
+                {add.map((items, key) => {
+                  return <li key={key}>{items}</li>;
+                })}
+              </ul>
+            </div>
+          ) : null}
         </div>
-        <button id="button-submit" type="submit">
-          Post
-        </button>
+        <div className="action-form-post">
+          <button id="button-submit" type="submit">
+            Post
+          </button>
+          <button id="button-cancel-post" type="button">
+            Cancel
+          </button>
+        </div>
       </form>
     </div>
   );

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faClock,
@@ -14,8 +14,6 @@ import "react-toastify/dist/ReactToastify.css";
 
 import "../styles/PostCard.css";
 import Reply from "../components/Reply";
-
-import { Link, useLocation } from "react-router-dom";
 
 export default function PostCard(props) {
   const {
@@ -37,8 +35,7 @@ export default function PostCard(props) {
   const [commentContent, setCommetContent] = useState("");
   const [isShowReply, setIsShowReply] = useState(false);
   const [keyNow, setKeyNow] = useState(-1);
-  let location = useLocation();
-
+  const [isLike, setIsLike] = useState(false);
   //Redux
   const mapStateToProps = useSelector((state) => state.logIn);
   const CheckLoggedIn = useSelector((state) => state.CheckLoggedIn);
@@ -115,12 +112,13 @@ export default function PostCard(props) {
       id_user_liked: mapStateToProps._id || CheckLoggedIn.dataUser._id,
       id_post: id_post,
     };
-
+    setIsLike(true);
     axios
       .post("https://tc9y3.sse.codesandbox.io/posts/like", like)
       .then((res) => {
         console.log(res.data);
         handleNotiLike();
+
         return fetchData();
       });
   };
@@ -130,6 +128,7 @@ export default function PostCard(props) {
       id_user_liked: mapStateToProps._id || CheckLoggedIn.dataUser._id,
       id_post: id_post,
     };
+    setIsLike(false);
     axios
       .post("https://tc9y3.sse.codesandbox.io/posts/unlike", Unlike)
       .then((res) => {
@@ -170,6 +169,12 @@ export default function PostCard(props) {
     setIsShowReply(!isShowReply);
     setKeyNow(key);
   };
+  // Focus comment
+  const inputEl = useRef(null);
+  const handleFocusInputComment = () => {
+    inputEl.current.focus();
+  };
+
   return (
     <div className="container-cardPost">
       <div>
@@ -230,10 +235,7 @@ export default function PostCard(props) {
         </div>
         <div className="conunt-like">
           <span>
-            <img
-              src="https://cdn.glitch.com/01654afb-2edf-4d94-955a-e0046da0d025%2Fheart%20(3).png?v=1591217736855"
-              alt=""
-            />
+            <i className="fas fa-heart" id="heart-red"></i>
             {like.length}
           </span>
 
@@ -241,22 +243,22 @@ export default function PostCard(props) {
         </div>
         <div className="action">
           <div className="icon-like">
-            {arrIdUserLiked.length ? (
-              <img
-                src="https://cdn.glitch.com/01654afb-2edf-4d94-955a-e0046da0d025%2Fheart%20(3).png?v=1591217736855"
-                alt=""
+            {arrIdUserLiked.length || isLike ? (
+              <i
+                className="fas fa-heart"
+                id="heart-red"
                 onClick={handleUnLike}
-              />
+              ></i>
             ) : (
-              <img
-                src="https://cdn.glitch.com/01654afb-2edf-4d94-955a-e0046da0d025%2Fthumbnails%2Fheart%20(10).png?1591217727346"
-                alt=""
+              <i
+                className="far fa-heart"
+                id="just-heart"
                 onClick={handleLike}
-              />
+              ></i>
             )}
             <span>Like</span>
           </div>
-          <div className="icon">
+          <div className="icon" onClick={handleFocusInputComment}>
             <i className="far fa-comments"></i>
             <span>Comment</span>
           </div>
@@ -269,7 +271,7 @@ export default function PostCard(props) {
         <div className="container-comment">
           {comments.map((comment, key) => {
             return (
-              <div key={key}>
+              <div key={key} className="container-main-comment">
                 <div className="content-comment">
                   <div
                     className="avatar-comment"
@@ -332,6 +334,7 @@ export default function PostCard(props) {
               onChange={handleValueComment}
               value={commentContent}
               placeholder="Type your comment"
+              ref={inputEl}
             />
             <button type="submit">
               <i className="fas fa-paper-plane"></i>

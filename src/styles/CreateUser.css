@@ -27,7 +27,9 @@
 .container {
   display: flex;
   justify-content: center;
-  margin-top: 60px;
+  background-color: white;
+  padding-top: 60px;
+  padding-bottom: 74px;
 }
 .form-group {
   width: 100%;

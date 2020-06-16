@@ -1,97 +1,159 @@
 /* Nav */
 .container-nav {
-    box-shadow: 0px 0px 6px -3px rgba(0, 0, 0, 0.75);
-    display: flex;
-    height: 70px;
-    justify-content: center;
-    align-items: center;
-    background-color: white;
-    position: fixed;
-    width: 100%;
-    z-index: 1;
+  box-shadow: 0px 0px 6px -3px rgba(0, 0, 0, 0.75);
+  display: flex;
+  height: 70px;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  position: fixed;
+  width: 100%;
+  z-index: 1;
 }
 .LogoPage {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .LogoPage img {
-    height: 54px;
+  height: 54px;
 }
 .LogoPage span {
-    font-size: 24px;
-    font-weight: bold;
+  font-size: 24px;
+  font-weight: bold;
 }
 .container-bar {
-    display: flex;
-    width: 1090px;
-    justify-content: space-between;
+  display: flex;
+  width: 1150px;
+  justify-content: space-between;
 }
 .container-list {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .icon-nav {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    font-size: 24px;
-
-    width: 300px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  font-size: 20px;
+  border-right: solid;
+  margin-right: 20px;
+  padding-right: 20px;
+  border-width: 1px;
+  border-color: rgba(150, 150, 150, 0.2);
 }
 .icon-home {
-    margin-right: 30px;
-    position: relative;
-    top: -1px;
+  margin-right: 25px;
+  position: relative;
+  top: -1px;
+  color: #595959;
+  text-align: center;
+}
+.icon-home:hover {
+  border-bottom: solid;
+}
+.location {
+  border-bottom: solid;
+  color: #1890ff;
 }
 
+.icon-nav span {
+  font-size: 15px;
+}
 .icon-noti {
-    position: relative;
-    bottom: 5px;
-    margin-right: 30px;
+  position: relative;
+  bottom: 5px;
+  margin-right: 35px;
+  cursor: pointer;
+  font-size: 18px;
 }
 .dot-noti {
-    height: 10px;
-    width: 10px;
-    background-color: white;
-    position: relative;
-    top: 13px;
-    left: 12px;
-    border-radius: 10px;
+  height: 12px;
+  width: 12px;
+  background-color: #e44d3a;
+  position: relative;
+  top: 13px;
+  left: 12px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 8px;
+  color: white;
+  text-align: center;
+  font-weight: bold;
 }
 .acc-nav {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
 .nav-link {
-    display: flex;
-    margin-left: 5px;
+  display: flex;
+  margin-left: 5px;
 }
 .nav-avatar {
-    margin-right: 5px;
-    height: 32px;
-    width: 32px;
-    background-size: cover;
-    background-position: center;
-    border-radius: 100%;
+  margin-right: 5px;
+  height: 32px;
+  width: 32px;
+  background-size: cover;
+  background-position: center;
+  border-radius: 100%;
+}
+
+.container-action-nav {
+  display: flex;
 }
 /* singOut and profile */
 
 .contaniner-profile-nav {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
 .nav-name {
-    font-weight: bold;
+  font-weight: bold;
 }
 
 .contaniner-signOut-profile {
-    display: flex;
+  display: flex;
+  margin-left: 20px;
 }
 .container-signOut {
-    display: flex;
-    align-items: center;
-    margin-right: 10px;
-    cursor: pointer;
+  display: flex;
+  align-items: center;
+  margin-right: 10px;
+  cursor: pointer;
+}
+.sigout-nav {
+  color: #e44d3a;
+}
+.bt-dawer-nav {
+  display: flex;
+  align-items: center;
+  margin-right: 20px;
+}
+.container-link-out-proflie {
+  display: flex;
+}
+@media only screen and (max-width: 725px) {
+  .icon-nav {
+    display: none;
+  }
+  .container-link-out-proflie {
+    display: none;
+  }
+  .LogoPage span {
+    font-size: 20px;
+  }
+  .LogoPage img {
+    height: 46px;
+    margin-left: 20px;
+  }
+}
+@media only screen and (max-width: 576px) {
+  .LogoPage span {
+    font-size: 20px;
+  }
+  .LogoPage img {
+    height: 46px;
+    margin-left: 20px;
+  }
 }
