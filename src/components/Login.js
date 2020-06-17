@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { Row, Col, Alert } from "antd";
-import { Link, Redirect, useHistory } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { Link, useHistory } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
 import "antd/dist/antd.css";
 import "../styles/CreateUser.css";

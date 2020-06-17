@@ -7,16 +7,16 @@ import { useSelector } from "react-redux";
 import "../styles/FormPost.css";
 import attachPhoto from "../images/view.png";
 
-export default function FormPost() {
+export default function FormPost(props) {
   const [address, setAddress] = useState({});
   const [file, setFile] = useState(null);
   const [needItem, setNeedItem] = useState([]);
   const [add, setAdd] = useState([]);
   const { register, handleSubmit } = useForm();
-  const [isShowListNeed, setIsShowListNeed] = useState(false);
 
   const mapStateToProps = useSelector((state) => state.logIn);
-
+  const { handleCloseFormPost } = props;
+  // form auto address
   const handleAddress = (place) => {
     setAddress(place.name);
   };
@@ -34,7 +34,6 @@ export default function FormPost() {
     setAdd([...add, needItem]);
     setNeedItem([]);
   };
-
   const onSubmit = (data, e) => {
     const title = data.title;
     const description = data.description;
@@ -56,14 +55,18 @@ export default function FormPost() {
       });
   };
   //handle Show List Need
-  const handleShowListNeed = () => {
-    setIsShowListNeed(true);
-  };
+
   return (
     <div className="container-post">
       <div className="container-heart-form-post">
         <i className="fas fa-edit"></i>
         <span>Write your post</span>
+        <i
+          className="fas fa-times icon-times-form-post"
+          onClick={() => {
+            return handleCloseFormPost();
+          }}
+        ></i>
       </div>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="content-post">
@@ -106,13 +109,12 @@ export default function FormPost() {
               onChange={handleNeed}
               value={needItem}
               placeholder="What are your looking for?"
-              onClick={handleShowListNeed}
             />
             <button onClick={handleAdd} type="button">
               Add
             </button>
           </div>
-          {isShowListNeed === true ? (
+          <div className="container-list-need">
             <div className="listNeed">
               <ul>
                 {add.map((items, key) => {
@@ -120,15 +122,21 @@ export default function FormPost() {
                 })}
               </ul>
             </div>
-          ) : null}
-        </div>
-        <div className="action-form-post">
-          <button id="button-submit" type="submit">
-            Post
-          </button>
-          <button id="button-cancel-post" type="button">
-            Cancel
-          </button>
+            <div className="action-form-post">
+              <button id="button-submit" type="submit">
+                Post
+              </button>
+              <button
+                id="button-cancel-post"
+                type="button"
+                onClick={() => {
+                  return handleCloseFormPost();
+                }}
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
         </div>
       </form>
     </div>

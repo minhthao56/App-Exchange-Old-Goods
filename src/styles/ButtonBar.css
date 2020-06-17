@@ -30,9 +30,9 @@
 .container-bt-bar button:focus {
   outline: none;
 }
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 992px) {
   .container-bt-bar {
-    bottom: 70px;
+    bottom: 30px;
     display: flex;
   }
 }

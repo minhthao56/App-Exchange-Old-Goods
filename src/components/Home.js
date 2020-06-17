@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Row, Col } from "antd";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPen, faTimes } from "@fortawesome/free-solid-svg-icons";
 import Moment from "react-moment";
 import { useSpring, animated } from "react-spring";
 import { useSelector, useDispatch } from "react-redux";
@@ -46,7 +44,7 @@ export default function Home() {
   const hanldeClickPost = () => {
     setIsPost(!isPost);
   };
-  const handleClose = () => {
+  const handleCloseFormPost = () => {
     setIsPost(!isPost);
   };
   // Animation
@@ -66,7 +64,6 @@ export default function Home() {
       type: "GET_DATA_POST",
       data: response.data,
     });
-    console.log("a");
   };
 
   useEffect(() => {
@@ -95,17 +92,12 @@ export default function Home() {
               <div className="inputAndIconPost">
                 <button className="bt-post-1">Sign Out</button>
                 <button className="bt-post-2">Post</button>
-
                 <input onClick={hanldeClickPost} />
               </div>
             </div>
-
             {/*form post + animated*/}
             <animated.div style={face} className="container-fixed">
-              <div className="icon-time">
-                <FontAwesomeIcon icon={faTimes} onClick={handleClose} />
-              </div>
-              <FormPost />
+              <FormPost handleCloseFormPost={handleCloseFormPost} />
             </animated.div>
             {/* Post exchange */}
             {mapStateToPropsExchange.isShowExchange ? (

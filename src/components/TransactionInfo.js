@@ -168,7 +168,7 @@ export default function TransactionInfo() {
                       <div className="des-contact">
                         <div className="des">
                           <ShowMoreText
-                            lines={5}
+                            lines={4}
                             more="Show more"
                             less="Show less"
                             anchorClass=""
@@ -244,7 +244,7 @@ export default function TransactionInfo() {
                       <div className="des-contact">
                         <div className="des">
                           <ShowMoreText
-                            lines={5}
+                            lines={4}
                             more="Show more"
                             less="Show less"
                             anchorClass=""

@@ -1,10 +1,8 @@
 .container-post {
   width: 520px;
   position: relative;
-  left: 160px;
-  top: 144px;
   background-color: white;
-  height: 460px;
+  height: 520px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -48,6 +46,15 @@
   padding: 5px;
   background-color: rgba(0, 0, 0, 0);
 }
+.icon-times-form-post {
+  color: #e44d3a;
+  margin-left: auto;
+  position: relative;
+  bottom: 15px;
+  margin-right: 3px;
+  cursor: pointer;
+}
+/* form */
 #title {
   border: none;
   border-bottom: solid;
@@ -107,7 +114,6 @@ input[placeholder="What is your item?"]::placeholder {
 }
 .addNeed {
   display: flex;
-  margin-bottom: 20px;
 }
 .addNeed input {
   flex: 1;
@@ -132,6 +138,7 @@ input[placeholder="What is your item?"]::placeholder {
   border-width: 1px;
   border-radius: 3px;
   font-weight: bold;
+  cursor: pointer;
 }
 .action-form-post {
   display: flex;
@@ -140,12 +147,13 @@ input[placeholder="What is your item?"]::placeholder {
 .action-form-post button {
   border: solid;
   width: 90px;
-  margin-right: 5px;
+  margin-left: 5px;
   background-color: white;
   border-radius: 3px;
   border-width: 1px;
   height: 30px;
   font-weight: bold;
+  cursor: pointer;
 }
 #button-submit {
   color: #8ab0ff;
@@ -156,10 +164,23 @@ input[placeholder="What is your item?"]::placeholder {
   border-color: #e44d3a;
 }
 .listNeed {
-  position: fixed;
   background-color: white;
-  top: 565px;
-  width: 250px;
-  box-shadow: 0px 0px 6px -3px rgba(0, 0, 0, 0.75);
+  box-shadow: 0px 0px 7px -3px rgba(0, 0, 0, 0.75);
   border-radius: 5px;
+  height: 100px;
+  flex: 1;
+  overflow: scroll;
+}
+.container-list-need {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+}
+@media only screen and (max-width: 576px) {
+  .container-post {
+    width: 400px;
+  }
+  .container-post form {
+    width: 380px;
+  }
 }

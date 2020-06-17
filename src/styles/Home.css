@@ -69,20 +69,10 @@
   left: 0;
   right: 0;
   background-color: rgba(0, 0, 0, 0.5);
-}
-.icon-time {
-  position: relative;
-  top: 160px;
-  left: 665px;
-  z-index: 1;
-  color: white;
-  background-color: #ff4d4f;
-  width: 25px;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 25px;
-  border-radius: 25px;
+  z-index: 1;
 }
 /* No data */
 .nodata {
@@ -130,6 +120,7 @@
   box-shadow: 0px 0px 2px -1px rgba(0, 0, 0, 0.75);
   border-radius: 3px;
   position: fixed;
+  z-index: -1;
 }
 
 .avatar-fixed {

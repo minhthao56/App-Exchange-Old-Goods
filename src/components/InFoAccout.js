@@ -14,6 +14,9 @@ export default function InFoAccout() {
   const [file, setFile] = useState(null);
   const [dataUserFetch, setDataUserFetch] = useState({});
   const dispatch = useDispatch();
+  const [isShowName, setIsShowName] = useState(false);
+  const [isShowEmail, setIsShowEmail] = useState(false);
+  const [isShowPass, setIsShowPass] = useState(false);
 
   //Router
   let { id } = useParams();
@@ -48,19 +51,28 @@ export default function InFoAccout() {
   useEffect(() => {
     fetchData();
   }, []);
-
+  //handle show Chang InFo
+  const handleShowChangName = () => {
+    setIsShowName(!isShowName);
+  };
+  const handleShowChangEmail = () => {
+    setIsShowEmail(!isShowEmail);
+  };
+  const handleShowChangPass = () => {
+    setIsShowPass(!isShowPass);
+  };
   return (
     <div>
       <Nav avatarUrl={dataUserFetch.avatarUrl} name={dataUserFetch.name} />
       <div>
         <Row id="row-tran">
-          <Col id="col-list-acc" span={6}>
+          <Col id="col-list-acc" xs={0} sm={0} md={0} xl={6} lg={6}>
             <SidleBarAcc
               avatarUrl={dataUserFetch.avatarUrl}
               name={dataUserFetch.name}
             />
           </Col>
-          <Col id="col-list-trans" span={18}>
+          <Col id="col-list-trans" xs={24} sm={24} md={24} xl={18} lg={18}>
             <div className="container-change">
               <div className="form-update">
                 <div className="your-account">
@@ -88,9 +100,35 @@ export default function InFoAccout() {
                     </label>
                   </div>
                   <div className="change-info">
-                    <p>Name</p>
-                    <p>Mail</p>
-                    <p>Change Password</p>
+                    <div className="change-name">
+                      <div className="icon-name-change">
+                        <span>
+                          <i className="far fa-user"></i>
+                        </span>
+                        <span>{dataUserFetch.name}</span>{" "}
+                        <button onClick={handleShowChangName}>Change</button>
+                      </div>
+                      {isShowName ? <input type="text" /> : null}
+                    </div>
+                    <div className="change-mail">
+                      <div className="icon-mail-change">
+                        <span>
+                          <i className="far fa-envelope-open"></i>
+                        </span>
+                        <span>{dataUserFetch.email}</span>
+                        <button onClick={handleShowChangEmail}>Change</button>
+                      </div>
+                      {isShowEmail ? <input type="mail" /> : null}
+                    </div>
+                    <div className="change-pass">
+                      <div className="span-change-pass">
+                        <span>
+                          <i className="fas fa-lock-open"></i>Change Password
+                        </span>
+                        <button onClick={handleShowChangPass}>Change</button>
+                      </div>
+                      {isShowPass ? <input type="password" /> : null}
+                    </div>
                   </div>
                   <button>Save</button>
                 </form>
