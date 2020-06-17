@@ -29,7 +29,11 @@
   justify-content: center;
   background-color: white;
   padding-top: 60px;
-  padding-bottom: 74px;
+  padding-bottom: 75px;
+  height: 100%;
+  top: 0;
+  bottom: 0;
+  position: relative;
 }
 .form-group {
   width: 100%;
@@ -101,4 +105,10 @@
   .containerImagesCreateUser {
     display: none;
   }
+}
+/* msg err */
+.msg-err {
+  font-size: 11px;
+  margin-left: 3px;
+  color: #e44d3a;
 }

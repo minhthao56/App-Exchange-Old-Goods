@@ -9,6 +9,7 @@ import "../styles/CreateUser.css";
 import exchange from "../images/047-exchange.png";
 import imagesLogin from "../images/login.png";
 import "../styles/Login.css";
+import ForgotPass from "../components/ForgotPass";
 
 export default function User(props) {
   const [mesErr, setMesErr] = useState("");
@@ -17,6 +18,7 @@ export default function User(props) {
   const [valueEmail, setValueEmail] = useState("");
   const [valuePassword, setValuePassword] = useState("");
   const [isChecked, setIsChecked] = useState(false);
+  const [isShowForgotPass, setIsShowForgotPass] = useState(false);
 
   const dispatch = useDispatch();
   let history = useHistory();
@@ -72,6 +74,14 @@ export default function User(props) {
         }
       });
   };
+  // handle Close Forgot Pass
+  const handleCloseForgotPass = () => {
+    setIsShowForgotPass(!isShowForgotPass);
+  };
+  // handle Show Forgot Pass
+  const handleShowForgotPass = () => {
+    setIsShowForgotPass(!isShowForgotPass);
+  };
   return (
     <div className="container">
       <Row>
@@ -97,6 +107,7 @@ export default function User(props) {
                   value={valueEmail}
                   placeholder="Email"
                   onChange={handleChangeEmail}
+                  required
                 />
               </div>
               <div className="form-group">
@@ -106,6 +117,7 @@ export default function User(props) {
                   value={valuePassword}
                   placeholder="Password"
                   onChange={handleChangePasword}
+                  required
                 />
               </div>
               <div className="form-check">
@@ -115,8 +127,15 @@ export default function User(props) {
                   onChange={handleChangeCheck}
                   id="checkbox"
                 />
-                Remmeber me
+                <span>Remmeber Me</span>
+                <span
+                  onClick={handleShowForgotPass}
+                  className="forgot-pass-login"
+                >
+                  I Forgot My Password
+                </span>
               </div>
+
               <button type="submit">Login</button>
             </form>
             <p className="policy">
@@ -128,6 +147,9 @@ export default function User(props) {
             <span>
               Haven't an account? <Link to="/users/create">Create User</Link>
             </span>
+            {isShowForgotPass ? (
+              <ForgotPass handleCloseForgotPass={handleCloseForgotPass} />
+            ) : null}
           </div>
         </Col>
         <Col span={12} className=" containerImagesCreateUser">

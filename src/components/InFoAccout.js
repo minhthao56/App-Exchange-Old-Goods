@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import { Row, Col } from "antd";
 import { useDispatch } from "react-redux";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
+import { useForm } from "react-hook-form";
 
 import SidleBarAcc from "../components/SidleBarAcc";
 import Nav from "../components/Nav";
@@ -12,13 +13,16 @@ import ButtonBar from "../components/ButtonBar";
 
 export default function InFoAccout() {
   const [file, setFile] = useState(null);
-  const [dataUserFetch, setDataUserFetch] = useState({});
-  const dispatch = useDispatch();
   const [isShowName, setIsShowName] = useState(false);
   const [isShowEmail, setIsShowEmail] = useState(false);
   const [isShowPass, setIsShowPass] = useState(false);
 
+  const [dataUserFetch, setDataUserFetch] = useState({});
+  const dispatch = useDispatch();
+
+  const { register, handleSubmit } = useForm();
   //Router
+  let history = useHistory();
   let { id } = useParams();
   //Fetch datar user detail
   const fetchData = async () => {
@@ -31,23 +35,40 @@ export default function InFoAccout() {
     );
     setDataUserFetch(response.data);
   };
+  //handle SignOut
+  const handleSignOut = () => {
+    dispatch({ type: "RESET" });
+    localStorage.removeItem("token");
+    history.push("/users/login");
+    window.location.reload();
+  };
   //Handle file
   const handleFile = (event) => {
     setFile(event.target.files[0]);
   };
   // Handle submit
-  const handleSubmit = (event) => {
-    event.preventDefault();
+  const onSubmit = (data, e) => {
     const fd = new FormData();
     fd.append("file", file);
     fd.append("_id", id);
+    fd.append("name", data.name);
+    fd.append("email", data.email);
+    fd.append("pass", data.pass);
     axios
       .post("https://tc9y3.sse.codesandbox.io/users/update", fd)
       .then((res) => {
         console.log(res.data);
         fetchData();
+        e.target.reset();
+        if (res.data.email !== "" && res.data.email !== "undefined") {
+          handleSignOut();
+        }
+        if (res.data.pass !== "undefined" && res.data.pass !== "") {
+          handleSignOut();
+        }
       });
   };
+  // fetch data
   useEffect(() => {
     fetchData();
   }, []);
@@ -79,7 +100,7 @@ export default function InFoAccout() {
                   <h2>Your account</h2>
                   <span>Manage profile information and account security</span>
                 </div>
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={handleSubmit(onSubmit)}>
                   <div className="change-avatar">
                     <label>
                       <div
@@ -106,9 +127,13 @@ export default function InFoAccout() {
                           <i className="far fa-user"></i>
                         </span>
                         <span>{dataUserFetch.name}</span>{" "}
-                        <button onClick={handleShowChangName}>Change</button>
+                        <button onClick={handleShowChangName} type="button">
+                          Change
+                        </button>
                       </div>
-                      {isShowName ? <input type="text" /> : null}
+                      {isShowName ? (
+                        <input type="text" name="name" ref={register} />
+                      ) : null}
                     </div>
                     <div className="change-mail">
                       <div className="icon-mail-change">
@@ -116,18 +141,26 @@ export default function InFoAccout() {
                           <i className="far fa-envelope-open"></i>
                         </span>
                         <span>{dataUserFetch.email}</span>
-                        <button onClick={handleShowChangEmail}>Change</button>
+                        <button onClick={handleShowChangEmail} type="button">
+                          Change
+                        </button>
                       </div>
-                      {isShowEmail ? <input type="mail" /> : null}
+                      {isShowEmail ? (
+                        <input type="mail" name="email" ref={register} />
+                      ) : null}
                     </div>
                     <div className="change-pass">
                       <div className="span-change-pass">
                         <span>
                           <i className="fas fa-lock-open"></i>Change Password
                         </span>
-                        <button onClick={handleShowChangPass}>Change</button>
+                        <button onClick={handleShowChangPass} type="button">
+                          Change
+                        </button>
                       </div>
-                      {isShowPass ? <input type="password" /> : null}
+                      {isShowPass ? (
+                        <input type="password" name="pass" ref={register} />
+                      ) : null}
                     </div>
                   </div>
                   <button>Save</button>

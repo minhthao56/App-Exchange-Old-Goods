@@ -12,34 +12,55 @@ export default function User() {
   const [valueName, setValueName] = useState("");
   const [valueEmail, setValueEmail] = useState("");
   const [valuePassword, setValuePassword] = useState("");
+  const [isErrEmail, setIsErrEmail] = useState(false);
+  const [isErrName, setIsErrName] = useState(false);
+  const [msgErr, setMsgErr] = useState("");
 
-  const handleChangeName = event => {
+  const validationEmail = new RegExp(
+    /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/,
+    "g"
+  );
+  const validationName = new RegExp(
+    /[a-z][a-zA-Z][^#&<>\"~;$^%{}?]{1,20}$/,
+    "g"
+  );
+
+  const handleChangeName = (event) => {
     const value = event.target.value;
+
     setValueName(value);
   };
-  const handleChangeEmail = event => {
+  const handleChangeEmail = (event) => {
     const value = event.target.value;
     setValueEmail(value);
   };
-  const handleChangePasword = event => {
+  const handleChangePasword = (event) => {
     const value = event.target.value;
     setValuePassword(value);
   };
 
-  const handleSubmit = event => {
+  const handleSubmit = (event) => {
     event.preventDefault();
-    const user = {
-      name: valueName,
-      email: valueEmail,
-      password: valuePassword
-    };
-    axios
-      .post("https://tc9y3.sse.codesandbox.io/users/create", user)
-      .then(res => {
-        setValueName("");
-        setValueEmail("");
-        setValuePassword("");
-      });
+    if (validationEmail.test(valueEmail) === false) {
+      setIsErrEmail(true);
+      setMsgErr("Email Invaid");
+    } else if (validationName.test(valueName) === false) {
+      setIsErrName(true);
+      setMsgErr("Name Inclue number and letter");
+    } else {
+      const user = {
+        name: valueName,
+        email: valueEmail,
+        password: valuePassword,
+      };
+      axios
+        .post("https://tc9y3.sse.codesandbox.io/users/create", user)
+        .then((res) => {
+          setValueName("");
+          setValueEmail("");
+          setValuePassword("");
+        });
+    }
   };
   return (
     <div className="container">
@@ -57,21 +78,25 @@ export default function User() {
             </div>
             <form onSubmit={handleSubmit}>
               <div className="form-group">
+                {isErrName ? <span className="msg-err">*{msgErr}</span> : null}
                 <input
                   type="text"
                   name="name"
                   placeholder="Name"
                   value={valueName}
                   onChange={handleChangeName}
+                  required
                 />
               </div>
               <div className="form-group">
+                {isErrEmail ? <span className="msg-err">*{msgErr}</span> : null}
                 <input
                   type="email"
                   name="email"
                   value={valueEmail}
                   placeholder="Email"
                   onChange={handleChangeEmail}
+                  required
                 />
               </div>
               <div className="form-group">
@@ -81,6 +106,7 @@ export default function User() {
                   value={valuePassword}
                   placeholder="Password"
                   onChange={handleChangePasword}
+                  required
                 />
               </div>
               <button type="submit">Sign up</button>
