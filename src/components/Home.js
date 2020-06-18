@@ -5,6 +5,10 @@ import { useSpring, animated } from "react-spring";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import InfiniteScroll from "react-infinite-scroll-component";
+import { Spin } from "antd";
 
 import FormPost from "../components/FormPost";
 import PostCard from "../components/PostCard";
@@ -17,6 +21,8 @@ import Login from "../images/login2.png";
 export default function Home() {
   const [isPost, setIsPost] = useState(false);
   const [dataPost, setDataPost] = useState([]);
+  let [page, setPage] = useState(1);
+  const [perPage, setPerPage] = useState(3);
 
   //Redux
   const mapStateToProps = useSelector((state) => state.logIn);
@@ -42,7 +48,11 @@ export default function Home() {
 
   // Open and lose model
   const hanldeClickPost = () => {
-    setIsPost(!isPost);
+    if (mapStateToProps.isAuth === false || CheckLoggedIn.isAuth === false) {
+      toast.error("Let Login or Sign Up 👍");
+    } else {
+      setIsPost(!isPost);
+    }
   };
   const handleCloseFormPost = () => {
     setIsPost(!isPost);
@@ -57,15 +67,17 @@ export default function Home() {
 
   const fetchData = async () => {
     const response = await axios.get(
-      "https://tc9y3.sse.codesandbox.io/posts/items/"
+      `https://tc9y3.sse.codesandbox.io/posts/items?page=${page}&perPage=${perPage}`
     );
     setDataPost(response.data);
-    dispatch({
-      type: "GET_DATA_POST",
-      data: response.data,
-    });
   };
-
+  const fetchMoreData = async () => {
+    setPage((page = page + 1));
+    const response = await axios.get(
+      `https://tc9y3.sse.codesandbox.io/posts/items?page=${page}&perPage=${perPage}`
+    );
+    setDataPost(dataPost.concat(response.data));
+  };
   useEffect(() => {
     fetchData();
     checkLoggedIn();
@@ -77,9 +89,16 @@ export default function Home() {
       data.idUserPost === CheckLoggedIn.dataUser._id || mapStateToProps._id
     );
   });
+  // Sort by Date
+  const sortByDate = dataPost.sort((a, b) => {
+    let date1 = new Date(a.createdAt);
+    let date2 = new Date(b.createdAt);
+    return date2 - date1;
+  });
   return (
     <div>
       <Nav fetchData={fetchData} />
+      <ToastContainer />
       <div className="contaiter-home">
         <Row id="row">
           <Col xs={24} sm={24} md={24} xl={15} lg={15} id="colPost">
@@ -97,33 +116,43 @@ export default function Home() {
             </div>
             {/*form post + animated*/}
             <animated.div style={face} className="container-fixed">
-              <FormPost handleCloseFormPost={handleCloseFormPost} />
+              <FormPost
+                handleCloseFormPost={handleCloseFormPost}
+                fetchData={fetchData}
+              />
             </animated.div>
             {/* Post exchange */}
             {mapStateToPropsExchange.isShowExchange ? (
               <FormTrans postOfUser={postOfUser} />
             ) : null}
             {/* Car post */}
-            {dataPost.map((data, key) => {
-              return (
-                <PostCard
-                  name={data.name}
-                  title={data.title}
-                  description={data.description}
-                  imagePostUrl={data.imagePostUrl}
-                  createdAt={data.createdAt}
-                  comments={data.comments}
-                  like={data.like}
-                  address={data.address}
-                  avatarUrl={data.avatarUrl}
-                  need={data.need}
-                  id_post={data.id_post}
-                  id_user={data.id_user}
-                  fetchData={fetchData}
-                  key={key}
-                />
-              );
-            })}
+            <InfiniteScroll
+              dataLength={sortByDate}
+              next={fetchMoreData}
+              hasMore={true}
+              loader={<Spin />}
+            >
+              {sortByDate.map((data, key) => {
+                return (
+                  <PostCard
+                    name={data.name}
+                    title={data.title}
+                    description={data.description}
+                    imagePostUrl={data.imagePostUrl}
+                    createdAt={data.createdAt}
+                    comments={data.comments}
+                    like={data.like}
+                    address={data.address}
+                    avatarUrl={data.avatarUrl}
+                    need={data.need}
+                    id_post={data.id_post}
+                    id_user={data.id_user}
+                    fetchData={fetchData}
+                    key={key}
+                  />
+                );
+              })}
+            </InfiniteScroll>
           </Col>
           <Col xl={9} lg={9} xs={0} sm={0} md={0}>
             {/* Infor fixed */}

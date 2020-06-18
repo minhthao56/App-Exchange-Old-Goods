@@ -46,6 +46,10 @@ export default function Nav(props) {
     let date2 = new Date(b.createdAt);
     return date2 - date1;
   });
+  // filter status read noti
+  const filterByRead = dataNoti.filter((a) => {
+    return a.isRead === false;
+  });
   useEffect(() => {
     const timer = setTimeout(() => {
       fetchDataNoti();
@@ -127,7 +131,7 @@ export default function Nav(props) {
             <div className="contaniner-signOut-profile">
               <div className="contaniner-profile-nav">
                 <div className="icon-noti" onClick={handleNoti}>
-                  <div className="dot-noti">{dataNoti.length}</div>
+                  <div className="dot-noti">{filterByRead.length}</div>
                   <i className="far fa-bell"></i>
                   <div className="container-noti-center">
                     {isShowNoti ? <NotiCenter dataNoti={sortByDate} /> : null}

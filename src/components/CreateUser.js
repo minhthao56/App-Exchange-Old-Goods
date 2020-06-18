@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { Row, Col } from "antd";
+import { Row, Col, Alert } from "antd";
 import { Link } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 import "antd/dist/antd.css";
 import "../styles/CreateUser.css";
@@ -12,18 +13,28 @@ export default function User() {
   const [valueName, setValueName] = useState("");
   const [valueEmail, setValueEmail] = useState("");
   const [valuePassword, setValuePassword] = useState("");
+
   const [isErrEmail, setIsErrEmail] = useState(false);
   const [isErrName, setIsErrName] = useState(false);
-  const [msgErr, setMsgErr] = useState("");
+  const [isErrPass, setIsErrPass] = useState(false);
+  const [msgErrEmail, setMsgErrEmail] = useState("");
+  const [msgErrName, setMsgErrName] = useState("");
+  const [msgErrPass, setMsgErrPass] = useState("");
+
+  const [isErrCreateUser, setIsErrCreateUser] = useState(false);
+  // const [mesErr, setMesErr] = useState("");
+
+  let history = useHistory();
 
   const validationEmail = new RegExp(
     /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/,
     "g"
   );
   const validationName = new RegExp(
-    /[a-z][a-zA-Z][^#&<>\"~;$^%{}?]{1,20}$/,
+    /[A-Z a-z][a-zA-Z][^#&<>\"~;$^%{}?]{1,20}$/,
     "g"
   );
+  const validationCharacter = new RegExp(/^[a-zA-Z0-9!@#$%^&*()_+]+$/, "g");
 
   const handleChangeName = (event) => {
     const value = event.target.value;
@@ -43,10 +54,16 @@ export default function User() {
     event.preventDefault();
     if (validationEmail.test(valueEmail) === false) {
       setIsErrEmail(true);
-      setMsgErr("Email Invaid");
+      setMsgErrEmail("Email Invaid");
     } else if (validationName.test(valueName) === false) {
       setIsErrName(true);
-      setMsgErr("Name Inclue number and letter");
+      setMsgErrName("Name Inclue number and letter");
+    } else if (
+      valuePassword.length < 8 &&
+      validationCharacter.test(valuePassword)
+    ) {
+      setIsErrPass(true);
+      setMsgErrPass("Your password is at lest 8 characters");
     } else {
       const user = {
         name: valueName,
@@ -59,6 +76,15 @@ export default function User() {
           setValueName("");
           setValueEmail("");
           setValuePassword("");
+          history.push("/users/login");
+        })
+        .catch((err) => {
+          if (err.response === undefined) {
+            console.log(err);
+          } else if (err.response.status === 400) {
+            setIsErrCreateUser(true);
+            console.log(err.response.data.msg);
+          }
         });
     }
   };
@@ -76,9 +102,20 @@ export default function User() {
               <img src={exchange} />
               <h1>Second Life</h1>
             </div>
+            {isErrCreateUser === true ? (
+              <Alert
+                style={{ marginBottom: 10 }}
+                message="Email already exists"
+                type="error"
+                showIcon
+              />
+            ) : null}
+
             <form onSubmit={handleSubmit}>
               <div className="form-group">
-                {isErrName ? <span className="msg-err">*{msgErr}</span> : null}
+                {isErrName ? (
+                  <span className="msg-err">*{msgErrName}</span>
+                ) : null}
                 <input
                   type="text"
                   name="name"
@@ -89,7 +126,9 @@ export default function User() {
                 />
               </div>
               <div className="form-group">
-                {isErrEmail ? <span className="msg-err">*{msgErr}</span> : null}
+                {isErrEmail ? (
+                  <span className="msg-err">*{msgErrEmail}</span>
+                ) : null}
                 <input
                   type="email"
                   name="email"
@@ -100,6 +139,9 @@ export default function User() {
                 />
               </div>
               <div className="form-group">
+                {isErrPass ? (
+                  <span className="msg-err">*{msgErrPass}</span>
+                ) : null}
                 <input
                   type="password"
                   name="password"

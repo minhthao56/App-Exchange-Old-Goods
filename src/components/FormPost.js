@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import Autocomplete from "react-google-autocomplete";
+// import Autocomplete from "react-google-autocomplete";
 import axios from "axios";
 import { useSelector } from "react-redux";
 
@@ -12,13 +12,16 @@ export default function FormPost(props) {
   const [file, setFile] = useState(null);
   const [needItem, setNeedItem] = useState([]);
   const [add, setAdd] = useState([]);
+
   const { register, handleSubmit } = useForm();
 
   const mapStateToProps = useSelector((state) => state.logIn);
-  const { handleCloseFormPost } = props;
+  const CheckLoggedIn = useSelector((state) => state.CheckLoggedIn);
+  const { handleCloseFormPost, fetchData } = props;
   // form auto address
-  const handleAddress = (place) => {
-    setAddress(place.name);
+  const handleAddress = (event) => {
+    const value = event.target.value;
+    setAddress(value);
   };
 
   const handleFile = (event) => {
@@ -38,13 +41,16 @@ export default function FormPost(props) {
     const title = data.title;
     const description = data.description;
     const need = add;
-
     const fd = new FormData();
     fd.append("fileImagePost", file);
     fd.append("title", title);
     fd.append("description", description);
     fd.append("Address", address);
-    fd.append("idUserPost", mapStateToProps.dataUser._id);
+    if (mapStateToProps._id !== undefined) {
+      fd.append("idUserPost", mapStateToProps._id);
+    } else {
+      fd.append("idUserPost", CheckLoggedIn.dataUser._id);
+    }
     fd.append("need", need);
 
     axios
@@ -52,6 +58,7 @@ export default function FormPost(props) {
       .then((res) => {
         console.log(res.data);
         e.target.reset();
+        return fetchData();
       });
   };
   //handle Show List Need
@@ -76,6 +83,7 @@ export default function FormPost(props) {
             name="title"
             ref={register}
             placeholder="What is your item?"
+            required
           />
 
           <textarea
@@ -84,22 +92,26 @@ export default function FormPost(props) {
             name="description"
             ref={register}
             placeholder="How do your item look like?"
+            required
           />
           <div className="attach-file">
             <label>
               <img src={attachPhoto} alt="" />
-              <input type="file" onChange={handleFile} id="imageItem" />
+              <input
+                type="file"
+                onChange={handleFile}
+                id="imageItem"
+                required
+              />
             </label>
           </div>
         </div>
 
-        <Autocomplete
+        <input
           className="autoComplete"
-          style={{ width: "100%" }}
-          onPlaceSelected={handleAddress}
-          types={["(cities)"]}
-          componentRestrictions={{ country: "vn" }}
-          placeholder="Type you district, province or city"
+          onChange={handleAddress}
+          placeholder="Type province or city"
+          required
         />
 
         <div className="needExchange">

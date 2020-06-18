@@ -175,6 +175,7 @@ export default function Porfile() {
                   key={key}
                   id_product={data.id_product}
                   id_user_want_exchange={data.id_user_want_exchange}
+                  fetchDataTran={fetchDataTran}
                 />
               );
             })}

@@ -1,11 +1,11 @@
 .container-cardPost {
   display: flex;
   width: 700px;
-  margin-top: 30px;
+  margin-top: 15px;
   background-color: white;
   border-radius: 3px;
   box-shadow: 0px 0px 2px -1px rgba(0, 0, 0, 0.75);
-  padding: 20px;
+  padding: 10px 20px 10px 20px;
 }
 .img-post {
   width: 100%;
@@ -15,6 +15,30 @@
   margin-bottom: 10px;
   align-items: center;
 }
+.icon-ellipsis-post {
+  margin-left: auto;
+  margin-bottom: 25px;
+  cursor: pointer;
+  font-size: 16px;
+  position: relative;
+}
+.detele-post {
+  box-shadow: 0px 0px 6px -3px rgba(0, 0, 0, 0.75);
+  background-color: white;
+  font-size: 12px;
+  padding: 5px;
+  border-radius: 2px;
+  position: absolute;
+  list-style-type: none;
+  top: 25px;
+  left: 10px;
+  width: 65px;
+  text-align: center;
+}
+.detele-post:hover {
+  background-color: #748df2;
+  color: white;
+}
 .avatar-postcard {
   height: 38px;
   width: 38px;
@@ -23,6 +47,7 @@
   background-position: center;
   background-size: cover;
 }
+
 .name-post {
   font-weight: bold;
   color: #748df2;

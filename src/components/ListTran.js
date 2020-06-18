@@ -26,6 +26,7 @@ export default function ListTran(props) {
     createdAt,
     id_product,
     id_user_want_exchange,
+    fetchDataTran,
   } = props;
   const mapStateToProps = useSelector((state) => state.logIn);
   const [statusS, setStatusS] = useState(status);
@@ -99,6 +100,15 @@ export default function ListTran(props) {
       type: "SEND_ADDRESS",
       id: id,
     });
+  };
+  // handle Delete Trans
+  const handleDeleteTrans = () => {
+    axios
+      .delete("https://tc9y3.sse.codesandbox.io/trans/detete/" + _id)
+      .then((res) => {
+        console.log(res.data);
+        return fetchDataTran();
+      });
   };
   return (
     <div className="transaction-status">
@@ -181,7 +191,9 @@ export default function ListTran(props) {
             ) : null}
 
             {statusS === "rejected" ? (
-              <button id="bt-del">Delete</button>
+              <button id="bt-del" onClick={handleDeleteTrans}>
+                Delete
+              </button>
             ) : null}
           </div>
           <div className="detail">

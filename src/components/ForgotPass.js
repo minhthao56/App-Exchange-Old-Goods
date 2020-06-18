@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { useStore } from "react-redux";
 import axios from "axios";
+
+import "../styles/ForgotPass.css";
 
 export default function ForgotPass(props) {
   const [email, setEmail] = useState();
@@ -24,7 +25,7 @@ export default function ForgotPass(props) {
   };
   return (
     <div className="container-form-address">
-      <div className="main-form-address">
+      <div className="main-form-address " id="main-from-forgot">
         <div className="container-header-address">
           <div className="header-address">
             <i className="fas fa-question"></i>
@@ -46,13 +47,14 @@ export default function ForgotPass(props) {
               onChange={handleValueEmail}
               value={email}
               required
+              className="input-fogot-pass"
             />
-            <div className="action-exchange">
-              <button className="bt-exchange" type="submit">
+            <div className="action-forgot-pass">
+              <button className="bt-send-mail" type="submit">
                 Send
               </button>
               <button
-                className="cancel-exchange"
+                id="cancel-send-mail"
                 type="button"
                 onClick={() => {
                   return handleCloseForgotPass();

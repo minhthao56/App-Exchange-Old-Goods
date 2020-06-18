@@ -36,6 +36,7 @@ export default function PostCard(props) {
   const [isShowReply, setIsShowReply] = useState(false);
   const [keyNow, setKeyNow] = useState(-1);
   const [isLike, setIsLike] = useState(false);
+  const [isShowDetelePost, SetIsShowDetelePost] = useState(false);
   //Redux
   const mapStateToProps = useSelector((state) => state.logIn);
   const CheckLoggedIn = useSelector((state) => state.CheckLoggedIn);
@@ -174,7 +175,28 @@ export default function PostCard(props) {
   const handleFocusInputComment = () => {
     inputEl.current.focus();
   };
-
+  // handle Show Detele Post
+  const handleShowDetelePost = () => {
+    SetIsShowDetelePost(!isShowDetelePost);
+  };
+  // handle Deltele Post
+  const handleDeltelePost = async () => {
+    if (
+      id_user === mapStateToProps._id ||
+      id_user === CheckLoggedIn.dataUser._id
+    ) {
+      try {
+        await axios.delete(
+          "https://tc9y3.sse.codesandbox.io/posts/detele/post/" + id_post
+        );
+      } catch (error) {
+        console.log(error);
+      }
+      return fetchData();
+    } else {
+      toast.error("Not your post 🤣");
+    }
+  };
   return (
     <div className="container-cardPost">
       <div>
@@ -196,6 +218,14 @@ export default function PostCard(props) {
               <Moment fromNow>{createdAt}</Moment>
             </div>
           </div>
+          <ul className="icon-ellipsis-post">
+            <i className="fas fa-ellipsis-h" onClick={handleShowDetelePost}></i>
+            {isShowDetelePost && (
+              <li className="detele-post" onClick={handleDeltelePost}>
+                Delete
+              </li>
+            )}
+          </ul>
         </div>
         <div className="address">
           <div className="icon-address">
@@ -239,7 +269,7 @@ export default function PostCard(props) {
             {like.length}
           </span>
 
-          <span>{comments.length} People commented</span>
+          <span>{comments.length} Comments</span>
         </div>
         <div className="action">
           <div className="icon-like">

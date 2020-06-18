@@ -14,11 +14,21 @@ import ForgotPass from "../components/ForgotPass";
 export default function User(props) {
   const [mesErr, setMesErr] = useState("");
   const [isErrLogin, setIsErrLogin] = useState(false);
+
   const [isAuth, setIsAuth] = useState(false);
   const [valueEmail, setValueEmail] = useState("");
   const [valuePassword, setValuePassword] = useState("");
   const [isChecked, setIsChecked] = useState(false);
   const [isShowForgotPass, setIsShowForgotPass] = useState(false);
+
+  const [isShowErrCharacter, setIsShowErrCharacter] = useState(false);
+  const [isErrEmail, setIsErrEmail] = useState(false);
+
+  const validationCharacter = new RegExp(/^[a-zA-Z0-9!@#$%^&*()_+]+$/, "g");
+  const validationEmail = new RegExp(
+    /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/,
+    "g"
+  );
 
   const dispatch = useDispatch();
   let history = useHistory();
@@ -43,36 +53,41 @@ export default function User(props) {
   // Handle submit
   const handleSubmit = (event) => {
     event.preventDefault();
-    const user = {
-      email: valueEmail,
-      password: valuePassword,
-      isChecked: isChecked,
-    };
+    if (validationEmail.test(valueEmail) === false) {
+      console.log(validationEmail.test(valueEmail));
 
-    axios
-      .post("https://tc9y3.sse.codesandbox.io/users/login", user)
-      .then((res) => {
-        setIsAuth(!isAuth);
-        setValueEmail("");
-        setValuePassword("");
-        if (res.data.token) {
-          localStorage.setItem("token", res.data.token.toString());
-        }
-        console.log(res.data);
-        dispatch({ type: "LOG_IN", dataUser: res.data });
+      setIsErrEmail(true);
+    } else if (validationCharacter.test(valuePassword) === false) {
+      setIsShowErrCharacter(true);
+    } else {
+      const user = {
+        email: valueEmail,
+        password: valuePassword,
+        isChecked: isChecked,
+      };
 
-        history.push("/");
-        return checkLoggedIn();
-      })
-      .catch((err) => {
-        if (err.response === undefined) {
-          console.log(err);
-        }
-        if (err.response.status === 401) {
-          setIsErrLogin(true);
-          setMesErr(err.response.data.msg);
-        }
-      });
+      axios
+        .post("https://tc9y3.sse.codesandbox.io/users/login", user)
+        .then((res) => {
+          setIsAuth(!isAuth);
+          setValueEmail("");
+          setValuePassword("");
+          if (res.data.token) {
+            localStorage.setItem("token", res.data.token.toString());
+          }
+          dispatch({ type: "LOG_IN", dataUser: res.data });
+          history.push("/");
+          return checkLoggedIn();
+        })
+        .catch((err) => {
+          if (err.response === undefined) {
+            console.log(err);
+          } else if (err.response.status === 401) {
+            setIsErrLogin(true);
+            setMesErr(err.response.data.msg);
+          }
+        });
+    }
   };
   // handle Close Forgot Pass
   const handleCloseForgotPass = () => {
@@ -101,6 +116,9 @@ export default function User(props) {
             ) : null}
             <form onSubmit={handleSubmit}>
               <div className="form-group">
+                {isErrEmail === true ? (
+                  <span className="msg-err">*Don't try to hack email</span>
+                ) : null}
                 <input
                   type="email"
                   name="email"
@@ -111,6 +129,9 @@ export default function User(props) {
                 />
               </div>
               <div className="form-group">
+                {isShowErrCharacter === true ? (
+                  <span className="msg-err">*Don't try to hack password</span>
+                ) : null}
                 <input
                   type="password"
                   name="password"

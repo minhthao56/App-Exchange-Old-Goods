@@ -73,6 +73,11 @@
   border-width: 1px;
   border-color: rgba(150, 150, 150, 0.1);
 }
+.stats-read {
+  color: #555;
+}
+
+/* responsive */
 @media only screen and (max-width: 600px) {
   .container-noti {
     width: 350px;
