@@ -110,33 +110,41 @@ export default function PostCard(props) {
   };
   // Like
   const handleLike = () => {
-    const like = {
-      id_user_liked: mapStateToProps._id || CheckLoggedIn.dataUser._id,
-      id_post: id_post,
-    };
-    setIsLike(true);
-    axios
-      .post("https://tc9y3.sse.codesandbox.io/posts/like", like)
-      .then((res) => {
-        console.log(res.data);
-        handleNotiLike();
+    if (mapStateToProps.isAuth === false || CheckLoggedIn.isAuth === false) {
+      toast.error("Let Login or Sign Up 👍");
+    } else {
+      const like = {
+        id_user_liked: mapStateToProps._id || CheckLoggedIn.dataUser._id,
+        id_post: id_post,
+      };
+      setIsLike(true);
+      axios
+        .post("https://tc9y3.sse.codesandbox.io/posts/like", like)
+        .then((res) => {
+          console.log(res.data);
+          handleNotiLike();
 
-        return fetchData();
-      });
+          return fetchData();
+        });
+    }
   };
   // Unlike
   const handleUnLike = () => {
-    const Unlike = {
-      id_user_liked: mapStateToProps._id || CheckLoggedIn.dataUser._id,
-      id_post: id_post,
-    };
-    setIsLike(false);
-    axios
-      .post("https://tc9y3.sse.codesandbox.io/posts/unlike", Unlike)
-      .then((res) => {
-        console.log(res.data);
-        return fetchData();
-      });
+    if (mapStateToProps.isAuth === false || CheckLoggedIn.isAuth === false) {
+      toast.error("Let Login or Sign Up 👍");
+    } else {
+      const Unlike = {
+        id_user_liked: mapStateToProps._id || CheckLoggedIn.dataUser._id,
+        id_post: id_post,
+      };
+      setIsLike(false);
+      axios
+        .post("https://tc9y3.sse.codesandbox.io/posts/unlike", Unlike)
+        .then((res) => {
+          console.log(res.data);
+          return fetchData();
+        });
+    }
   };
 
   // Filter user Logged in liked
