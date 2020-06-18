@@ -91,22 +91,26 @@ export default function PostCard(props) {
   };
   // Submit comment
   const handleSubmitComment = (event) => {
-    event.preventDefault();
-    const date = new Date();
-    const commentPost = {
-      id_user_comment: mapStateToProps._id || CheckLoggedIn.dataUser._id,
-      content: commentContent,
-      id_post: id_post,
-      time_comment: date,
-      isShowReply: false,
-    };
-    axios
-      .post("https://tc9y3.sse.codesandbox.io/posts/comments", commentPost)
-      .then((res) => {
-        setCommetContent("");
-        handleNotiComment();
-        return fetchData();
-      });
+    if (mapStateToProps.isAuth === false || CheckLoggedIn.isAuth === false) {
+      toast.error("Let Login or Sign Up 👍");
+    } else {
+      event.preventDefault();
+      const date = new Date();
+      const commentPost = {
+        id_user_comment: mapStateToProps._id || CheckLoggedIn.dataUser._id,
+        content: commentContent,
+        id_post: id_post,
+        time_comment: date,
+        isShowReply: false,
+      };
+      axios
+        .post("https://tc9y3.sse.codesandbox.io/posts/comments", commentPost)
+        .then((res) => {
+          setCommetContent("");
+          handleNotiComment();
+          return fetchData();
+        });
+    }
   };
   // Like
   const handleLike = () => {
@@ -184,13 +188,21 @@ export default function PostCard(props) {
 
   // handle Reply
   const handleReply = (comment, key) => {
-    setIsShowReply(!isShowReply);
-    setKeyNow(key);
+    if (mapStateToProps.isAuth === false || CheckLoggedIn.isAuth === false) {
+      toast.error("Let Login or Sign Up 👍");
+    } else {
+      setIsShowReply(!isShowReply);
+      setKeyNow(key);
+    }
   };
   // Focus comment
   const inputEl = useRef(null);
   const handleFocusInputComment = () => {
-    inputEl.current.focus();
+    if (mapStateToProps.isAuth === false || CheckLoggedIn.isAuth === false) {
+      toast.error("Let Login or Sign Up 👍");
+    } else {
+      inputEl.current.focus();
+    }
   };
   // handle Show Detele Post
   const handleShowDetelePost = () => {
