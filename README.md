@@ -1,6 +1,6 @@
 ## Second Life Project
 
-This is a pet project in my course at CodersX. The project requirement is "create a app could exchange some goods which everyone have used them". In my app everyone could post, comment, like and exchange whatever they like.
+This is a pet project in my course at CodersX. The project requirement is "create a app could exchange some goods which everyone have used them". In my app everyone could post, comment, like and exchange whatever they want.
 
 My project don't used dotenv to convenien review
 
