@@ -30,6 +30,7 @@ export default function PostCard(props) {
     id_post,
     id_user,
     fetchData,
+    status,
   } = props;
 
   const [commentContent, setCommetContent] = useState("");
@@ -158,6 +159,14 @@ export default function PostCard(props) {
       id_user === CheckLoggedIn.dataUser._id
     ) {
       toast.error("This is your product, you idiot 🤣");
+      return;
+    }
+    if (
+      status === "confirmed" ||
+      status === "sending" ||
+      status === "received"
+    ) {
+      toast.error("This product was exchanged 😥");
       return;
     }
 

@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useForm } from "react-hook-form";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { Empty } from "antd";
 
 import "../styles/Profile.css";
 import ListTran from "../components/ListTran";
@@ -154,7 +155,7 @@ export default function Porfile() {
                 </div>
               </div>
             ) : null}
-
+            {filterDataTran.length ? null : <Empty />}
             {filterDataTran.map((data, key) => {
               return (
                 <ListTran

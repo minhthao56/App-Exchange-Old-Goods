@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import InfiniteScroll from "react-infinite-scroll-component";
-import { Spin } from "antd";
+import { Spin, Empty } from "antd";
 
 import FormPost from "../components/FormPost";
 import PostCard from "../components/PostCard";
@@ -22,7 +22,7 @@ export default function Home() {
   const [isPost, setIsPost] = useState(false);
   const [dataPost, setDataPost] = useState([]);
   let [page, setPage] = useState(1);
-  const [perPage, setPerPage] = useState(3);
+  const [dataTran, setDataTran] = useState([]);
 
   //Redux
   const mapStateToProps = useSelector((state) => state.logIn);
@@ -63,24 +63,33 @@ export default function Home() {
     opacity: isPost ? 1 : 0,
   });
 
+  // Fetch data transactions
+  const fetchDataTran = async () => {
+    const response = await axios.get(
+      "https://tc9y3.sse.codesandbox.io/trans/listtrans"
+    );
+    setDataTran(response.data);
+  };
+
   //Get full data from mongoBD
 
   const fetchData = async () => {
     const response = await axios.get(
-      `https://tc9y3.sse.codesandbox.io/posts/items?page=${page}&perPage=${perPage}`
+      `https://tc9y3.sse.codesandbox.io/posts/items?page=${page}&perPage=${3}`
     );
     setDataPost(response.data);
   };
   const fetchMoreData = async () => {
     setPage((page = page + 1));
     const response = await axios.get(
-      `https://tc9y3.sse.codesandbox.io/posts/items?page=${page}&perPage=${perPage}`
+      `https://tc9y3.sse.codesandbox.io/posts/items?page=${page}&perPage=${3}`
     );
     setDataPost(dataPost.concat(response.data));
   };
   useEffect(() => {
     fetchData();
     checkLoggedIn();
+    fetchDataTran();
   }, []);
 
   // Filter post of user
@@ -89,12 +98,42 @@ export default function Home() {
       data.idUserPost === CheckLoggedIn.dataUser._id || mapStateToProps._id
     );
   });
-  // Sort by Date
-  const sortByDate = dataPost.sort((a, b) => {
-    let date1 = new Date(a.createdAt);
-    let date2 = new Date(b.createdAt);
-    return date2 - date1;
+
+  const filterTransed = postOfUser.filter((data) => {
+    if (
+      data.status === "confirmed" ||
+      data.status === "sending" ||
+      data.status === "received"
+    ) {
+      return false;
+    } else {
+      return true;
+    }
   });
+  // Sort by Date
+  // const sortByDate = dataPost.sort((a, b) => {
+  //   let date1 = new Date(a.createdAt);
+  //   let date2 = new Date(b.createdAt);
+  //   return date2 - date1;
+  // });
+
+  //Handler filter tran relative to user loggin
+  const filterDataTran = dataTran.filter(function (dataFilter) {
+    if (
+      dataFilter.id_user_product === CheckLoggedIn.dataUser._id ||
+      dataFilter.id_user_want_exchange === CheckLoggedIn.dataUser._id
+    ) {
+      return true;
+    } else if (
+      dataFilter.id_user_product === mapStateToProps._id ||
+      dataFilter.id_user_want_exchange === mapStateToProps._id
+    ) {
+      return true;
+    } else {
+      return false;
+    }
+  });
+
   return (
     <div>
       <Nav fetchData={fetchData} />
@@ -123,16 +162,16 @@ export default function Home() {
             </animated.div>
             {/* Post exchange */}
             {mapStateToPropsExchange.isShowExchange ? (
-              <FormTrans postOfUser={postOfUser} />
+              <FormTrans postOfUser={filterTransed} />
             ) : null}
             {/* Car post */}
             <InfiniteScroll
-              dataLength={sortByDate}
+              dataLength={dataPost}
               next={fetchMoreData}
               hasMore={true}
               loader={<Spin />}
             >
-              {sortByDate.map((data, key) => {
+              {dataPost.map((data, key) => {
                 return (
                   <PostCard
                     name={data.name}
@@ -149,12 +188,13 @@ export default function Home() {
                     id_user={data.id_user}
                     fetchData={fetchData}
                     key={key}
+                    status={data.status}
                   />
                 );
               })}
             </InfiniteScroll>
           </Col>
-          <Col xl={9} lg={9} xs={0} sm={0} md={0}>
+          <Col xl={9} lg={9} xs={0} sm={0} md={0} id="home-col-2">
             {/* Infor fixed */}
             {mapStateToProps.isAuth || CheckLoggedIn.isAuth ? (
               <div className="container-accout">
@@ -202,6 +242,42 @@ export default function Home() {
                 </div>
                 <div className="acc-transaction">
                   <h3> Your Transactions</h3>
+
+                  <table>
+                    <thead>
+                      <tr id="title-table">
+                        <th id="name-th">Name</th>
+                        <th>Status</th>
+                        <th>View More</th>
+                      </tr>
+                    </thead>
+                    {filterDataTran.length ? null : <Empty />}
+                    {filterDataTran.map((data, key) => {
+                      return (
+                        <tbody key={key}>
+                          <tr>
+                            <td>
+                              <div className="name-avatar-table">
+                                <div
+                                  className="avatar-postcard avatar-table"
+                                  style={{
+                                    backgroundImage: `url(${data.avatarUrl_user_want_exchange})`,
+                                  }}
+                                ></div>
+                                <span>{data.name_user_want_exchange}</span>{" "}
+                              </div>
+                            </td>
+                            <td>{data.status}</td>
+                            <td>
+                              <Link to={"/transaction/info/" + data._id}>
+                                Detail
+                              </Link>
+                            </td>
+                          </tr>
+                        </tbody>
+                      );
+                    })}
+                  </table>
                 </div>
               </div>
             ) : (

@@ -38,7 +38,7 @@ export default function Dawer(props) {
       <Drawer
         title={
           <div className="dawer-header">
-            <img src={ImageEchange} />
+            <img src={ImageEchange} alt="" />
             Second Life
           </div>
         }

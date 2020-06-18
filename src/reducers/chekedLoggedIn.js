@@ -1,5 +1,4 @@
 import * as types from "../constants/actionType";
-import axios from "axios";
 const initialState = {
   isAuth: false,
   dataUser: {},

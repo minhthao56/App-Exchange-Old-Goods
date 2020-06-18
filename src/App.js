@@ -1,8 +1,13 @@
 import React, { useEffect } from "react";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect,
+} from "react-router-dom";
 import "antd/dist/antd.css";
 import axios from "axios";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import "./styles.css";
 
@@ -45,13 +50,43 @@ export default function App() {
           <Route path="/users/create">
             <CreateUser />
           </Route>
-          <Route path="/profile">
+          <PrivateRoute path="/profile">
             <Profile />
-          </Route>
-          <Route path="/users/info/:id" children={<InFoAccout />} />
-          <Route path="/transaction/info/:id" children={<TransactionInfo />} />
+          </PrivateRoute>
+          <PrivateRoute path="/users/info/:id" children={<InFoAccout />} />
+          <PrivateRoute
+            path="/transaction/info/:id"
+            children={<TransactionInfo />}
+          />
         </Switch>
       </div>
     </Router>
+  );
+}
+function PrivateRoute({ isAuthenticated, children, ...rest }) {
+  const mapStateToProps = useSelector((state) => state.logIn);
+  const CheckLoggedIn = useSelector((state) => state.CheckLoggedIn);
+  if (mapStateToProps.isAuth === undefined) {
+    isAuthenticated = CheckLoggedIn.isAuth;
+  } else {
+    isAuthenticated = mapStateToProps.isAuth;
+  }
+
+  return (
+    <Route
+      {...rest}
+      render={({ location }) =>
+        isAuthenticated ? (
+          children
+        ) : (
+          <Redirect
+            to={{
+              pathname: "/users/login",
+              state: { from: location },
+            }}
+          />
+        )
+      }
+    />
   );
 }

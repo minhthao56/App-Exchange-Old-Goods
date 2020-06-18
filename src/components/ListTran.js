@@ -14,7 +14,6 @@ export default function ListTran(props) {
     avatarUrlExchange,
     titleExchange,
     imagePostUrlExchange,
-    addressExchange,
     name,
     avatarUrl,
     title,

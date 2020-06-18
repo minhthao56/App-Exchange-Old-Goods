@@ -1,5 +1,4 @@
 import * as types from "../constants/actionType";
-import axios from "axios";
 const initialState = {};
 
 const myReducer = (state = initialState, action) => {

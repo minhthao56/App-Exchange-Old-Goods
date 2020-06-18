@@ -1,5 +1,4 @@
 import { combineReducers } from "redux";
-import * as types from "../constants/actionType";
 import logIn from "./logIn";
 import Exchange from "./exchange";
 import SendAddress from "./sendAddress";

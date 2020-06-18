@@ -27,13 +27,14 @@
   background-color: white;
   font-size: 12px;
   padding: 5px;
-  border-radius: 2px;
+  border-radius: 4px;
   position: absolute;
   list-style-type: none;
   top: 25px;
   left: 10px;
   width: 65px;
   text-align: center;
+  font-weight: 700;
 }
 .detele-post:hover {
   background-color: #748df2;

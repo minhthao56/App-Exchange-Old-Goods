@@ -14,6 +14,7 @@ import ShowMoreText from "react-show-more-text";
 import "../styles/TransactionInfo.css";
 import Nav from "../components/Nav";
 import SidleBarAcc from "../components/SidleBarAcc";
+import ButtonBar from "../components/ButtonBar";
 
 export default function TransactionInfo() {
   const [detailTrans, setDetialTrans] = useState({});
@@ -294,11 +295,15 @@ export default function TransactionInfo() {
                 </div>
               </div>
               <div className="tb-action">
-                {detailTrans.status === "sending" ||
-                detailTrans.status === "received" ? null : (
+                {detailTrans.status === "spending" ||
+                detailTrans.status === "recject" ||
+                detailTrans.status ===
+                  "confirmed" ? null : detailTrans.status === "sending" ||
+                  detailTrans.status === "received" ? (
+                  <button onClick={handleReceived}>Confirm Received</button>
+                ) : (
                   <button onClick={handleSendProduct}> Confirm delivery</button>
                 )}
-                <button onClick={handleReceived}>Confirm Received</button>
               </div>
             </div>
             {/* Review */}
@@ -364,6 +369,7 @@ export default function TransactionInfo() {
                 </div>
               </div>
             </div>
+            <ButtonBar />
           </Col>
         </Row>
       </div>
