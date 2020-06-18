@@ -54,6 +54,7 @@
   border-radius: 3px;
   background-color: white;
   font-weight: bold;
+  cursor: pointer;
 }
 .bt-post-1 {
   color: #e44d3a;

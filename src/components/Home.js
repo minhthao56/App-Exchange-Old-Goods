@@ -4,7 +4,7 @@ import Moment from "react-moment";
 import { useSpring, animated } from "react-spring";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import InfiniteScroll from "react-infinite-scroll-component";
@@ -31,6 +31,7 @@ export default function Home() {
   const UpdateUser = useSelector((state) => state.UpdateUser);
 
   const dispatch = useDispatch();
+  let history = useHistory();
   //localStoage
   const token = localStorage.getItem("token");
   // check login
@@ -45,7 +46,13 @@ export default function Home() {
         });
       });
   };
-
+  //handle SignOut
+  const handleSignOut = () => {
+    dispatch({ type: "RESET" });
+    localStorage.removeItem("token");
+    history.push("/users/login");
+    window.location.reload();
+  };
   // Open and lose model
   const hanldeClickPost = () => {
     if (mapStateToProps.isAuth === false || CheckLoggedIn.isAuth === false) {
@@ -148,8 +155,12 @@ export default function Home() {
                 <p>Let's show me</p>
               </div>
               <div className="inputAndIconPost">
-                <button className="bt-post-1">Sign Out</button>
-                <button className="bt-post-2">Post</button>
+                <button className="bt-post-1" onClick={handleSignOut}>
+                  Sign Out
+                </button>
+                <button className="bt-post-2" onClick={hanldeClickPost}>
+                  Post
+                </button>
                 <input onClick={hanldeClickPost} />
               </div>
             </div>
